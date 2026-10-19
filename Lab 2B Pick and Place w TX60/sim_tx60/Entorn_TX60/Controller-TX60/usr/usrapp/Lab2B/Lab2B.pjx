@@ -1,17 +1,14 @@
-<?xml version='1.0' encoding='UTF-8'?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <project xmlns="ProjectNameSpace">
-  <parameters version="s6.8" stackSize="5000" millimeterUnit="true"/>
+  <parameters version="s6.8" stackSize="5000" millimeterUnit="true" />
   <programSection>
-    <program file="start.pgx"/>
-    <program file="stop.pgx"/>
-    <program file="moveCylinder.pgx"/>
-    <program file="insertPiston.pgx"/>
-    <program file="unloadAssembly.pgx"/>
-    </programSection>
+    <program file="start.pgx" />
+    <program file="stop.pgx" />
+  </programSection>
   <dataSection>
-    <data file="Lab2B.dtx"/>
+    <data file="Lab2B.dtx" />
   </dataSection>
   <aliasSection>
-    <alias name="io" interface="io" autoload="true" password=""/>
+    <alias name="io" interface="io" autoload="true" />
   </aliasSection>
 </project>

@@ -1,17 +1,80 @@
-<?xml version='1.0' encoding='UTF-8'?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <programList xmlns="ProgramNameSpace">
   <program name="start" public="false">
     <description>Level 1 single-cycle sequence; simulation validation pending.</description>
-    <paramSection/>
-    <localSection/>
+    <paramSection />
+    <localSection />
     <source>
       <code>begin
   userPage()
   cls()
   putln("Lab2B - Level 1")
-  call moveCylinder()
-  call insertPiston()
-  call unloadAssembly()
+
+  // MOVE CYLINDER
+  putln("1/3 - Move Cylinder")
+  putln("Opening gripper")
+  open(tLateral)
+  putln("Moving to transit posture")
+  movej(jTransCylinder, tLateral, mNomSpeed)
+  waitEndMove()
+  putln("Approaching cylinder")
+  movej(pCylApproach, tLateral, mNomSpeed)
+  waitEndMove()
+  putln("Picking cylinder")
+  movel(pCylPick, tLateral, mNomSpeed)
+  waitEndMove()
+  close(tLateral)
+  putln("Withdrawing from dispenser")
+  movel(pCylApproach, tLateral, mNomSpeed)
+  waitEndMove()
+  putln("Approaching assembly station")
+  movej(pAsmApproach, tLateral, mNomSpeed)
+  waitEndMove()
+  putln("Placing cylinder")
+  movel(pAsmCylinder, tLateral, mNomSpeed)
+  waitEndMove()
+  open(tLateral)
+  putln("Withdrawing from assembly station")
+  movel(pAsmApproach, tLateral, mNomSpeed)
+  waitEndMove()
+  putln("Cylinder transfer completed")
+  
+  // INSERT PISTON
+  putln("2/3 - Pick and insert piston")
+  open(tTip)
+  movej(pPistonApproach, tTip, mNomSpeed)
+  waitEndMove()
+  movel(pPistonPick, tTip, mInsertSpeed)
+  waitEndMove()
+  close(tTip)
+  movel(pPistonApproach, tTip, mInsertSpeed)
+  waitEndMove()
+  movej(pInsertApproach, tTip, mNomSpeed)
+  waitEndMove()
+  movel(pInsert, tTip, mInsertSpeed)
+  waitEndMove()
+  open(tTip)
+  movel(pInsertApproach, tTip, mInsertSpeed)
+  waitEndMove()
+
+  // UNLOAD ASSEMBLY ON RAMP
+  putln("3/3 - Place assembly on ramp")
+  open(tLateral)
+  movej(pAsmApproach, tLateral, mNomSpeed)
+  waitEndMove()
+  movel(pAsmCylinder, tLateral, mInsertSpeed)
+  waitEndMove()
+  close(tLateral)
+  movel(pAsmApproach, tLateral, mInsertSpeed)
+  waitEndMove()
+  movej(pRampApproach, tLateral, mNomSpeed)
+  waitEndMove()
+  movel(pRampPlace, tLateral, mInsertSpeed)
+  waitEndMove()
+  open(tLateral)
+  movel(pRampApproach, tLateral, mInsertSpeed)
+  waitEndMove()
+
   putln("Level 1 sequence completed")
 end
 </code>

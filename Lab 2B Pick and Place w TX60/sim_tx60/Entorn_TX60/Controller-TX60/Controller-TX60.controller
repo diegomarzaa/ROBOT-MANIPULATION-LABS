@@ -6,7 +6,7 @@
       <RobotSkin xmlns="http://www.staubli.com/robotics/robotskincontrollerproperty/1">TX60-HB-WS</RobotSkin>
     </Property>
     <Property type="SRS._3DView.Services.TcpControllerProperty">
-      <Tcp Name="Tool1.handler" xmlns="http://www.staubli.com/robotics/tcpcontrollerproperty/1" />
+      <Tcp Name="#Controller-TX60:tx60.handler" xmlns="http://www.staubli.com/robotics/tcpcontrollerproperty/1" />
     </Property>
   </Properties>
   <Target hostname="" name="Default">
