@@ -1,0 +1,18 @@
+begin
+  putln("3/3 - Place assembly on ramp")
+  open(tLateral)
+  movej(pAsmApproach, tLateral, mNomSpeed)
+  waitEndMove()
+  movel(pAsmCylinder, tLateral, mInsertSpeed)
+  waitEndMove()
+  close(tLateral)
+  movel(pAsmApproach, tLateral, mInsertSpeed)
+  waitEndMove()
+  movej(pRampApproach, tLateral, mNomSpeed)
+  waitEndMove()
+  movel(pRampPlace, tLateral, mInsertSpeed)
+  waitEndMove()
+  open(tLateral)
+  movel(pRampApproach, tLateral, mInsertSpeed)
+  waitEndMove()
+end

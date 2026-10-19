@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="stop" public="false">
+    <description>Cancel robot motion; physical outputs remain commented in simulation.</description>
+    <paramSection/>
+    <localSection/>
+    <source>
+      <code>begin
+  resetMotion()
+  // PHYSICAL | if bIOReady
+  // PHYSICAL | bOut2 = false
+  // PHYSICAL | bOut5 = true
+  // PHYSICAL | endIf
+  putln("Motion simulation stopped")
+end
+</code>
+    </source>
+  </program>
+</programList>

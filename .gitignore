@@ -19,3 +19,25 @@ Desktop.ini
 # No ignorar .pgx, .pjx, .dtx, .ltx, .cell, .controller, .kxml,
 # .wrl, simulation.xml, .cf, .cfx ni las carpetas sys/ y usr/.
 # Se conserva Layouts/ y la miniatura PNG inicial de la celda.
+
+# Estado del editor SRS (plegado de bloques)
+.outlining.json
+
+# Auxiliares de compilacion LaTeX; conservar fuentes, imagenes y PDF final
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+
+# Copias de recuperacion y herramientas locales de comprobacion
+/work/

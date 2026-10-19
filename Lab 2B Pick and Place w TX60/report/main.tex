@@ -1,0 +1,169 @@
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[letterpaper,top=1.5in,bottom=1in,right=2cm,left=2cm,headheight=60pt,headsep=0.7cm]{geometry}
+\usepackage{graphicx,fancyhdr,xcolor,booktabs,tabularx,array,listings}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\includegraphics[width=2.2cm]{img/udglogo.png}}
+\fancyhead[C]{\small\textbf{Escola Politècnica Superior}\\IFRoS\\Robot Manipulation -- Lab 2B}
+\fancyhead[R]{\small Working draft}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\pending}[1]{\textcolor{blue!65!black}{[TODO: #1]}}
+\lstset{basicstyle=\ttfamily\small,breaklines=true,columns=fullflexible,keepspaces=true,frame=single,showstringspaces=false}
+\begin{document}
+\begin{center}
+{\LARGE\bfseries Lab 2B: Pick and Place with the Stäubli TX60}\\[8pt]
+{\large Assembly of a cylinder and piston}\\[6pt]
+\textbf{Students:} \pending{full names of all group members}\\
+\pending{student emails and group identifier}\\
+\textbf{Highest demonstrated level:} \pending{enter after validation}\\
+\textbf{Status:} all ten Cartesian points saved; simplified single-cycle Level 1 program prepared for validation. No complete-cycle result is claimed.
+\end{center}
+
+\section{Task and objectives}
+The task is to assemble a black piston inside a red cylinder using the Stäubli TX60 robot. At Level 1, the cylinder is taken from the dispenser, transferred to the assembly station, combined with a piston from the tray, and the assembly is deposited in the final ramp. Level 2 adds automatic cylinder feeding and four assembly cycles with placement in the assembled matrix. Level 3 adds detection of empty piston-tray positions and selection of an available piston.
+The first development milestone is a validated Level 1 cycle; higher levels will be documented only when implemented and demonstrated.
+
+\section{Environment, tools and motion parameters}
+Development uses Stäubli Robotics Suite 2019 and the supplied TX60 cell. The application project requests controller version s6.8. The program is stored under \path{Controller-TX60/usr/usrapp/Lab2B/}.
+\pending{Add a labelled cell screenshot identifying dispenser, piston tray, assembly station, final ramp and matrix.}
+
+Two logical tools have been configured on the same physical gripper. Inspection of the saved application confirms that both transformations match the assignment:
+\begin{center}
+\small
+\begin{tabular}{lrrrrrr}
+\toprule
+Tool & X & Y & Z & RX & RY & RZ\\
+\midrule
+Lateral (cylinder) & 30 & 30 & 170 & -90 & 44 & -90\\
+Tip (piston) & -30 & -30 & 175 & 0 & 0 & -134\\
+\bottomrule
+\end{tabular}
+\end{center}
+Translations are in millimetres and rotations in degrees, relative to \texttt{flange}. Both tool definitions specify \texttt{io:valve1[0]} and opening/closing times of 1\,s.
+The lateral TCP is intended for handling cylinders, while the tip TCP is intended for picking and inserting pistons. Selecting a different logical tool changes the work-point reference, not the physical gripper. Both tools are defined relative to the unchanged flange and share the same output. The saved configuration has been checked; TCP alignment in the 3D view and physical I/O behavior remain to be validated.
+
+After recovery, the saved nominal descriptor has velocity 30, acceleration 10 and deceleration 10, with blending disabled. The user's saved velocity of 30 was preserved. It meets the assignment's programmed velocity limit, while first trials also require MCP speed at 10\%. Translational and rotational limits remain at 99999; leave/reach remain 50/50 and do not control blending while it is off. A separate initial descriptor, \texttt{mInsertSpeed}, was added for precision segments: velocity 5, acceleration/deceleration 10, translational limit 10\,mm/s, rotational limit 10\,degrees/s, blending off. These settings still require motion validation.
+\pending{Review Cartesian limits and actual approach/insertion behavior before motion validation; record any subsequent parameter changes.}
+
+\section{Program and variables}
+\subsection{Current implementation}
+The application implements one Level 1 cycle in three process routines. \texttt{moveCylinder} transfers the cylinder to the assembly station using \texttt{tLateral}; \texttt{insertPiston} picks and inserts the piston using \texttt{tTip}; \texttt{unloadAssembly} transfers the assembly to the ramp using \texttt{tLateral}. All ten process points have saved coordinates; their trajectories and grasp alignment still require validation.
+
+\texttt{start} opens and clears the MCP page, displays a message and calls these three routines in order. It performs one cycle and finishes above the ramp. There are no run modes or readiness flags: starting the application directly requests the complete sequence. Debugger stepping and breakpoints are used for incremental simulation trials. \texttt{movej} is used between approach poses and \texttt{movel} for the straight approach/withdrawal segments. Each motion is followed by \texttt{waitEndMove()} before the next operation. Each process routine displays one phase message.
+
+\texttt{stop} uses \texttt{resetMotion()} to cancel queued movements and displays a message; it preserves the gripper command rather than releasing a held part or returning automatically through an unverified path. This is not a complete fault-recovery strategy. Source listings are provided in Appendix~\ref{app:code}.
+\pending{Update this description as the program changes; explain the functions actually used.}
+
+\subsection{Variable inventory}
+\begin{tabularx}{\linewidth}{@{}l l X@{}}
+\toprule
+Name & Type & Current value and purpose\\
+\midrule
+\texttt{world} & frame & Zero translation and rotation; root reference for application geometry.\\
+\texttt{flange} & tool & Zero transformation; mechanical reference for tool definitions. Output: \texttt{io:valve1}; opening/closing times: zero.\\
+\texttt{mNomSpeed} & mdesc & Acceleration/velocity/deceleration 10/30/10, blending off. Saved nominal descriptor.\\
+\texttt{mInsertSpeed} & mdesc & Acceleration/velocity/deceleration 10/5/10; translational/rotational limits 10/10; blending off. Initial precision descriptor.\\
+\texttt{tLateral} & tool & One TCP relative to flange: (30,30,170,-90,44,-90). Cylinder handling; output valve1[0], opening/closing 1\,s.\\
+\texttt{tTip} & tool & One TCP relative to flange: (-30,-30,175,0,0,-134). Piston handling; same output and times.\\
+\texttt{jStart} & joint & Initial posture: (0,0,0,0,0,0) degrees. Records the upright starting configuration; a return trajectory is not validated merely by storing it.\\
+\texttt{jTransCylinder} & joint & Provisional transit posture: (-50,30,0,0,0,0) degrees. Prepares the direction towards the cylinder dispenser; it is not the grasp pose.\\
+\texttt{io} & library alias & Controller I/O library, automatically loaded; a project alias rather than a local variable.\\
+\bottomrule
+\end{tabularx}
+
+Both tools and both joint variables contain one element (index 0). All ten Cartesian points below are single-element data relative to \texttt{world}, with ssame/esame/wsame configuration. The table reflects the saved coordinates after teaching and adjustment.
+\begin{center}
+\small
+\begin{tabular}{lrrr}
+\toprule
+Point & X (mm) & Y (mm) & Z (mm)\\
+\midrule
+\texttt{pCylApproach} & 357.676 & -328.939 & -125.147\\
+\texttt{pCylPick} & 364.550 & -332.912 & -302.951\\
+\texttt{pAsmApproach} & 565.669 & -19.399 & -153.238\\
+\texttt{pAsmCylinder} & 573.213 & -23.759 & -348.374\\
+\texttt{pPistonApproach} & 377.781 & 198.193 & -223.981\\
+\texttt{pPistonPick} & 377.781 & 182.998 & -351.545\\
+\texttt{pInsertApproach} & 571.791 & -26.419 & -210.785\\
+\texttt{pInsert} & 571.791 & -30.784 & -337.948\\
+\texttt{pRampApproach} & 712.098 & 198.801 & -66.393\\
+\texttt{pRampPlace} & 687.482 & 189.967 & -191.070\\
+\bottomrule
+\end{tabular}
+\end{center}
+The piston and insertion points are used with \texttt{tTip}; the cylinder, assembly and ramp points are used with \texttt{tLateral}. Stored coordinates alone do not demonstrate collision-free motion or successful assembly. \texttt{jStart} remains a reference posture and is not called by the current cycle.
+
+No local numeric or boolean control variables are needed. Tool commands use the configured io library output. The program does not include automatic repetition or sensor-based part detection.
+
+\pending{For every added variable state type, size, parent frame/tool, units, value, role and where it is read or modified. Explain I/O links and polarity.}
+
+\subsection{Motion sequence and decisions}
+\pending{Add a flowchart or pseudocode for the highest implemented level. Explain approach, grasp, withdrawal, transfer, insertion, release and final placement. Justify movej/movel, tool/frame selection, synchronization and sensor waits.}
+\pending{Explain stop/recovery behavior, missing-part handling, exhausted tray and dispenser timeout as applicable.}
+
+\section{Validation and results}
+Saved-file inspection confirms the tool definitions, two joint postures, all ten nonzero process points and motion descriptors. The recovery files passed the installed s6.8 XML schemas for data, project and program containers; project references were also checked. On 18 October 2026, SRS showed 0 errors and 0 warnings for an earlier version. That earlier result does not certify the current simplified program: a fresh VAL3 syntax check is pending. Emulator execution, collision checks, physical execution and cycle times have \emph{not} been verified in this report.
+
+\begin{tabularx}{\linewidth}{@{}l X l@{}}
+\toprule
+Check & Evidence to collect & Status\\
+\midrule
+Syntax & Fresh VAL3 check after simplification & Pending\\
+File structure & Installed s6.8 XML schemas and project references & Checked\\
+Tool definitions & Saved values match assignment & Checked\\
+Motion settings & Saved 10/30/10; blending off & Checked\\
+TCP and points & 3D alignment and approach/retreat checks & Pending\\
+Simulation & Complete cycle, trajectory and collision review & Pending\\
+I/O & Gripper/feeder behavior and sensor confirmations & Pending\\
+Level reached & Video and demonstrated behavior & Pending\\
+Performance & Cycle count, failures and cycle time & Pending\\
+Real robot & Laboratory demonstration after teacher review & Pending\\
+\bottomrule
+\end{tabularx}
+\pending{Replace pending entries with measured outcomes, date, conditions and evidence. Distinguish simulation from real execution.}
+
+\section{Performance video}
+\textbf{Mandatory for submission:} include a working link to the robot-performance video for the highest reached level, with the students appearing in the video.
+\begin{quote}
+\pending{Insert final video URL as a clickable link and a readable URL.}
+\end{quote}
+\pending{Identify level, participants and relevant timestamps. Verify evaluator access.}
+For Lab 2B, the supplied submission instructions state that reaching a higher level removes the need to submit the lower levels separately.
+
+\section{Individual contributions and discussion}
+\begin{tabularx}{\linewidth}{@{}l X X@{}}
+\toprule
+Student & Personal work & Evidence / explanation\\
+\midrule
+\pending{Name} & \pending{specific tasks} & \pending{commits, tests, demonstration}\\
+\pending{Name} & \pending{specific tasks} & \pending{commits, tests, demonstration}\\
+\bottomrule
+\end{tabularx}
+\pending{Discuss actual results, limitations, design tradeoffs and improvements. Each member should be able to explain the application and answer demonstration questions. Optional: suggestions for laboratory sessions.}
+
+\section{Submission check}
+The final PDF must contain the report, the video link, and the program plus detailed variable explanations. All three components are mandatory. Include all group members' full names; one representative may upload the submission.
+The supplied Lab 2B criteria award 2/10, 4/10 and 6/10 for Levels 1, 2 and 3 respectively under the level-reached component; these are not three values to add together. Other criteria include personal work, demonstration questions, application explanation, and program/report quality.
+\pending{Before submission remove all TODO markers and replace draft claims with verified evidence.}
+
+\appendix
+\section{Current VAL3 source}\label{app:code}
+These listings reflect the simplified single-cycle program. Refresh them when the application changes; the editable source of truth remains the SRS project. Starting the application requests the complete Level 1 sequence.
+\subsection{\texttt{start}}
+\lstinputlisting{code/start.val3}
+\subsection{\texttt{stop}}
+\lstinputlisting{code/stop.val3}
+\subsection{\texttt{moveCylinder}}
+\lstinputlisting{code/moveCylinder.val3}
+\subsection{\texttt{insertPiston}}
+\lstinputlisting{code/insertPiston.val3}
+\subsection{\texttt{unloadAssembly}}
+\lstinputlisting{code/unloadAssembly.val3}
+\end{document}

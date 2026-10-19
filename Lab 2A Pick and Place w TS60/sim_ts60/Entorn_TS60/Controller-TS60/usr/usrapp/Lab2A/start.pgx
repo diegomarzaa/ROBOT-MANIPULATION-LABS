@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="start" public="false">
+    <description>Motion-only simulation. PHYSICAL blocks are commented; no I/O or sensor waits are active.</description>
+    <paramSection/>
+    <localSection/>
+    <source>
+      <code>begin
+  userPage()
+  cls()
+  bIOReady = false
+  bCycleOK = false
+  putln("Lab2A - motion simulation / 8 placements")
+
+  mNomSpeed.vel = 10
+  mNomSpeed.accel = 10
+  mNomSpeed.decel = 10
+  mNomSpeed.blend = off
+
+  call initPlace()
+  if !bCycleOK
+    putln("Matrix generation failed - no robot movement")
+    return
+  endIf
+
+  // PHYSICAL | dioLink(bOut0, io:bOut0)
+  // PHYSICAL | dioLink(bOut1, io:bOut1)
+  // PHYSICAL | dioLink(bOut2, io:bOut2)
+  // PHYSICAL | dioLink(bOut3, io:bOut3)
+  // PHYSICAL | dioLink(bOut4, io:bOut4)
+  // PHYSICAL | dioLink(bOut5, io:bOut5)
+  // PHYSICAL | dioLink(bIn0, io:bIn0)
+  // PHYSICAL | dioLink(bIn1, io:bIn1)
+  // PHYSICAL | dioLink(bIn2, io:bIn2)
+  // PHYSICAL | dioLink(bIn3, io:bIn3)
+  // PHYSICAL | dioLink(bIn4, io:bIn4)
+  // PHYSICAL | dioLink(bIn5, io:bIn5)
+  // PHYSICAL | dioLink(bIn6, io:bIn6)
+  // PHYSICAL | dioLink(bIn7, io:bIn7)
+  // PHYSICAL | dioLink(bIn8, io:bIn8)
+  // PHYSICAL | bIOReady = true
+  // PHYSICAL | 
+  // PHYSICAL | // Start only with an empty matrix, empty gripper and clear station.
+  // PHYSICAL | if bIn0 == true or bIn1 == true or bIn4 == true
+  // PHYSICAL | putln("ERROR: gripper or station not empty; inspect before restart")
+  // PHYSICAL | return
+  // PHYSICAL | endIf
+  // PHYSICAL | 
+  nCount[0] = 0
+  nCount[1] = 0
+  // SIM ONLY: alternate the two pickup ramps, without sensors.
+  nType = 0
+  // PHYSICAL | bOut0 = false
+  // PHYSICAL | bOut1 = false
+  // PHYSICAL | bOut2 = false
+  // PHYSICAL | bOut5 = true
+  // PHYSICAL | 
+  movej(pHome, tTool, mNomSpeed)
+  waitEndMove()
+
+  while nCount[0] &lt; 4 or nCount[1] &lt; 4
+  // PHYSICAL | call feedPart()
+  // PHYSICAL | if !bCycleOK
+  // PHYSICAL | bOut2 = false
+  // PHYSICAL | bOut5 = true
+  // PHYSICAL | putln("Feeding failed; inspect station before restarting")
+  // PHYSICAL | return
+  // PHYSICAL | endIf
+    if nType != 0 and nType != 1
+      putln("ERROR: material index must be 0 or 1")
+      return
+    endIf
+    if nCount[nType] &gt;= 4
+      putln("ERROR: material row full")
+      return
+    endIf
+
+    nPlace = 4*nType + nCount[nType]
+    call pickPlace()
+    if !bCycleOK
+      // PHYSICAL | bOut2 = false
+      // PHYSICAL | bOut5 = true
+      putln("Robot phase failed; inspect held part before restarting")
+      return
+    endIf
+    nCount[nType] = nCount[nType] + 1
+    // SIM ONLY: remove this line when restoring feedPart.
+    nType = 1 - nType
+  endWhile
+  putln("Motion simulation completed: 8 placements")
+end
+</code>
+    </source>
+  </program>
+</programList>

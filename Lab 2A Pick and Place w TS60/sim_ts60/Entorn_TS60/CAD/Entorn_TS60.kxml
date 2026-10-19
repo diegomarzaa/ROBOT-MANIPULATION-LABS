@@ -47,7 +47,7 @@
 				0 0 0 1 
 			</RELATIVE_POSITION>
 			<ABSOLUTE_FILENAME>%ROBOTLIBV1%/TS60-WA-200-WS.wrl</ABSOLUTE_FILENAME>
-			<RELATIVE_FILENAME/>
+			<RELATIVE_FILENAME>../../../../../../../../Public/Documents/Staubli.Public/3D/2.0/Robots/TS60-WA-200-WS.wrl</RELATIVE_FILENAME>
 			<ADDRESS>;0</ADDRESS>
 			<LOADING_OPTIONS/>
 			<GEOMETRY_SCALE>1</GEOMETRY_SCALE>
@@ -81,13 +81,13 @@
 				0 0 0 1 
 			</MOTION_FRAME>
 			<RELATIVE_POSITION>
-				6.1232342629258393e-017 1 0 335 
-				-1 6.1232342629258393e-017 0 361 
+				-0.77096962928771973 0.63687193393707275 0 524.65850830078125 
+				-0.63687193393707275 -0.77096962928771973 0 271.67050170898437 
 				0 0 1 990 
 				0 0 0 1 
 			</RELATIVE_POSITION>
 			<ABSOLUTE_FILENAME>%ROBOTLIBV1%/TS60-WA-200-WS.wrl</ABSOLUTE_FILENAME>
-			<RELATIVE_FILENAME/>
+			<RELATIVE_FILENAME>../../../../../../../../Public/Documents/Staubli.Public/3D/2.0/Robots/TS60-WA-200-WS.wrl</RELATIVE_FILENAME>
 			<ADDRESS>;1</ADDRESS>
 			<LOADING_OPTIONS/>
 			<GEOMETRY_SCALE>1</GEOMETRY_SCALE>
@@ -121,13 +121,13 @@
 				0 0 0 1 
 			</MOTION_FRAME>
 			<RELATIVE_POSITION>
-				5.7211880892781155e-018 1 0 335 
-				-1 5.7211847805556653e-018 0 361 
+				0.69552737474441528 0.71849960088729858 0 -320.04373168945312 
+				-0.71849960088729858 0.69552737474441528 0 318.68804931640625 
 				0 0 1 990 
 				0 0 0 1 
 			</RELATIVE_POSITION>
 			<ABSOLUTE_FILENAME>%ROBOTLIBV1%/TS60-WA-200-WS.wrl</ABSOLUTE_FILENAME>
-			<RELATIVE_FILENAME/>
+			<RELATIVE_FILENAME>../../../../../../../../Public/Documents/Staubli.Public/3D/2.0/Robots/TS60-WA-200-WS.wrl</RELATIVE_FILENAME>
 			<ADDRESS>;2</ADDRESS>
 			<LOADING_OPTIONS/>
 			<GEOMETRY_SCALE>1</GEOMETRY_SCALE>
@@ -139,7 +139,7 @@
 			<PROPERTY classId='Bool' name='TRANSPARENT_PROPERTY' stringId='MATERIAL_TRANSPARENCY'>FALSE</PROPERTY>
 			<PROPERTY classId='Bool' name='VISIBLE_PROPERTY' stringId='MATERIAL_VISIBILITY'>TRUE</PROPERTY>
 			<PROPERTY classId='Bool' name='CLICKABLE_PROPERTY' stringId='CLICKABLE'>TRUE</PROPERTY>
-			<PROPERTY classId='Bool' name='Use Main Material' stringId='POLYHEDRON_USEMAINMATERIAL'>FALSE</PROPERTY>
+			<PROPERTY classId='Bool' name='Use Main Material' stringId='POLYHEDRON_USEMAINMATERIAL'>TRUE</PROPERTY>
 			<PROPERTY classId='Integer' name='Vertices' stringId='VERTEX_COUNT'>2524</PROPERTY>
 			<PROPERTY classId='Integer' name='Triangles' stringId='TRIANGLE_COUNT'>2760</PROPERTY>
 			<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
@@ -150,7 +150,7 @@
 			<PROPERTY classId='String' name='com.staubli.Id' stringId='com.staubli.Id'>1c2e552a-0c78-4efe-b6e2-c545eda1fa44</PROPERTY>
 			<PROPERTY classId='Bool' name='COLLISION_ACTIVATED_PROPERTY' stringId='SOLID_ACTIVATED'>TRUE</PROPERTY>
 			<PROPERTY classId='Double' name='COLLISION_TOLERANCE_PROPERTY' stringId='SOLID_TOLERANCE'>0</PROPERTY>
-			<PROPERTY classId='Color' name='Diffuse Color' stringId='GEOMETRY_DIFFUSE_COLOR'>0 0 0 1 </PROPERTY>
+			<PROPERTY classId='Color' name='Diffuse Color' stringId='GEOMETRY_DIFFUSE_COLOR'>0.76052451133728027 0.76815116405487061 0.75294220447540283 1 </PROPERTY>
 			<PROPERTY classId='Color' name='Specular Color' stringId='GEOMETRY_SPECULAR_COLOR'>0.77459698915481567 0.77459698915481567 0.77459698915481567 0.40000000596046448 </PROPERTY>
 			<PROPERTY classId='Color' name='Ambient Color' stringId='GEOMETRY_AMBIENT_COLOR'>0.34999999403953552 0.34999999403953552 0.34999999403953552 0.40000000596046448 </PROPERTY>
 			<PROPERTY classId='Double' name='Shininess' stringId='GEOMETRY_SHININESS'>11.263999999999999</PROPERTY>
@@ -161,13 +161,13 @@
 				0 0 0 1 
 			</MOTION_FRAME>
 			<RELATIVE_POSITION>
-				1.1102230246251565e-016 1 0 335 
-				-1 1.1102230246251565e-016 0 361 
-				0 0 1 990 
+				-3.3193020954058738e-007 1 0 268.37271118164062 
+				-1 -3.3193020954058738e-007 0 556.83734130859375 
+				0 0 1 1023.5595092773437 
 				0 0 0 1 
 			</RELATIVE_POSITION>
 			<ABSOLUTE_FILENAME>%ROBOTLIBV1%/TS60-WA-200-WS.wrl</ABSOLUTE_FILENAME>
-			<RELATIVE_FILENAME/>
+			<RELATIVE_FILENAME>../../../../../../../../Public/Documents/Staubli.Public/3D/2.0/Robots/TS60-WA-200-WS.wrl</RELATIVE_FILENAME>
 			<ADDRESS>;3</ADDRESS>
 			<LOADING_OPTIONS/>
 			<GEOMETRY_SCALE>1</GEOMETRY_SCALE>
@@ -207,7 +207,7 @@
 				0 0 0 1 
 			</RELATIVE_POSITION>
 			<ABSOLUTE_FILENAME>%ROBOTLIBV1%/TS60-WA-200-WS.wrl</ABSOLUTE_FILENAME>
-			<RELATIVE_FILENAME/>
+			<RELATIVE_FILENAME>../../../../../../../../Public/Documents/Staubli.Public/3D/2.0/Robots/TS60-WA-200-WS.wrl</RELATIVE_FILENAME>
 			<ADDRESS>;4</ADDRESS>
 			<LOADING_OPTIONS/>
 			<GEOMETRY_SCALE>1</GEOMETRY_SCALE>
@@ -259,7 +259,7 @@
 					0 0 1 0 
 					0 0 0 1 
 				</RELATIVE_POSITION>
-				<ABSOLUTE_FILENAME>D:/Cel·la_TX60/Entorn_TS60/CAD/Element terminal.wrl</ABSOLUTE_FILENAME>
+				<ABSOLUTE_FILENAME>C:/Users/Diego/Documents/ROBOT_MANIPULATION/ROBOT-MANIPULATION-LABS/Lab 2A Pick and Place w TS60/sim_ts60/Entorn_TS60/CAD/Element terminal.wrl</ABSOLUTE_FILENAME>
 				<RELATIVE_FILENAME>Element terminal.wrl</RELATIVE_FILENAME>
 				<ADDRESS>;0</ADDRESS>
 				<LOADING_OPTIONS/>
@@ -298,7 +298,7 @@
 					0 0 1 0 
 					0 0 0 1 
 				</RELATIVE_POSITION>
-				<ABSOLUTE_FILENAME>D:/Cel·la_TX60/Entorn_TS60/CAD/Element terminal.wrl</ABSOLUTE_FILENAME>
+				<ABSOLUTE_FILENAME>C:/Users/Diego/Documents/ROBOT_MANIPULATION/ROBOT-MANIPULATION-LABS/Lab 2A Pick and Place w TS60/sim_ts60/Entorn_TS60/CAD/Element terminal.wrl</ABSOLUTE_FILENAME>
 				<RELATIVE_FILENAME>Element terminal.wrl</RELATIVE_FILENAME>
 				<ADDRESS>;1</ADDRESS>
 				<LOADING_OPTIONS/>
@@ -337,7 +337,7 @@
 					0 0 1 0 
 					0 0 0 1 
 				</RELATIVE_POSITION>
-				<ABSOLUTE_FILENAME>D:/Cel·la_TX60/Entorn_TS60/CAD/Element terminal.wrl</ABSOLUTE_FILENAME>
+				<ABSOLUTE_FILENAME>C:/Users/Diego/Documents/ROBOT_MANIPULATION/ROBOT-MANIPULATION-LABS/Lab 2A Pick and Place w TS60/sim_ts60/Entorn_TS60/CAD/Element terminal.wrl</ABSOLUTE_FILENAME>
 				<RELATIVE_FILENAME>Element terminal.wrl</RELATIVE_FILENAME>
 				<ADDRESS>;2</ADDRESS>
 				<LOADING_OPTIONS/>
@@ -376,7 +376,7 @@
 					0 0 1 0 
 					0 0 0 1 
 				</RELATIVE_POSITION>
-				<ABSOLUTE_FILENAME>D:/Cel·la_TX60/Entorn_TS60/CAD/Element terminal.wrl</ABSOLUTE_FILENAME>
+				<ABSOLUTE_FILENAME>C:/Users/Diego/Documents/ROBOT_MANIPULATION/ROBOT-MANIPULATION-LABS/Lab 2A Pick and Place w TS60/sim_ts60/Entorn_TS60/CAD/Element terminal.wrl</ABSOLUTE_FILENAME>
 				<RELATIVE_FILENAME>Element terminal.wrl</RELATIVE_FILENAME>
 				<ADDRESS>;3</ADDRESS>
 				<LOADING_OPTIONS/>
@@ -415,7 +415,7 @@
 					0 0 1 0 
 					0 0 0 1 
 				</RELATIVE_POSITION>
-				<ABSOLUTE_FILENAME>D:/Cel·la_TX60/Entorn_TS60/CAD/Element terminal.wrl</ABSOLUTE_FILENAME>
+				<ABSOLUTE_FILENAME>C:/Users/Diego/Documents/ROBOT_MANIPULATION/ROBOT-MANIPULATION-LABS/Lab 2A Pick and Place w TS60/sim_ts60/Entorn_TS60/CAD/Element terminal.wrl</ABSOLUTE_FILENAME>
 				<RELATIVE_FILENAME>Element terminal.wrl</RELATIVE_FILENAME>
 				<ADDRESS>;4</ADDRESS>
 				<LOADING_OPTIONS/>
@@ -428,9 +428,9 @@
 				0 0 0 1 
 			</MOTION_FRAME>
 			<RELATIVE_POSITION>
-				-5.5511147922535377e-017 -1.8369702788777518e-016 1 322.59686279296875 
-				1 -6.1232336011813492e-017 5.5511151231257827e-017 -495.48037719726562 
-				6.1232336011813492e-017 1 1.8369702788777518e-016 615.8145751953125 
+				3.3193020954058738e-007 -1.8369705435755478e-016 1 255.96926879882813 
+				1 -6.1232276454809388e-017 -3.3193020954058738e-007 -299.64300537109375 
+				6.1232336011813492e-017 1 1.8369702788777518e-016 649.37408447265625 
 				0 0 0 1 
 			</RELATIVE_POSITION>
 		</ASSEMBLY>
@@ -1529,7 +1529,7 @@
 					0 1 6.1232342629258393e-017 447.29742431640625 
 					0 0 0 1 
 				</RELATIVE_POSITION>
-				<ABSOLUTE_FILENAME>D:/Cel·la_TX60/Entorn_TS60/CAD/Entorn Lab.wrl</ABSOLUTE_FILENAME>
+				<ABSOLUTE_FILENAME>C:/Users/Diego/Documents/ROBOT_MANIPULATION/ROBOT-MANIPULATION-LABS/Lab 2A Pick and Place w TS60/sim_ts60/Entorn_TS60/CAD/Entorn Lab.wrl</ABSOLUTE_FILENAME>
 				<RELATIVE_FILENAME>Entorn Lab.wrl</RELATIVE_FILENAME>
 				<ADDRESS>;1</ADDRESS>
 				<LOADING_OPTIONS/>
@@ -1582,7 +1582,7 @@
 						0 0 1 0 
 						0 0 0 1 
 					</RELATIVE_POSITION>
-					<ABSOLUTE_FILENAME>D:/Cel·la_TX60/Entorn_TS60/CAD/Entorn Lab.wrl</ABSOLUTE_FILENAME>
+					<ABSOLUTE_FILENAME>C:/Users/Diego/Documents/ROBOT_MANIPULATION/ROBOT-MANIPULATION-LABS/Lab 2A Pick and Place w TS60/sim_ts60/Entorn_TS60/CAD/Entorn Lab.wrl</ABSOLUTE_FILENAME>
 					<RELATIVE_FILENAME>Entorn Lab.wrl</RELATIVE_FILENAME>
 					<ADDRESS>;0</ADDRESS>
 					<LOADING_OPTIONS/>
@@ -1621,7 +1621,7 @@
 						0 0 1 0 
 						0 0 0 1 
 					</RELATIVE_POSITION>
-					<ABSOLUTE_FILENAME>D:/Cel·la_TX60/Entorn_TS60/CAD/Entorn Lab.wrl</ABSOLUTE_FILENAME>
+					<ABSOLUTE_FILENAME>C:/Users/Diego/Documents/ROBOT_MANIPULATION/ROBOT-MANIPULATION-LABS/Lab 2A Pick and Place w TS60/sim_ts60/Entorn_TS60/CAD/Entorn Lab.wrl</ABSOLUTE_FILENAME>
 					<RELATIVE_FILENAME>Entorn Lab.wrl</RELATIVE_FILENAME>
 					<ADDRESS>;2</ADDRESS>
 					<LOADING_OPTIONS/>
@@ -1660,7 +1660,7 @@
 						0 0 1 0 
 						0 0 0 1 
 					</RELATIVE_POSITION>
-					<ABSOLUTE_FILENAME>D:/Cel·la_TX60/Entorn_TS60/CAD/Entorn Lab.wrl</ABSOLUTE_FILENAME>
+					<ABSOLUTE_FILENAME>C:/Users/Diego/Documents/ROBOT_MANIPULATION/ROBOT-MANIPULATION-LABS/Lab 2A Pick and Place w TS60/sim_ts60/Entorn_TS60/CAD/Entorn Lab.wrl</ABSOLUTE_FILENAME>
 					<RELATIVE_FILENAME>Entorn Lab.wrl</RELATIVE_FILENAME>
 					<ADDRESS>;3</ADDRESS>
 					<LOADING_OPTIONS/>
@@ -1699,7 +1699,7 @@
 						0 0 1 0 
 						0 0 0 1 
 					</RELATIVE_POSITION>
-					<ABSOLUTE_FILENAME>D:/Cel·la_TX60/Entorn_TS60/CAD/Entorn Lab.wrl</ABSOLUTE_FILENAME>
+					<ABSOLUTE_FILENAME>C:/Users/Diego/Documents/ROBOT_MANIPULATION/ROBOT-MANIPULATION-LABS/Lab 2A Pick and Place w TS60/sim_ts60/Entorn_TS60/CAD/Entorn Lab.wrl</ABSOLUTE_FILENAME>
 					<RELATIVE_FILENAME>Entorn Lab.wrl</RELATIVE_FILENAME>
 					<ADDRESS>;4</ADDRESS>
 					<LOADING_OPTIONS/>
@@ -1737,7 +1737,7 @@
 						0 0 1 0 
 						0 0 0 1 
 					</RELATIVE_POSITION>
-					<ABSOLUTE_FILENAME>D:/Cel·la_TX60/Entorn_TS60/CAD/Entorn Lab.wrl</ABSOLUTE_FILENAME>
+					<ABSOLUTE_FILENAME>C:/Users/Diego/Documents/ROBOT_MANIPULATION/ROBOT-MANIPULATION-LABS/Lab 2A Pick and Place w TS60/sim_ts60/Entorn_TS60/CAD/Entorn Lab.wrl</ABSOLUTE_FILENAME>
 					<RELATIVE_FILENAME>Entorn Lab.wrl</RELATIVE_FILENAME>
 					<ADDRESS>;5</ADDRESS>
 					<LOADING_OPTIONS/>
@@ -1775,7 +1775,7 @@
 						0 0 1 0 
 						0 0 0 1 
 					</RELATIVE_POSITION>
-					<ABSOLUTE_FILENAME>D:/Cel·la_TX60/Entorn_TS60/CAD/Entorn Lab.wrl</ABSOLUTE_FILENAME>
+					<ABSOLUTE_FILENAME>C:/Users/Diego/Documents/ROBOT_MANIPULATION/ROBOT-MANIPULATION-LABS/Lab 2A Pick and Place w TS60/sim_ts60/Entorn_TS60/CAD/Entorn Lab.wrl</ABSOLUTE_FILENAME>
 					<RELATIVE_FILENAME>Entorn Lab.wrl</RELATIVE_FILENAME>
 					<ADDRESS>;6</ADDRESS>
 					<LOADING_OPTIONS/>
@@ -1813,7 +1813,7 @@
 						0 0 1 0 
 						0 0 0 1 
 					</RELATIVE_POSITION>
-					<ABSOLUTE_FILENAME>D:/Cel·la_TX60/Entorn_TS60/CAD/Entorn Lab.wrl</ABSOLUTE_FILENAME>
+					<ABSOLUTE_FILENAME>C:/Users/Diego/Documents/ROBOT_MANIPULATION/ROBOT-MANIPULATION-LABS/Lab 2A Pick and Place w TS60/sim_ts60/Entorn_TS60/CAD/Entorn Lab.wrl</ABSOLUTE_FILENAME>
 					<RELATIVE_FILENAME>Entorn Lab.wrl</RELATIVE_FILENAME>
 					<ADDRESS>;7</ADDRESS>
 					<LOADING_OPTIONS/>
@@ -1928,7 +1928,7 @@
 						<PROPERTY classId='Double' name='Min' stringId='DOF_MIN_VALUE'>-2.4434609527920612</PROPERTY>
 						<PROPERTY classId='Double' name='Max' stringId='DOF_MAX_VALUE'>2.4434609527920612</PROPERTY>
 						<PROPERTY classId='Double' name='Lock' stringId='DOF_LOCKED_VALUE'>0</PROPERTY>
-						<PROPERTY classId='Double' name='V' stringId='DOF_VALUE'>0</PROPERTY>
+						<PROPERTY classId='Double' name='V' stringId='DOF_VALUE'>-0.88036220365400719</PROPERTY>
 						<PROPERTY classId='Bool' name='Locked' stringId='DOF_LOCKED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Bounded' stringId='DOF_BOUNDED'>TRUE</PROPERTY>
 						<PROPERTY classId='Double' name='User Weight' stringId='DOF_USER_WEIGHT_SCALER'>1</PROPERTY>
@@ -1976,7 +1976,7 @@
 							<PROPERTY classId='Double' name='Min' stringId='DOF_MIN_VALUE'>-2.6179938779914944</PROPERTY>
 							<PROPERTY classId='Double' name='Max' stringId='DOF_MAX_VALUE'>2.6179938779914944</PROPERTY>
 							<PROPERTY classId='Double' name='Lock' stringId='DOF_LOCKED_VALUE'>0</PROPERTY>
-							<PROPERTY classId='Double' name='V' stringId='DOF_VALUE'>0</PROPERTY>
+							<PROPERTY classId='Double' name='V' stringId='DOF_VALUE'>1.6495158177361855</PROPERTY>
 							<PROPERTY classId='Bool' name='Locked' stringId='DOF_LOCKED'>FALSE</PROPERTY>
 							<PROPERTY classId='Bool' name='Bounded' stringId='DOF_BOUNDED'>TRUE</PROPERTY>
 							<PROPERTY classId='Double' name='User Weight' stringId='DOF_USER_WEIGHT_SCALER'>1</PROPERTY>
@@ -2014,7 +2014,7 @@
 							<PROPERTY classId='String' name='com.staubli.Id' stringId='com.staubli.Id'>5bec9d65-fc8d-425e-b6e6-7c06d8fbe801</PROPERTY>
 							<PROPERTY classId='Bool' name='Display Path' stringId='JOINT_DISPLAY_PATH'>FALSE</PROPERTY>
 							<PROPERTY classId='Bool' name='Locked' stringId='JOINT_LOCKED'>FALSE</PROPERTY>
-							<PROPERTY classId='Double' name='Max Sweep' stringId='JOINT_MAX_SWEEP'>804.16583251953125</PROPERTY>
+							<PROPERTY classId='Double' name='Max Sweep' stringId='JOINT_MAX_SWEEP'>425.93210953540301</PROPERTY>
 							<PROPERTY classId='Double' name='Min Max Sweep' stringId='JOINT_MIN_MAX_SWEEP'>0</PROPERTY>
 							<DOF id='75'>
 								<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>T</PROPERTY>
@@ -2024,7 +2024,7 @@
 								<PROPERTY classId='Double' name='Min' stringId='DOF_MIN_VALUE'>-0.10000000000000001</PROPERTY>
 								<PROPERTY classId='Double' name='Max' stringId='DOF_MAX_VALUE'>200.09999999999999</PROPERTY>
 								<PROPERTY classId='Double' name='Lock' stringId='DOF_LOCKED_VALUE'>0</PROPERTY>
-								<PROPERTY classId='Double' name='V' stringId='DOF_VALUE'>0</PROPERTY>
+								<PROPERTY classId='Double' name='V' stringId='DOF_VALUE'>33.55949401855468</PROPERTY>
 								<PROPERTY classId='Bool' name='Locked' stringId='DOF_LOCKED'>FALSE</PROPERTY>
 								<PROPERTY classId='Bool' name='Bounded' stringId='DOF_BOUNDED'>TRUE</PROPERTY>
 								<PROPERTY classId='Double' name='User Weight' stringId='DOF_USER_WEIGHT_SCALER'>1</PROPERTY>
@@ -2055,7 +2055,7 @@
 								<PROPERTY classId='String' name='com.staubli.Id' stringId='com.staubli.Id'>0088e2a8-f527-4554-93c9-528d72450aac</PROPERTY>
 								<PROPERTY classId='Bool' name='Display Path' stringId='JOINT_DISPLAY_PATH'>FALSE</PROPERTY>
 								<PROPERTY classId='Bool' name='Locked' stringId='JOINT_LOCKED'>FALSE</PROPERTY>
-								<PROPERTY classId='Double' name='Max Sweep' stringId='JOINT_MAX_SWEEP'>471.16583251953125</PROPERTY>
+								<PROPERTY classId='Double' name='Max Sweep' stringId='JOINT_MAX_SWEEP'>92.932109535403029</PROPERTY>
 								<PROPERTY classId='Double' name='Min Max Sweep' stringId='JOINT_MIN_MAX_SWEEP'>0</PROPERTY>
 								<DOF id='78'>
 									<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>R</PROPERTY>
@@ -2065,7 +2065,7 @@
 									<PROPERTY classId='Double' name='Min' stringId='DOF_MIN_VALUE'>-8.7266462599716483</PROPERTY>
 									<PROPERTY classId='Double' name='Max' stringId='DOF_MAX_VALUE'>8.7266462599716483</PROPERTY>
 									<PROPERTY classId='Double' name='Lock' stringId='DOF_LOCKED_VALUE'>0</PROPERTY>
-									<PROPERTY classId='Double' name='V' stringId='DOF_VALUE'>0</PROPERTY>
+									<PROPERTY classId='Double' name='V' stringId='DOF_VALUE'>-0.76915394601240095</PROPERTY>
 									<PROPERTY classId='Bool' name='Locked' stringId='DOF_LOCKED'>FALSE</PROPERTY>
 									<PROPERTY classId='Bool' name='Bounded' stringId='DOF_BOUNDED'>TRUE</PROPERTY>
 									<PROPERTY classId='Double' name='User Weight' stringId='DOF_USER_WEIGHT_SCALER'>1</PROPERTY>
@@ -2110,7 +2110,7 @@
 									<PROPERTY classId='Integer' name='attachHandle' stringId='com.kineocam.kitenet.property.attachHandle'>0</PROPERTY>
 									<PROPERTY classId='Bool' name='Display Path' stringId='JOINT_DISPLAY_PATH'>FALSE</PROPERTY>
 									<PROPERTY classId='Bool' name='Locked' stringId='JOINT_LOCKED'>TRUE</PROPERTY>
-									<PROPERTY classId='Double' name='Max Sweep' stringId='JOINT_MAX_SWEEP'>92.932120979494385</PROPERTY>
+									<PROPERTY classId='Double' name='Max Sweep' stringId='JOINT_MAX_SWEEP'>92.932109535402645</PROPERTY>
 									<PROPERTY classId='Double' name='Min Max Sweep' stringId='JOINT_MIN_MAX_SWEEP'>0</PROPERTY>
 									<STEERING_LINEAR id='85'>
 										<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Linear</PROPERTY>
@@ -2129,55 +2129,55 @@
 										<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 									</DEVICE_REF>
 									<CURRENT_POSITION>
-										1.1102230246251568e-016 -1 1.2246467991473535e-016 334.99999999999966 
-										-1 -1.1102230246251568e-016 1.3596310734468916e-032 -484.99999999999983 
-										0 -1.2246467991473535e-016 -1 642 
+										-3.3193022264815797e-007 -0.99999999999994482 1.2246467991472864e-016 268.37241691890733 
+										-0.99999999999994482 3.3193022264815797e-007 -4.0649728470633519e-023 -289.16263462470022 
+										0 -1.2246467991473539e-016 -1 675.55949401855469 
 										0 0 0 1 
 									</CURRENT_POSITION>
 								</ANCHOR_JOINT>
 								<CURRENT_POSITION neededComponentIds='78'>
-									1.1102230246251568e-016 1 0 334.99999999999977 
-									-1 1.1102230246251568e-016 0 -484.99999999999994 
-									0 0 1 642 
+									-3.3193022264121907e-007 0.99999999999994482 0 268.37241691890745 
+									-0.99999999999994482 -3.3193022264121907e-007 0 -289.16263462470056 
+									0 0 1 675.55949401855469 
 									0 0 0 1 
 								</CURRENT_POSITION>
 								<RELATIVE_SOLID_POSITION solidRefId='80'>
 									0.99999999999999967 -6.6174449004242214e-024 0 -846 
-									-6.6174449004242214e-024 0.999999999999999 0 8.4703294725430034e-021 
+									-6.6174449004242214e-024 0.999999999999999 0 1.1858461261560205e-020 
 									0 0 0.99999999999999867 348 
 									0 0 0 1 
 								</RELATIVE_SOLID_POSITION>
 							</ROTATION_JOINT_Z>
 							<CURRENT_POSITION neededComponentIds='75'>
-								1 0 0 334.99999999999983 
-								0 1 0 -485.00000000000006 
-								0 0 1 975 
+								0.71849961145896701 -0.69552735987401193 0 268.37241691890767 
+								0.69552735987401193 0.71849961145896701 0 -289.16263462470067 
+								0 0 1 1008.5594940185547 
 								0 0 0 1 
 							</CURRENT_POSITION>
 						</TRANSLATION_JOINT_Z>
 						<CURRENT_POSITION neededComponentIds='69'>
-							1 5.5511151231257839e-017 0 334.99999999999989 
-							-5.5511151231257839e-017 1 0 -215.00000000000017 
+							0.71849961145896701 -0.69552735987401193 0 80.580029752924844 
+							0.69552735987401193 0.71849961145896701 0 -95.167739530779556 
 							0 0 1 975 
 							0 0 0 1 
 						</CURRENT_POSITION>
 						<RELATIVE_SOLID_POSITION solidRefId='71'>
-							6.1232336011813492e-017 0.99999999999999967 0 -3.5269829672090189e-014 
-							-0.99999999999999989 6.1232342629258393e-017 0 576 
+							6.1232336011813492e-017 0.99999999999999978 0 -3.5269827872145177e-014 
+							-1 6.1232342629258393e-017 0 576 
 							0 0 0.99999999999999956 15 
 							0 0 0 1 
 						</RELATIVE_SOLID_POSITION>
 					</ROTATION_JOINT_Z>
 					<CURRENT_POSITION neededComponentIds='64'>
-						1 0 0 334.99999999999994 
-						0 1 0 115.00000000000006 
+						0.63687193797205899 0.77096960680931759 0 334.99999999999989 
+						-0.77096960680931759 0.63687193797205899 0 115.00000000000006 
 						0 0 1 1005 
 						0 0 0 1 
 					</CURRENT_POSITION>
 					<RELATIVE_SOLID_POSITION solidRefId='66'>
-						6.1232340147716555e-017 1 0 -1.5063154513322331e-014 
-						-1 6.1232340147716555e-017 0 246 
-						0 0 1 -15 
+						6.1232340147716555e-017 0.99999999999999867 0 -1.5063144348926964e-014 
+						-0.99999999999999956 6.1232340147716555e-017 0 246 
+						0 0 0.99999999999999822 -15 
 						0 0 0 1 
 					</RELATIVE_SOLID_POSITION>
 				</ROTATION_JOINT_Z>
@@ -2208,7 +2208,7 @@
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					</COLLISION_PAIRS>
 					<CURRENT_POSITION>
-						5.5511151231257827e-017 1 0 334.99999999999994 
+						5.5511151231257827e-017 1 0 334.99999999999989 
 						-1 5.5511151231257827e-017 0 115.00000000000006 
 						0 0 1 642 
 						0 0 0 1 
@@ -2253,7 +2253,7 @@
 		<PROPERTY classId='Bool' name='VISIBLE_PROPERTY' stringId='MATERIAL_VISIBILITY'>TRUE</PROPERTY>
 		<PROPERTY classId='Bool' name='CLICKABLE_PROPERTY' stringId='CLICKABLE'>TRUE</PROPERTY>
 		<PROPERTY classId='String' name='nodeType' stringId='com.kineocam.kitenet.property.nodeType'>ToolNode</PROPERTY>
-		<DEVICE id='88'>
+		<DEVICE id='95'>
 			<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Tool1</PROPERTY>
 			<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 			<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
@@ -2265,7 +2265,7 @@
 			<PROPERTY classId='String' name='com.staubli.Id' stringId='com.staubli.Id'>965cb744-b7cb-440d-8038-4df356577b69</PROPERTY>
 			<PROPERTY classId='Bool' name='Detect collision group construction' stringId='com.kineocam.property.collision-group-set'>TRUE</PROPERTY>
 			<PROPERTY classId='Bool' name='Display Overlay' stringId='DEVICE_OVERLAY'>FALSE</PROPERTY>
-			<ANCHOR_JOINT id='95'>
+			<ANCHOR_JOINT id='96'>
 				<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>base</PROPERTY>
 				<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 				<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
@@ -2277,26 +2277,26 @@
 				<PROPERTY classId='Bool' name='DISPLAY_HIERARCHY_WHEN_HIDDEN' stringId='com.kineocam.kite.property.display-hierarchy-when-hidden'>TRUE</PROPERTY>
 				<PROPERTY classId='Bool' name='Display Path' stringId='JOINT_DISPLAY_PATH'>FALSE</PROPERTY>
 				<PROPERTY classId='Bool' name='Locked' stringId='JOINT_LOCKED'>TRUE</PROPERTY>
-				<PROPERTY classId='Double' name='Max Sweep' stringId='JOINT_MAX_SWEEP'>62.120555877685547</PROPERTY>
+				<PROPERTY classId='Double' name='Max Sweep' stringId='JOINT_MAX_SWEEP'>62.12054443359375</PROPERTY>
 				<PROPERTY classId='Double' name='Min Max Sweep' stringId='JOINT_MIN_MAX_SWEEP'>0</PROPERTY>
-				<STEERING_LINEAR id='96'>
+				<STEERING_LINEAR id='97'>
 					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Linear</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					<PROPERTY classId='Bool' name='Oriented' stringId='STEERING_METHOD_ORIENTED'>FALSE</PROPERTY>
 				</STEERING_LINEAR>
-				<SOLID_REF id='97' neededComponentIds='7' referencedComponentId='7'>
+				<SOLID_REF id='98' neededComponentIds='7' referencedComponentId='7'>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					<PROPERTY classId='Choice' name='AttachmentType' stringId='com.kineocam.kitenet.property.AttachmentType'>None|UserAttach|UserAttachDeleteProtected|2</PROPERTY>
 				</SOLID_REF>
-				<COLLISION_PAIRS id='98'>
+				<COLLISION_PAIRS id='99'>
 					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Collision Pairs</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 				</COLLISION_PAIRS>
-				<ANCHOR_JOINT id='99'>
+				<ANCHOR_JOINT id='100'>
 					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>handle</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>TRUE</PROPERTY>
@@ -2310,26 +2310,26 @@
 					<PROPERTY classId='Bool' name='Locked' stringId='JOINT_LOCKED'>TRUE</PROPERTY>
 					<PROPERTY classId='Double' name='Max Sweep' stringId='JOINT_MAX_SWEEP'>0</PROPERTY>
 					<PROPERTY classId='Double' name='Min Max Sweep' stringId='JOINT_MIN_MAX_SWEEP'>0</PROPERTY>
-					<STEERING_LINEAR id='100'>
+					<STEERING_LINEAR id='101'>
 						<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Linear</PROPERTY>
 						<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 						<PROPERTY classId='Bool' name='Oriented' stringId='STEERING_METHOD_ORIENTED'>FALSE</PROPERTY>
 					</STEERING_LINEAR>
-					<COLLISION_PAIRS id='101'>
+					<COLLISION_PAIRS id='102'>
 						<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Collision Pairs</PROPERTY>
 						<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					</COLLISION_PAIRS>
 					<CURRENT_POSITION>
-						1.1102230246251568e-016 -1 1.2246467991473537e-016 334.99999999999932 
-						-1 -1.1102230246251568e-016 4.9632666460134461e-032 -484.9999999999996 
-						-3.1778918835851747e-032 -1.2246467991473537e-016 -1 641.99999999999977 
+						-3.3193022260652461e-007 -0.99999999999994482 1.2246467991472859e-016 268.37241691890785 
+						-0.99999999999994482 3.3193022260652461e-007 -4.0649728375801453e-023 -289.16263462470005 
+						-9.2600110952558278e-032 -1.2246467991473535e-016 -1 675.55949401855662 
 						0 0 0 1 
 					</CURRENT_POSITION>
 				</ANCHOR_JOINT>
-				<ANCHOR_JOINT id='102'>
+				<ANCHOR_JOINT id='103'>
 					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>handler</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>TRUE</PROPERTY>
@@ -2345,26 +2345,26 @@
 					<PROPERTY classId='Bool' name='Locked' stringId='JOINT_LOCKED'>TRUE</PROPERTY>
 					<PROPERTY classId='Double' name='Max Sweep' stringId='JOINT_MAX_SWEEP'>0</PROPERTY>
 					<PROPERTY classId='Double' name='Min Max Sweep' stringId='JOINT_MIN_MAX_SWEEP'>0</PROPERTY>
-					<STEERING_LINEAR id='103'>
+					<STEERING_LINEAR id='104'>
 						<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Linear</PROPERTY>
 						<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 						<PROPERTY classId='Bool' name='Oriented' stringId='STEERING_METHOD_ORIENTED'>FALSE</PROPERTY>
 					</STEERING_LINEAR>
-					<COLLISION_PAIRS id='104'>
+					<COLLISION_PAIRS id='105'>
 						<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Collision Pairs</PROPERTY>
 						<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					</COLLISION_PAIRS>
 					<CURRENT_POSITION>
-						1.1102230246251568e-016 -1 1.2246467991473537e-016 334.99999999999932 
-						-1 -1.1102230246251568e-016 4.9632666460134461e-032 -484.9999999999996 
-						-3.1778918835851747e-032 -1.2246467991473537e-016 -1 621.99999999999977 
+						-3.3193022260652461e-007 -0.99999999999994482 1.2246467991472859e-016 268.37241691890796 
+						-0.99999999999994482 3.3193022260652461e-007 -4.0649728375801453e-023 -289.16263462470005 
+						-9.2600110952558278e-032 -1.2246467991473535e-016 -1 655.55949401855662 
 						0 0 0 1 
 					</CURRENT_POSITION>
 				</ANCHOR_JOINT>
-				<ANCHOR_JOINT id='105'>
+				<ANCHOR_JOINT id='106'>
 					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>TCP</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
@@ -2377,47 +2377,243 @@
 					<PROPERTY classId='Bool' name='Locked' stringId='JOINT_LOCKED'>TRUE</PROPERTY>
 					<PROPERTY classId='Double' name='Max Sweep' stringId='JOINT_MAX_SWEEP'>0</PROPERTY>
 					<PROPERTY classId='Double' name='Min Max Sweep' stringId='JOINT_MIN_MAX_SWEEP'>0</PROPERTY>
-					<STEERING_LINEAR id='106'>
+					<STEERING_LINEAR id='107'>
 						<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Linear</PROPERTY>
 						<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 						<PROPERTY classId='Bool' name='Oriented' stringId='STEERING_METHOD_ORIENTED'>FALSE</PROPERTY>
 					</STEERING_LINEAR>
-					<COLLISION_PAIRS id='107'>
+					<COLLISION_PAIRS id='108'>
 						<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Collision Pairs</PROPERTY>
 						<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					</COLLISION_PAIRS>
 					<CURRENT_POSITION>
-						1.1102230246251568e-016 -1 1.2246467991473537e-016 334.99999999999932 
-						-1 -1.1102230246251568e-016 4.9632666460134461e-032 -484.9999999999996 
-						-3.1778918835851747e-032 -1.2246467991473537e-016 -1 621.99999999999977 
+						-3.3193022260652461e-007 -0.99999999999994482 1.2246467991472859e-016 268.37241691890796 
+						-0.99999999999994482 3.3193022260652461e-007 -4.0649728375801453e-023 -289.16263462470005 
+						-9.2600110952558278e-032 -1.2246467991473535e-016 -1 655.55949401855662 
 						0 0 0 1 
 					</CURRENT_POSITION>
 				</ANCHOR_JOINT>
 				<CURRENT_POSITION>
-					-5.5511151231257839e-017 -1.8369702254399371e-016 1 322.59685420989933 
-					1 -6.1232337285476953e-017 5.5511151231257827e-017 -495.48036479949928 
-					6.123233728547694e-017 1 1.8369702254399371e-016 615.81457519531261 
+					3.3193022267591354e-007 -1.8369704286884693e-016 0.99999999999994482 255.9692676500585 
+					0.99999999999994482 -6.1232276310880052e-017 -3.3193022267591354e-007 -299.64299530722036 
+					6.1232337285477027e-017 1 1.8369702254399371e-016 649.37406921386923 
 					0 0 0 1 
 				</CURRENT_POSITION>
-				<RELATIVE_SOLID_POSITION solidRefId='97'>
-					0.99999999999999967 1.2736634603488622e-024 6.6174449004242214e-024 -1.2397765999594412e-005 
-					-1.2736634603488629e-024 0.99999999999999933 5.3437814400753539e-024 1.3552527156068805e-020 
-					6.6174449004242214e-024 -5.3437814400753524e-024 0.999999999999999 8.58306884765625e-006 
+				<RELATIVE_SOLID_POSITION solidRefId='98'>
+					0.99999999999999967 1.2736633580290429e-024 3.0359321394673824e-018 -1.239776611328125e-005 
+					-1.2736633580290436e-024 0.99999999999999933 5.343781288988259e-024 1.3552527156068805e-020 
+					-3.0359189045775816e-018 -5.3437812889882575e-024 0.999999999999999 8.58306884765625e-006 
 					0 0 0 1 
 				</RELATIVE_SOLID_POSITION>
 			</ANCHOR_JOINT>
-			<STEERING_LINEAR id='108'>
+			<STEERING_LINEAR id='109'>
 				<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Linear</PROPERTY>
 				<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 				<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 				<PROPERTY classId='Bool' name='Oriented' stringId='STEERING_METHOD_ORIENTED'>FALSE</PROPERTY>
 			</STEERING_LINEAR>
 		</DEVICE>
+		<DEVICE id='88' neededComponentIds='95'>
+			<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>#Controller-TS60:ts60</PROPERTY>
+			<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+			<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+			<PROPERTY classId='Bool' name='TRANSPARENT_PROPERTY' stringId='MATERIAL_TRANSPARENCY'>FALSE</PROPERTY>
+			<PROPERTY classId='Bool' name='VISIBLE_PROPERTY' stringId='MATERIAL_VISIBILITY'>TRUE</PROPERTY>
+			<PROPERTY classId='Bool' name='CLICKABLE_PROPERTY' stringId='CLICKABLE'>TRUE</PROPERTY>
+			<PROPERTY classId='String' name='deviceType' stringId='com.kineocam.kitenet.property.deviceType'>Tool</PROPERTY>
+			<PROPERTY classId='Bool' name='User Created AttachableDevice' stringId='com.kineocam.property.is-user-created-attachable-device'>TRUE</PROPERTY>
+			<PROPERTY classId='String' name='com.staubli.Id' stringId='com.staubli.Id'>7f851bea-abf8-44a7-b6de-8876f37e8b57</PROPERTY>
+			<PROPERTY classId='Bool' name='Detect collision group construction' stringId='com.kineocam.property.collision-group-set'>TRUE</PROPERTY>
+			<PROPERTY classId='Bool' name='Display Overlay' stringId='DEVICE_OVERLAY'>FALSE</PROPERTY>
+			<ANCHOR_JOINT id='110'>
+				<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>base</PROPERTY>
+				<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+				<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+				<PROPERTY classId='Bool' name='TRANSPARENT_PROPERTY' stringId='MATERIAL_TRANSPARENCY'>FALSE</PROPERTY>
+				<PROPERTY classId='Bool' name='VISIBLE_PROPERTY' stringId='MATERIAL_VISIBILITY'>FALSE</PROPERTY>
+				<PROPERTY classId='Bool' name='CLICKABLE_PROPERTY' stringId='CLICKABLE'>TRUE</PROPERTY>
+				<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+				<PROPERTY classId='Integer' name='jointType' stringId='com.kineocam.kitenet.property.jointType'>0</PROPERTY>
+				<PROPERTY classId='Bool' name='DISPLAY_HIERARCHY_WHEN_HIDDEN' stringId='com.kineocam.kite.property.display-hierarchy-when-hidden'>TRUE</PROPERTY>
+				<PROPERTY classId='Bool' name='Display Path' stringId='JOINT_DISPLAY_PATH'>FALSE</PROPERTY>
+				<PROPERTY classId='Bool' name='Locked' stringId='JOINT_LOCKED'>TRUE</PROPERTY>
+				<PROPERTY classId='Double' name='Max Sweep' stringId='JOINT_MAX_SWEEP'>92.93210953540229</PROPERTY>
+				<PROPERTY classId='Double' name='Min Max Sweep' stringId='JOINT_MIN_MAX_SWEEP'>0</PROPERTY>
+				<STEERING_LINEAR id='111'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Linear</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					<PROPERTY classId='Bool' name='Oriented' stringId='STEERING_METHOD_ORIENTED'>FALSE</PROPERTY>
+				</STEERING_LINEAR>
+				<COLLISION_PAIRS id='112'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Collision Pairs</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+				</COLLISION_PAIRS>
+				<ANCHOR_JOINT id='113'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>handle</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>TRUE</PROPERTY>
+					<PROPERTY classId='Bool' name='TRANSPARENT_PROPERTY' stringId='MATERIAL_TRANSPARENCY'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='VISIBLE_PROPERTY' stringId='MATERIAL_VISIBILITY'>TRUE</PROPERTY>
+					<PROPERTY classId='Bool' name='CLICKABLE_PROPERTY' stringId='CLICKABLE'>TRUE</PROPERTY>
+					<PROPERTY classId='Integer' name='jointType' stringId='com.kineocam.kitenet.property.jointType'>1</PROPERTY>
+					<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					<PROPERTY classId='String' name='com.staubli.Id' stringId='com.staubli.Id'>2fbd9948-9d93-4d06-923b-ba94bee41711</PROPERTY>
+					<PROPERTY classId='Bool' name='Display Path' stringId='JOINT_DISPLAY_PATH'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='Locked' stringId='JOINT_LOCKED'>TRUE</PROPERTY>
+					<PROPERTY classId='Double' name='Max Sweep' stringId='JOINT_MAX_SWEEP'>0</PROPERTY>
+					<PROPERTY classId='Double' name='Min Max Sweep' stringId='JOINT_MIN_MAX_SWEEP'>0</PROPERTY>
+					<STEERING_LINEAR id='114'>
+						<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Linear</PROPERTY>
+						<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+						<PROPERTY classId='Bool' name='Oriented' stringId='STEERING_METHOD_ORIENTED'>FALSE</PROPERTY>
+					</STEERING_LINEAR>
+					<COLLISION_PAIRS id='115'>
+						<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Collision Pairs</PROPERTY>
+						<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					</COLLISION_PAIRS>
+					<CURRENT_POSITION>
+						-3.3193022266203576e-007 -0.99999999999994482 1.2246467991472871e-016 268.3724169189075 
+						-0.99999999999994482 3.3193022266203576e-007 -4.0649728473338361e-023 -289.16263462470005 
+						1.0052877141571981e-033 -1.2246467991473547e-016 -1 675.55949401855537 
+						0 0 0 1 
+					</CURRENT_POSITION>
+				</ANCHOR_JOINT>
+				<ANCHOR_JOINT id='116'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>handler</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>TRUE</PROPERTY>
+					<PROPERTY classId='Bool' name='TRANSPARENT_PROPERTY' stringId='MATERIAL_TRANSPARENCY'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='VISIBLE_PROPERTY' stringId='MATERIAL_VISIBILITY'>TRUE</PROPERTY>
+					<PROPERTY classId='Bool' name='CLICKABLE_PROPERTY' stringId='CLICKABLE'>TRUE</PROPERTY>
+					<PROPERTY classId='Integer' name='jointType' stringId='com.kineocam.kitenet.property.jointType'>2</PROPERTY>
+					<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					<PROPERTY classId='String' name='attachMode' stringId='com.kineocam.kitenet.property.attachMode'>Magnetic</PROPERTY>
+					<PROPERTY classId='Double' name='attachDistance' stringId='com.kineocam.kitenet.property.attachDistance'>0</PROPERTY>
+					<PROPERTY classId='String' name='com.staubli.Id' stringId='com.staubli.Id'>f39da275-2884-421b-8206-77a789088206</PROPERTY>
+					<PROPERTY classId='Bool' name='Display Path' stringId='JOINT_DISPLAY_PATH'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='Locked' stringId='JOINT_LOCKED'>TRUE</PROPERTY>
+					<PROPERTY classId='Double' name='Max Sweep' stringId='JOINT_MAX_SWEEP'>0</PROPERTY>
+					<PROPERTY classId='Double' name='Min Max Sweep' stringId='JOINT_MIN_MAX_SWEEP'>0</PROPERTY>
+					<STEERING_LINEAR id='117'>
+						<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Linear</PROPERTY>
+						<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+						<PROPERTY classId='Bool' name='Oriented' stringId='STEERING_METHOD_ORIENTED'>FALSE</PROPERTY>
+					</STEERING_LINEAR>
+					<COLLISION_PAIRS id='118'>
+						<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Collision Pairs</PROPERTY>
+						<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					</COLLISION_PAIRS>
+					<CURRENT_POSITION>
+						-3.3193022266203576e-007 -0.99999999999994482 1.2246467991472871e-016 248.37241691890853 
+						-0.99999999999994482 3.3193022266203576e-007 -4.0649728473338361e-023 -289.16262798609557 
+						1.0052877141571981e-033 -1.2246467991473547e-016 -1 675.55949401855537 
+						0 0 0 1 
+					</CURRENT_POSITION>
+				</ANCHOR_JOINT>
+				<ANCHOR_JOINT id='119'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>TCP</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='TRANSPARENT_PROPERTY' stringId='MATERIAL_TRANSPARENCY'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='VISIBLE_PROPERTY' stringId='MATERIAL_VISIBILITY'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='CLICKABLE_PROPERTY' stringId='CLICKABLE'>TRUE</PROPERTY>
+					<PROPERTY classId='Integer' name='jointType' stringId='com.kineocam.kitenet.property.jointType'>4</PROPERTY>
+					<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					<PROPERTY classId='Bool' name='Display Path' stringId='JOINT_DISPLAY_PATH'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='Locked' stringId='JOINT_LOCKED'>TRUE</PROPERTY>
+					<PROPERTY classId='Double' name='Max Sweep' stringId='JOINT_MAX_SWEEP'>0</PROPERTY>
+					<PROPERTY classId='Double' name='Min Max Sweep' stringId='JOINT_MIN_MAX_SWEEP'>0</PROPERTY>
+					<STEERING_LINEAR id='120'>
+						<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Linear</PROPERTY>
+						<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+						<PROPERTY classId='Bool' name='Oriented' stringId='STEERING_METHOD_ORIENTED'>FALSE</PROPERTY>
+					</STEERING_LINEAR>
+					<COLLISION_PAIRS id='121'>
+						<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Collision Pairs</PROPERTY>
+						<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					</COLLISION_PAIRS>
+					<CURRENT_POSITION>
+						-3.3193022266203576e-007 -0.99999999999994482 1.2246467991472871e-016 248.37241691890853 
+						-0.99999999999994482 3.3193022266203576e-007 -4.0649728473338361e-023 -289.16262798609557 
+						1.0052877141571981e-033 -1.2246467991473547e-016 -1 675.55949401855537 
+						0 0 0 1 
+					</CURRENT_POSITION>
+				</ANCHOR_JOINT>
+				<ANCHOR_JOINT id='122'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>handler 1</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>TRUE</PROPERTY>
+					<PROPERTY classId='Bool' name='TRANSPARENT_PROPERTY' stringId='MATERIAL_TRANSPARENCY'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='VISIBLE_PROPERTY' stringId='MATERIAL_VISIBILITY'>TRUE</PROPERTY>
+					<PROPERTY classId='Bool' name='CLICKABLE_PROPERTY' stringId='CLICKABLE'>TRUE</PROPERTY>
+					<PROPERTY classId='Integer' name='jointType' stringId='com.kineocam.kitenet.property.jointType'>2</PROPERTY>
+					<PROPERTY classId='String' name='attachMode' stringId='com.kineocam.kitenet.property.attachMode'>Magnetic</PROPERTY>
+					<PROPERTY classId='Double' name='attachDistance' stringId='com.kineocam.kitenet.property.attachDistance'>0</PROPERTY>
+					<PROPERTY classId='String' name='com.staubli.Id' stringId='com.staubli.Id'>97b03ca0-d012-4628-9d7f-aea41163fe30</PROPERTY>
+					<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					<PROPERTY classId='Integer' name='attachHandle' stringId='com.kineocam.kitenet.property.attachHandle'>0</PROPERTY>
+					<PROPERTY classId='Bool' name='Display Path' stringId='JOINT_DISPLAY_PATH'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='Locked' stringId='JOINT_LOCKED'>TRUE</PROPERTY>
+					<PROPERTY classId='Double' name='Max Sweep' stringId='JOINT_MAX_SWEEP'>92.932109535401537</PROPERTY>
+					<PROPERTY classId='Double' name='Min Max Sweep' stringId='JOINT_MIN_MAX_SWEEP'>0</PROPERTY>
+					<STEERING_LINEAR id='123'>
+						<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Linear</PROPERTY>
+						<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+						<PROPERTY classId='Bool' name='Oriented' stringId='STEERING_METHOD_ORIENTED'>FALSE</PROPERTY>
+					</STEERING_LINEAR>
+					<COLLISION_PAIRS id='124'>
+						<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Collision Pairs</PROPERTY>
+						<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					</COLLISION_PAIRS>
+					<DEVICE_REF id='125' neededComponentIds='95' referencedComponentId='95'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</DEVICE_REF>
+					<CURRENT_POSITION>
+						-3.3193022266203576e-007 -0.99999999999994482 1.2246467991472871e-016 268.3724169189075 
+						-0.99999999999994482 3.3193022266203576e-007 -4.0649728473338361e-023 -289.16263462470005 
+						1.0052877141571981e-033 -1.2246467991473547e-016 -1 675.55949401855537 
+						0 0 0 1 
+					</CURRENT_POSITION>
+				</ANCHOR_JOINT>
+				<CURRENT_POSITION>
+					-3.3193022266203576e-007 -0.99999999999994482 1.2246467991472871e-016 268.37241691890722 
+					-0.99999999999994482 3.3193022266203576e-007 -4.0649728471803601e-023 -289.16263462469988 
+					-5.2947662287874999e-034 -1.2246467991473547e-016 -1 675.55949401855469 
+					0 0 0 1 
+				</CURRENT_POSITION>
+			</ANCHOR_JOINT>
+			<STEERING_LINEAR id='126'>
+				<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Linear</PROPERTY>
+				<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+				<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+				<PROPERTY classId='Bool' name='Oriented' stringId='STEERING_METHOD_ORIENTED'>FALSE</PROPERTY>
+			</STEERING_LINEAR>
+			<DEVICE_REF id='127' neededComponentIds='95' referencedComponentId='95'>
+				<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+				<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+			</DEVICE_REF>
+		</DEVICE>
 	</TOOL_NODE>
-	<MOVABLE_PART_NODE id='109'>
+	<MOVABLE_PART_NODE id='128'>
 		<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>MOVABLEPART_NODE_NAME</PROPERTY>
 		<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 		<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
@@ -2426,479 +2622,621 @@
 		<PROPERTY classId='Bool' name='CLICKABLE_PROPERTY' stringId='CLICKABLE'>TRUE</PROPERTY>
 		<PROPERTY classId='String' name='nodeType' stringId='com.kineocam.kitenet.property.nodeType'>MovablePartNode</PROPERTY>
 	</MOVABLE_PART_NODE>
-	<COMPONENT_NODE id='113'>
+	<COMPONENT_NODE id='132'>
 		<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>COLLISION_SETTINGS_NODE_NAME</PROPERTY>
 		<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 		<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 		<PROPERTY classId='Bool' name='TRANSPARENT_PROPERTY' stringId='MATERIAL_TRANSPARENCY'>FALSE</PROPERTY>
 		<PROPERTY classId='Bool' name='VISIBLE_PROPERTY' stringId='MATERIAL_VISIBILITY'>TRUE</PROPERTY>
 		<PROPERTY classId='Bool' name='CLICKABLE_PROPERTY' stringId='CLICKABLE'>TRUE</PROPERTY>
-		<COLLISION_SETTING_GROUP id='114'>
+		<COLLISION_SETTING_GROUP id='133'>
 			<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Controller-TS60:ts60</PROPERTY>
 			<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 			<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 			<PROPERTY classId='Bool' name='COLLISION_ACTIVATION_PROPERTY' stringId='COLLISION_ACTIVATION'>TRUE</PROPERTY>
-			<COMPONENT_REF id='115' neededComponentIds='53' referencedComponentId='53'>
+			<COMPONENT_REF id='134' neededComponentIds='53' referencedComponentId='53'>
 				<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 				<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 			</COMPONENT_REF>
-			<COLLISION_SETTING_GROUP id='116'>
+			<COLLISION_SETTING_GROUP id='135'>
 				<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Base</PROPERTY>
 				<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 				<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 				<PROPERTY classId='Bool' name='COLLISION_ACTIVATION_PROPERTY' stringId='COLLISION_ACTIVATION'>TRUE</PROPERTY>
-				<COMPONENT_REF id='117' neededComponentIds='54' referencedComponentId='54'>
+				<COMPONENT_REF id='136' neededComponentIds='54' referencedComponentId='54'>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 				</COMPONENT_REF>
-				<COLLISION_SETTING id='118'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Comprobar colisiones con todo</PROPERTY>
+				<COLLISION_SETTING id='137'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Test collisions against all</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>TRUE</PROPERTY>
 				</COLLISION_SETTING>
-				<COLLISION_SETTING id='119'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : a1</PROPERTY>
+				<COLLISION_SETTING id='138'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : a1</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='120' neededComponentIds='63' referencedComponentId='63'>
+					<COMPONENT_REF id='139' neededComponentIds='63' referencedComponentId='63'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
-				<COLLISION_SETTING id='121'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : a3</PROPERTY>
+				<COLLISION_SETTING id='140'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : a3</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='122' neededComponentIds='74' referencedComponentId='74'>
+					<COMPONENT_REF id='141' neededComponentIds='74' referencedComponentId='74'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
-				<COLLISION_SETTING id='123'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : Handler</PROPERTY>
+				<COLLISION_SETTING id='142'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : Handler</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='124' neededComponentIds='84' referencedComponentId='84'>
+					<COMPONENT_REF id='143' neededComponentIds='84' referencedComponentId='84'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
-				<COLLISION_SETTING id='125'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : RobotWorld</PROPERTY>
+				<COLLISION_SETTING id='144'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : RobotWorld</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='126' neededComponentIds='89' referencedComponentId='89'>
+					<COMPONENT_REF id='145' neededComponentIds='89' referencedComponentId='89'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
 			</COLLISION_SETTING_GROUP>
-			<COLLISION_SETTING_GROUP id='127'>
+			<COLLISION_SETTING_GROUP id='146'>
 				<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>a1</PROPERTY>
 				<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 				<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 				<PROPERTY classId='Bool' name='COLLISION_ACTIVATION_PROPERTY' stringId='COLLISION_ACTIVATION'>TRUE</PROPERTY>
-				<COMPONENT_REF id='128' neededComponentIds='63' referencedComponentId='63'>
+				<COMPONENT_REF id='147' neededComponentIds='63' referencedComponentId='63'>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 				</COMPONENT_REF>
-				<COLLISION_SETTING id='129'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Comprobar colisiones con todo</PROPERTY>
+				<COLLISION_SETTING id='148'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Test collisions against all</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>TRUE</PROPERTY>
-				</COLLISION_SETTING>
-				<COLLISION_SETTING id='130'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : Base</PROPERTY>
-					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
-					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='131' neededComponentIds='54' referencedComponentId='54'>
-						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
-					</COMPONENT_REF>
-				</COLLISION_SETTING>
-				<COLLISION_SETTING id='132'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : a2</PROPERTY>
-					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
-					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='133' neededComponentIds='60' referencedComponentId='60'>
-						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
-					</COMPONENT_REF>
-				</COLLISION_SETTING>
-				<COLLISION_SETTING id='134'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : a3</PROPERTY>
-					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
-					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='135' neededComponentIds='74' referencedComponentId='74'>
-						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
-					</COMPONENT_REF>
-				</COLLISION_SETTING>
-				<COLLISION_SETTING id='136'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : Handler</PROPERTY>
-					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
-					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='137' neededComponentIds='84' referencedComponentId='84'>
-						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
-					</COMPONENT_REF>
-				</COLLISION_SETTING>
-				<COLLISION_SETTING id='138'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : RobotWorld</PROPERTY>
-					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
-					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='139' neededComponentIds='89' referencedComponentId='89'>
-						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
-					</COMPONENT_REF>
-				</COLLISION_SETTING>
-			</COLLISION_SETTING_GROUP>
-			<COLLISION_SETTING_GROUP id='140'>
-				<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>a2</PROPERTY>
-				<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
-				<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-				<PROPERTY classId='Bool' name='COLLISION_ACTIVATION_PROPERTY' stringId='COLLISION_ACTIVATION'>TRUE</PROPERTY>
-				<COMPONENT_REF id='141' neededComponentIds='60' referencedComponentId='60'>
-					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-					<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
-				</COMPONENT_REF>
-				<COLLISION_SETTING id='142'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Comprobar colisiones con todo</PROPERTY>
-					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
-					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>TRUE</PROPERTY>
-				</COLLISION_SETTING>
-				<COLLISION_SETTING id='143'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : a1</PROPERTY>
-					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
-					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='144' neededComponentIds='63' referencedComponentId='63'>
-						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
-					</COMPONENT_REF>
-				</COLLISION_SETTING>
-				<COLLISION_SETTING id='145'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : a3</PROPERTY>
-					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
-					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='146' neededComponentIds='74' referencedComponentId='74'>
-						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
-					</COMPONENT_REF>
-				</COLLISION_SETTING>
-				<COLLISION_SETTING id='147'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : a4</PROPERTY>
-					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
-					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='148' neededComponentIds='62' referencedComponentId='62'>
-						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
-					</COMPONENT_REF>
 				</COLLISION_SETTING>
 				<COLLISION_SETTING id='149'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : Handler</PROPERTY>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : Base</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='150' neededComponentIds='84' referencedComponentId='84'>
+					<COMPONENT_REF id='150' neededComponentIds='54' referencedComponentId='54'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
 				<COLLISION_SETTING id='151'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : RobotWorld</PROPERTY>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : a2</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='152' neededComponentIds='89' referencedComponentId='89'>
+					<COMPONENT_REF id='152' neededComponentIds='60' referencedComponentId='60'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='153'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : a3</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='154' neededComponentIds='74' referencedComponentId='74'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='155'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : Handler</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='156' neededComponentIds='84' referencedComponentId='84'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='157'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : RobotWorld</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='158' neededComponentIds='89' referencedComponentId='89'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
 			</COLLISION_SETTING_GROUP>
-			<COLLISION_SETTING_GROUP id='153'>
-				<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>a3</PROPERTY>
+			<COLLISION_SETTING_GROUP id='159'>
+				<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>a2</PROPERTY>
 				<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 				<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 				<PROPERTY classId='Bool' name='COLLISION_ACTIVATION_PROPERTY' stringId='COLLISION_ACTIVATION'>TRUE</PROPERTY>
-				<COMPONENT_REF id='154' neededComponentIds='74' referencedComponentId='74'>
+				<COMPONENT_REF id='160' neededComponentIds='60' referencedComponentId='60'>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 				</COMPONENT_REF>
-				<COLLISION_SETTING id='155'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Comprobar colisiones con todo</PROPERTY>
+				<COLLISION_SETTING id='161'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Test collisions against all</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>TRUE</PROPERTY>
 				</COLLISION_SETTING>
-				<COLLISION_SETTING id='156'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : Base</PROPERTY>
-					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
-					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='157' neededComponentIds='54' referencedComponentId='54'>
-						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
-					</COMPONENT_REF>
-				</COLLISION_SETTING>
-				<COLLISION_SETTING id='158'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : a1</PROPERTY>
-					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
-					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='159' neededComponentIds='63' referencedComponentId='63'>
-						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
-					</COMPONENT_REF>
-				</COLLISION_SETTING>
-				<COLLISION_SETTING id='160'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : a2</PROPERTY>
-					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
-					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='161' neededComponentIds='60' referencedComponentId='60'>
-						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
-					</COMPONENT_REF>
-				</COLLISION_SETTING>
 				<COLLISION_SETTING id='162'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : a4</PROPERTY>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : a1</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='163' neededComponentIds='62' referencedComponentId='62'>
+					<COMPONENT_REF id='163' neededComponentIds='63' referencedComponentId='63'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
 				<COLLISION_SETTING id='164'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : Handler</PROPERTY>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : a3</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='165' neededComponentIds='84' referencedComponentId='84'>
+					<COMPONENT_REF id='165' neededComponentIds='74' referencedComponentId='74'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
 				<COLLISION_SETTING id='166'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : RobotWorld</PROPERTY>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : a4</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='167' neededComponentIds='89' referencedComponentId='89'>
+					<COMPONENT_REF id='167' neededComponentIds='62' referencedComponentId='62'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='168'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : Handler</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='169' neededComponentIds='84' referencedComponentId='84'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='170'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : RobotWorld</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='171' neededComponentIds='89' referencedComponentId='89'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
 			</COLLISION_SETTING_GROUP>
-			<COLLISION_SETTING_GROUP id='168'>
-				<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>a4</PROPERTY>
+			<COLLISION_SETTING_GROUP id='172'>
+				<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>a3</PROPERTY>
 				<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 				<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 				<PROPERTY classId='Bool' name='COLLISION_ACTIVATION_PROPERTY' stringId='COLLISION_ACTIVATION'>TRUE</PROPERTY>
-				<COMPONENT_REF id='169' neededComponentIds='62' referencedComponentId='62'>
+				<COMPONENT_REF id='173' neededComponentIds='74' referencedComponentId='74'>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 				</COMPONENT_REF>
-				<COLLISION_SETTING id='170'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Comprobar colisiones con todo</PROPERTY>
+				<COLLISION_SETTING id='174'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Test collisions against all</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>TRUE</PROPERTY>
 				</COLLISION_SETTING>
-				<COLLISION_SETTING id='171'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : a2</PROPERTY>
-					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
-					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='172' neededComponentIds='60' referencedComponentId='60'>
-						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
-					</COMPONENT_REF>
-				</COLLISION_SETTING>
-				<COLLISION_SETTING id='173'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : a3</PROPERTY>
-					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
-					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='174' neededComponentIds='74' referencedComponentId='74'>
-						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
-						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
-					</COMPONENT_REF>
-				</COLLISION_SETTING>
 				<COLLISION_SETTING id='175'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : Handler</PROPERTY>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : Base</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='176' neededComponentIds='84' referencedComponentId='84'>
+					<COMPONENT_REF id='176' neededComponentIds='54' referencedComponentId='54'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
 				<COLLISION_SETTING id='177'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : RobotWorld</PROPERTY>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : a1</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='178' neededComponentIds='89' referencedComponentId='89'>
+					<COMPONENT_REF id='178' neededComponentIds='63' referencedComponentId='63'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
 				<COLLISION_SETTING id='179'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : base</PROPERTY>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : a2</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='180' neededComponentIds='95' referencedComponentId='95'>
+					<COMPONENT_REF id='180' neededComponentIds='60' referencedComponentId='60'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
 				<COLLISION_SETTING id='181'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : handle</PROPERTY>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : a4</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='182' neededComponentIds='99' referencedComponentId='99'>
+					<COMPONENT_REF id='182' neededComponentIds='62' referencedComponentId='62'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='183'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : Handler</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='184' neededComponentIds='84' referencedComponentId='84'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='185'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : RobotWorld</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='186' neededComponentIds='89' referencedComponentId='89'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+			</COLLISION_SETTING_GROUP>
+			<COLLISION_SETTING_GROUP id='187'>
+				<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>a4</PROPERTY>
+				<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+				<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+				<PROPERTY classId='Bool' name='COLLISION_ACTIVATION_PROPERTY' stringId='COLLISION_ACTIVATION'>TRUE</PROPERTY>
+				<COMPONENT_REF id='188' neededComponentIds='62' referencedComponentId='62'>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+				</COMPONENT_REF>
+				<COLLISION_SETTING id='189'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Test collisions against all</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>TRUE</PROPERTY>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='190'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : a2</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='191' neededComponentIds='60' referencedComponentId='60'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='192'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : a3</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='193' neededComponentIds='74' referencedComponentId='74'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='194'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : Handler</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='195' neededComponentIds='84' referencedComponentId='84'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='196'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : RobotWorld</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='197' neededComponentIds='89' referencedComponentId='89'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='198'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : base</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='199' neededComponentIds='110' referencedComponentId='110'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='200'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : handle</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='201' neededComponentIds='113' referencedComponentId='113'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
 			</COLLISION_SETTING_GROUP>
 		</COLLISION_SETTING_GROUP>
-		<COLLISION_SETTING_GROUP id='183'>
+		<COLLISION_SETTING_GROUP id='202'>
 			<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Tool1</PROPERTY>
 			<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 			<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 			<PROPERTY classId='Bool' name='COLLISION_ACTIVATION_PROPERTY' stringId='COLLISION_ACTIVATION'>FALSE</PROPERTY>
-			<COMPONENT_REF id='184' neededComponentIds='88' referencedComponentId='88'>
+			<COMPONENT_REF id='203' neededComponentIds='95' referencedComponentId='95'>
 				<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 				<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 			</COMPONENT_REF>
-			<COLLISION_SETTING_GROUP id='185'>
+			<COLLISION_SETTING_GROUP id='204'>
 				<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>base</PROPERTY>
 				<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 				<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 				<PROPERTY classId='Bool' name='COLLISION_ACTIVATION_PROPERTY' stringId='COLLISION_ACTIVATION'>TRUE</PROPERTY>
-				<COMPONENT_REF id='186' neededComponentIds='95' referencedComponentId='95'>
+				<COMPONENT_REF id='205' neededComponentIds='96' referencedComponentId='96'>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 				</COMPONENT_REF>
-				<COLLISION_SETTING id='187'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Comprobar colisiones con todo</PROPERTY>
+				<COLLISION_SETTING id='206'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Test collisions against all</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>TRUE</PROPERTY>
 				</COLLISION_SETTING>
-				<COLLISION_SETTING id='188'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : handle</PROPERTY>
+				<COLLISION_SETTING id='207'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : handle</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='189' neededComponentIds='99' referencedComponentId='99'>
+					<COMPONENT_REF id='208' neededComponentIds='100' referencedComponentId='100'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
-				<COLLISION_SETTING id='190'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : handler</PROPERTY>
+				<COLLISION_SETTING id='209'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : handler</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='191' neededComponentIds='102' referencedComponentId='102'>
+					<COMPONENT_REF id='210' neededComponentIds='103' referencedComponentId='103'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
-				<COLLISION_SETTING id='192'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : TCP</PROPERTY>
+				<COLLISION_SETTING id='211'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : TCP</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='193' neededComponentIds='105' referencedComponentId='105'>
+					<COMPONENT_REF id='212' neededComponentIds='106' referencedComponentId='106'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
-				<COLLISION_SETTING id='194'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : a4</PROPERTY>
+				<COLLISION_SETTING id='213'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : base</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='195' neededComponentIds='62' referencedComponentId='62'>
+					<COMPONENT_REF id='214' neededComponentIds='110' referencedComponentId='110'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
 			</COLLISION_SETTING_GROUP>
-			<COLLISION_SETTING_GROUP id='196'>
+			<COLLISION_SETTING_GROUP id='215'>
 				<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>handle</PROPERTY>
 				<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 				<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 				<PROPERTY classId='Bool' name='COLLISION_ACTIVATION_PROPERTY' stringId='COLLISION_ACTIVATION'>TRUE</PROPERTY>
-				<COMPONENT_REF id='197' neededComponentIds='99' referencedComponentId='99'>
+				<COMPONENT_REF id='216' neededComponentIds='100' referencedComponentId='100'>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 				</COMPONENT_REF>
-				<COLLISION_SETTING id='198'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Comprobar colisiones con todo</PROPERTY>
+				<COLLISION_SETTING id='217'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Test collisions against all</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>TRUE</PROPERTY>
 				</COLLISION_SETTING>
-				<COLLISION_SETTING id='199'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : base</PROPERTY>
+				<COLLISION_SETTING id='218'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : base</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='200' neededComponentIds='95' referencedComponentId='95'>
+					<COMPONENT_REF id='219' neededComponentIds='96' referencedComponentId='96'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
-				<COLLISION_SETTING id='201'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : handler</PROPERTY>
+				<COLLISION_SETTING id='220'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : handler</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='202' neededComponentIds='102' referencedComponentId='102'>
+					<COMPONENT_REF id='221' neededComponentIds='103' referencedComponentId='103'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
-				<COLLISION_SETTING id='203'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : TCP</PROPERTY>
+				<COLLISION_SETTING id='222'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : TCP</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='204' neededComponentIds='105' referencedComponentId='105'>
+					<COMPONENT_REF id='223' neededComponentIds='106' referencedComponentId='106'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
 				</COLLISION_SETTING>
-				<COLLISION_SETTING id='205'>
-					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Excluir : a4</PROPERTY>
+				<COLLISION_SETTING id='224'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : base</PROPERTY>
 					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
-					<COMPONENT_REF id='206' neededComponentIds='62' referencedComponentId='62'>
+					<COMPONENT_REF id='225' neededComponentIds='110' referencedComponentId='110'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+			</COLLISION_SETTING_GROUP>
+		</COLLISION_SETTING_GROUP>
+		<COLLISION_SETTING_GROUP id='226'>
+			<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>#Controller-TS60:ts60</PROPERTY>
+			<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+			<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+			<PROPERTY classId='Bool' name='COLLISION_ACTIVATION_PROPERTY' stringId='COLLISION_ACTIVATION'>FALSE</PROPERTY>
+			<COMPONENT_REF id='227' neededComponentIds='88' referencedComponentId='88'>
+				<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+				<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+			</COMPONENT_REF>
+			<COLLISION_SETTING_GROUP id='228'>
+				<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>base</PROPERTY>
+				<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+				<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+				<PROPERTY classId='Bool' name='COLLISION_ACTIVATION_PROPERTY' stringId='COLLISION_ACTIVATION'>TRUE</PROPERTY>
+				<COMPONENT_REF id='229' neededComponentIds='110' referencedComponentId='110'>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+				</COMPONENT_REF>
+				<COLLISION_SETTING id='230'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Test collisions against all</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>TRUE</PROPERTY>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='231'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : handle</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='232' neededComponentIds='113' referencedComponentId='113'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='233'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : handler</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='234' neededComponentIds='116' referencedComponentId='116'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='235'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : TCP</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='236' neededComponentIds='119' referencedComponentId='119'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='237'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : base</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='238' neededComponentIds='96' referencedComponentId='96'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='239'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : handle</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='240' neededComponentIds='100' referencedComponentId='100'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='241'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : a4</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='242' neededComponentIds='62' referencedComponentId='62'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+			</COLLISION_SETTING_GROUP>
+			<COLLISION_SETTING_GROUP id='243'>
+				<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>handle</PROPERTY>
+				<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+				<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+				<PROPERTY classId='Bool' name='COLLISION_ACTIVATION_PROPERTY' stringId='COLLISION_ACTIVATION'>TRUE</PROPERTY>
+				<COMPONENT_REF id='244' neededComponentIds='113' referencedComponentId='113'>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+				</COMPONENT_REF>
+				<COLLISION_SETTING id='245'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Test collisions against all</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>TRUE</PROPERTY>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='246'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : base</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='247' neededComponentIds='110' referencedComponentId='110'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='248'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : handler</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='249' neededComponentIds='116' referencedComponentId='116'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='250'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : TCP</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='251' neededComponentIds='119' referencedComponentId='119'>
+						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
+					</COMPONENT_REF>
+				</COLLISION_SETTING>
+				<COLLISION_SETTING id='252'>
+					<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>Except : a4</PROPERTY>
+					<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
+					<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
+					<PROPERTY classId='Bool' name='COLLISION_SETTING_COLLISION_CHECK_PROPERTY' stringId='COLLISION_CHECK_STATUS'>FALSE</PROPERTY>
+					<COMPONENT_REF id='253' neededComponentIds='62' referencedComponentId='62'>
 						<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
 						<PROPERTY classId='Bool' name='Prevent Copy' stringId='com.kineocam.property.prevent-copy'>TRUE</PROPERTY>
 					</COMPONENT_REF>
@@ -2906,7 +3244,7 @@
 			</COLLISION_SETTING_GROUP>
 		</COLLISION_SETTING_GROUP>
 	</COMPONENT_NODE>
-	<CLASH_ANALYSIS_NODE id='207'>
+	<CLASH_ANALYSIS_NODE id='254'>
 		<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>CLASH_ANALYSIS_NODE_NAME</PROPERTY>
 		<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 		<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
@@ -2914,7 +3252,7 @@
 		<PROPERTY classId='Bool' name='VISIBLE_PROPERTY' stringId='MATERIAL_VISIBILITY'>TRUE</PROPERTY>
 		<PROPERTY classId='Bool' name='CLICKABLE_PROPERTY' stringId='CLICKABLE'>TRUE</PROPERTY>
 	</CLASH_ANALYSIS_NODE>
-	<TEXT_NODE id='208'>
+	<TEXT_NODE id='255'>
 		<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>TEXT_NODE_NAME</PROPERTY>
 		<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 		<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
@@ -2922,7 +3260,7 @@
 		<PROPERTY classId='Bool' name='VISIBLE_PROPERTY' stringId='MATERIAL_VISIBILITY'>TRUE</PROPERTY>
 		<PROPERTY classId='Bool' name='CLICKABLE_PROPERTY' stringId='CLICKABLE'>TRUE</PROPERTY>
 	</TEXT_NODE>
-	<COMPONENT_NODE id='209'>
+	<COMPONENT_NODE id='256'>
 		<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>CAMERA_NODE_NAME</PROPERTY>
 		<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 		<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>
@@ -2930,7 +3268,7 @@
 		<PROPERTY classId='Bool' name='VISIBLE_PROPERTY' stringId='MATERIAL_VISIBILITY'>TRUE</PROPERTY>
 		<PROPERTY classId='Bool' name='CLICKABLE_PROPERTY' stringId='CLICKABLE'>TRUE</PROPERTY>
 	</COMPONENT_NODE>
-	<COMPONENT_NODE id='217'>
+	<COMPONENT_NODE id='264'>
 		<PROPERTY classId='UnicodeString' name='NAME_PROPERTY' stringId='NAME'>LIGHT_NODE_NAME</PROPERTY>
 		<PROPERTY classId='String' name='COMMENT_PROPERTY' stringId='COMMENT'/>
 		<PROPERTY classId='Bool' name='PROTECTED_PROPERTY' stringId='PROTECTED'>FALSE</PROPERTY>

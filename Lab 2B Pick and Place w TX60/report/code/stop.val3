@@ -1,0 +1,4 @@
+begin
+  resetMotion()
+  putln("Lab2B stopped - gripper command unchanged")
+end

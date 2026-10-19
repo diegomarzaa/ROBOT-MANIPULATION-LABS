@@ -1,0 +1,9 @@
+begin
+  userPage()
+  cls()
+  putln("Lab2B - Level 1")
+  call moveCylinder()
+  call insertPiston()
+  call unloadAssembly()
+  putln("Level 1 sequence completed")
+end

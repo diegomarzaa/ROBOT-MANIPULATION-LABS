@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="insertPiston" public="false">
+    <description>Level 1 single-cycle sequence; simulation validation pending.</description>
+    <paramSection/>
+    <localSection/>
+    <source>
+      <code>begin
+  putln("2/3 - Pick and insert piston")
+  open(tTip)
+  movej(pPistonApproach, tTip, mNomSpeed)
+  waitEndMove()
+  movel(pPistonPick, tTip, mInsertSpeed)
+  waitEndMove()
+  close(tTip)
+  movel(pPistonApproach, tTip, mInsertSpeed)
+  waitEndMove()
+  movej(pInsertApproach, tTip, mNomSpeed)
+  waitEndMove()
+  movel(pInsert, tTip, mInsertSpeed)
+  waitEndMove()
+  open(tTip)
+  movel(pInsertApproach, tTip, mInsertSpeed)
+  waitEndMove()
+end
+</code>
+    </source>
+  </program>
+</programList>

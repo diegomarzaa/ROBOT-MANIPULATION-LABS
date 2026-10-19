@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="unloadAssembly" public="false">
+    <description>Level 1 single-cycle sequence; simulation validation pending.</description>
+    <paramSection/>
+    <localSection/>
+    <source>
+      <code>begin
+  putln("3/3 - Place assembly on ramp")
+  open(tLateral)
+  movej(pAsmApproach, tLateral, mNomSpeed)
+  waitEndMove()
+  movel(pAsmCylinder, tLateral, mInsertSpeed)
+  waitEndMove()
+  close(tLateral)
+  movel(pAsmApproach, tLateral, mInsertSpeed)
+  waitEndMove()
+  movej(pRampApproach, tLateral, mNomSpeed)
+  waitEndMove()
+  movel(pRampPlace, tLateral, mInsertSpeed)
+  waitEndMove()
+  open(tLateral)
+  movel(pRampApproach, tLateral, mInsertSpeed)
+  waitEndMove()
+end
+</code>
+    </source>
+  </program>
+</programList>

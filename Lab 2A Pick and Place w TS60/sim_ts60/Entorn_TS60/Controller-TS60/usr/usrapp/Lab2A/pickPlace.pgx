@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="pickPlace" public="false">
+    <description>Motion-only pickup/place. Suction, blow and sensor checks are kept as PHYSICAL comments.</description>
+    <paramSection/>
+    <localSection/>
+    <source>
+      <code>begin
+  bCycleOK = false
+  if nType != 0 and nType != 1
+    putln("ERROR: invalid material index")
+    return
+  endIf
+  if nCount[nType] &lt; 0 or nCount[nType] &gt; 3
+    putln("ERROR: invalid material counter")
+    return
+  endIf
+  // Recompute, so a stale nPlace cannot access outside pPlace.
+  nPlace = 4*nType + nCount[nType]
+  // PHYSICAL | if bIn0 == true
+  // PHYSICAL | putln("ERROR: gripper already reports a part")
+  // PHYSICAL | return
+  // PHYSICAL | endIf
+
+  // PHYSICAL | bOut0 = false
+  // PHYSICAL | bOut1 = false
+  putln("Approaching pickup")
+  movej(pApproachPick[nType], tTool, mNomSpeed)
+  waitEndMove()
+  movel(jointToPoint(tTool, world, pPick[nType]), tTool, mNomSpeed)
+  waitEndMove()
+  // PHYSICAL | bOut0 = true
+  // PHYSICAL | if !watch(bIn0 == true, 3)
+  // PHYSICAL | putln("ERROR: no suction confirmation; inspect before moving")
+  // PHYSICAL | return
+  // PHYSICAL | endIf
+  movel(jointToPoint(tTool, world, pApproachPick[nType]), tTool, mNomSpeed)
+  waitEndMove()
+
+  putln("Moving to matrix")
+  movej(pApproachPlace[nPlace], tTool, mNomSpeed)
+  waitEndMove()
+  // PHYSICAL | if bIn0 == false
+  // PHYSICAL | putln("ERROR: part lost during transfer")
+  // PHYSICAL | return
+  // PHYSICAL | endIf
+  movel(jointToPoint(tTool, world, pPlace[nPlace]), tTool, mNomSpeed)
+  waitEndMove()
+  // PHYSICAL | bOut0 = false
+  // PHYSICAL | bOut1 = true
+  // PHYSICAL | delay(0.3)
+  // PHYSICAL | bOut1 = false
+  // PHYSICAL | if !watch(bIn0 == false, 3)
+  // PHYSICAL | putln("ERROR: release not confirmed")
+  // PHYSICAL | return
+  // PHYSICAL | endIf
+  movel(jointToPoint(tTool, world, pApproachPlace[nPlace]), tTool, mNomSpeed)
+  waitEndMove()
+  movej(pHome, tTool, mNomSpeed)
+  waitEndMove()
+  bCycleOK = true
+end
+</code>
+    </source>
+  </program>
+</programList>

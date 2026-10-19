@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataList xmlns="DataNameSpace">
+  <aioSection/>
+  <boolSection>
+    <bool name="bCycleOK" public="false">
+      <valueBool value="false" index="0"/>
+    </bool>
+    <bool name="bIOReady" public="false">
+      <valueBool value="false" index="0"/>
+    </bool>
+  </boolSection>
+  <configRsSection/>
+  <configSection/>
+  <dioSection>
+    <dio size="1" name="bOut0" public="false"/>
+    <dio size="1" name="bOut1" public="false"/>
+    <dio size="1" name="bOut2" public="false"/>
+    <dio size="1" name="bOut3" public="false"/>
+    <dio size="1" name="bOut4" public="false"/>
+    <dio size="1" name="bOut5" public="false"/>
+    <dio size="1" name="bIn0" public="false"/>
+    <dio size="1" name="bIn1" public="false"/>
+    <dio size="1" name="bIn2" public="false"/>
+    <dio size="1" name="bIn3" public="false"/>
+    <dio size="1" name="bIn4" public="false"/>
+    <dio size="1" name="bIn5" public="false"/>
+    <dio size="1" name="bIn6" public="false"/>
+    <dio size="1" name="bIn7" public="false"/>
+    <dio size="1" name="bIn8" public="false"/>
+  </dioSection>
+  <frameSection>
+    <frame name="world" public="false">
+      <fFather alias="" name="" fatherIndex="0"/>
+      <valueFrame index="0">
+        <tfValue x="0" y="0" z="0" rx="0" ry="0" rz="0"/>
+      </valueFrame>
+    </frame>
+    <frame name="fWork" public="false">
+      <fFather alias="" name="world" fatherIndex="0"/>
+      <valueFrame index="0">
+        <tfValue x="249.44" y="-219.37" z="626.34" rx="0" ry="0" rz="0"/>
+      </valueFrame>
+    </frame>
+    </frameSection>
+  <jointRsSection>
+    <jointRs name="pHome" public="false">
+      <valueJointRs index="0">
+        <jointRsValue j1="0" j2="0" j3="150" j4="0"/>
+      </valueJointRs>
+    </jointRs>
+    <jointRs name="pApproachPick" public="false">
+      <valueJointRs index="0">
+        <jointRsValue j1="59.97" j2="53.21" j3="100" j4="-318.7"/>
+      </valueJointRs>
+      <valueJointRs index="1">
+        <jointRsValue j1="47.65" j2="78.71" j3="100" j4="-318.7"/>
+      </valueJointRs>
+    </jointRs>
+    <jointRs name="pPick" public="false">
+      <valueJointRs index="0">
+        <jointRsValue j1="59.97" j2="53.21" j3="23.19" j4="-318.7"/>
+      </valueJointRs>
+      <valueJointRs index="1">
+        <jointRsValue j1="47.65" j2="78.71" j3="25.69" j4="-318.7"/>
+      </valueJointRs>
+    </jointRs>
+    <jointRs name="pPlace" public="false"><valueJointRs index="0"><jointRsValue j1="-88.99" j2="114.77" j3="10.19" j4="-318.7"/></valueJointRs><valueJointRs index="1"><jointRsValue j1="-88.99" j2="114.77" j3="10.19" j4="-318.7"/></valueJointRs><valueJointRs index="2"><jointRsValue j1="-88.99" j2="114.77" j3="10.19" j4="-318.7"/></valueJointRs><valueJointRs index="3"><jointRsValue j1="-88.99" j2="114.77" j3="10.19" j4="-318.7"/></valueJointRs><valueJointRs index="4"><jointRsValue j1="-88.99" j2="114.77" j3="10.19" j4="-318.7"/></valueJointRs><valueJointRs index="5"><jointRsValue j1="-88.99" j2="114.77" j3="10.19" j4="-318.7"/></valueJointRs><valueJointRs index="6"><jointRsValue j1="-88.99" j2="114.77" j3="10.19" j4="-318.7"/></valueJointRs><valueJointRs index="7"><jointRsValue j1="-88.99" j2="114.77" j3="10.19" j4="-318.7"/></valueJointRs></jointRs><jointRs name="pApproachPlace" public="false"><valueJointRs index="0"><jointRsValue j1="-88.99" j2="114.77" j3="10.19" j4="-318.7"/></valueJointRs><valueJointRs index="1"><jointRsValue j1="-88.99" j2="114.77" j3="10.19" j4="-318.7"/></valueJointRs><valueJointRs index="2"><jointRsValue j1="-88.99" j2="114.77" j3="10.19" j4="-318.7"/></valueJointRs><valueJointRs index="3"><jointRsValue j1="-88.99" j2="114.77" j3="10.19" j4="-318.7"/></valueJointRs><valueJointRs index="4"><jointRsValue j1="-88.99" j2="114.77" j3="10.19" j4="-318.7"/></valueJointRs><valueJointRs index="5"><jointRsValue j1="-88.99" j2="114.77" j3="10.19" j4="-318.7"/></valueJointRs><valueJointRs index="6"><jointRsValue j1="-88.99" j2="114.77" j3="10.19" j4="-318.7"/></valueJointRs><valueJointRs index="7"><jointRsValue j1="-88.99" j2="114.77" j3="10.19" j4="-318.7"/></valueJointRs></jointRs></jointRsSection>
+  <jointSection/>
+  <mdescSection>
+    <mdesc name="mNomSpeed" public="true">
+      <valueMdesc index="0">
+        <mdescValue accel="10" vel="10" decel="10" tmax="99999" rmax="99999" blend="off" leave="50" reach="50"/>
+      </valueMdesc>
+    </mdesc>
+  </mdescSection>
+  <numSection>
+    <num name="nType" public="false">
+      <valueNum value="0" index="0"/>
+    </num>
+    <num name="nPlace" public="false">
+      <valueNum value="0" index="0"/>
+    </num>
+    <num name="nCount" public="false">
+      <valueNum value="0" index="0"/>
+      <valueNum value="0" index="1"/>
+    </num>
+  </numSection>
+  <pointRsSection>
+    </pointRsSection>
+  <pointSection/>
+  <sioSection/>
+  <stringSection/>
+  <toolSection>
+    <tool name="flange" public="false">
+      <tFather alias="" name="" fatherIndex="0"/>
+      <valueTool index="0">
+        <ttValue x="0" y="0" z="0" rx="0" ry="0" rz="0"/>
+        <io alias="io" name="valve1" ioIndex="0" open="0" close="0"/>
+      </valueTool>
+    </tool>
+    <tool name="tTool" public="false">
+      <tFather alias="" name="flange" fatherIndex="0"/>
+      <valueTool index="0">
+        <ttValue x="0" y="20" z="0" rx="0" ry="0" rz="0"/>
+        <io alias="io" name="valve1" ioIndex="0" open="0.3" close="0.3"/>
+      </valueTool>
+    </tool>
+  </toolSection>
+  <trsfSection/>
+</dataList>
