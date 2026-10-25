@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="start" public="false">
+    <description>Level 3: setup, joint matrix, classification and cycle. REAL I/O; commissioning pending.</description>
+    <paramSection/>
+    <localSection>
+      <local name="rowIndex" type="num" size="1"/>
+      <local name="columnIndex" type="num" size="1"/>
+      <local name="targetIndex" type="num" size="1"/>
+      <local name="targetPose" type="pointRs" size="1"/>
+    </localSection>
+    <source>
+      <code>begin
+  // ============================================================
+  // LAB 2A - LEVEL 3: ESTACION FISICA
+  // ============================================================
+  // materialType: 0 = NO METALICA (roja, rampa derecha).
+  // materialType: 1 = METALICA (segunda rampa).
+  // placedCount[materialType]: piezas ya colocadas, de 0 a 4.
+  // placeIndex: destino 0..7; indices 0..3 no metal, 4..7 metal.
+  // cycleStep informa de la fase. No lo cambies manualmente.
+  userPage()
+  cls()
+  cycleOK = false
+  cycleStep = 0
+  ioLinked = false
+  putln("Lab2A - PHYSICAL Level 3")
+
+  // ============================================================
+  // 1. PARAMETROS DE MOVIMIENTO Y MATRIZ DE JOINTS
+  // ============================================================
+  // moveSpeed es un mdesc: aceleracion, velocidad y deceleracion.
+  // blend=off evita redondear las entradas y retiradas.
+  moveSpeed.vel = 10
+  moveSpeed.accel = 10
+  moveSpeed.decel = 10
+  moveSpeed.blend = off
+
+  // Solo placePose[0] es la referencia ensenada de la matriz.
+  // Calculamos las otras siete joints sin mover el robot.
+  // 2 filas x 4 columnas; columnas 60 mm, filas 70 mm.
+  // TODO: verificar en simulacion la esquina y el signo de estos offsets.
+  for rowIndex = 0 to 1
+    for columnIndex = 0 to 3
+      targetIndex = 4*rowIndex + columnIndex
+      targetPose = jointToPoint(vacuumTool, world, placePose[0])
+      targetPose.trsf.x = targetPose.trsf.x - 70*rowIndex
+      targetPose.trsf.y = targetPose.trsf.y - 60*columnIndex
+      if targetIndex != 0
+        if !pointToJoint(vacuumTool, placePose[0], targetPose, placePose[targetIndex])
+          putln("ERROR: unreachable matrix destination")
+          putln(targetIndex)
+          return
+        endIf
+      endIf
+      // Aproximacion a 50 mm sobre el destino, en world Z.
+      targetPose.trsf.z = targetPose.trsf.z + 50
+      if !pointToJoint(vacuumTool, placePose[targetIndex], targetPose, placeApproach[targetIndex])
+        putln("ERROR: unreachable matrix approach")
+        putln(targetIndex)
+        return
+      endIf
+    endFor
+  endFor
+
+  // ============================================================
+  // 2. MAPA DE SENALES: ENLACES CON EL CONTROLADOR
+  // ============================================================
+  // bIn0 -&gt; partOnTool: Pieza detectada en la ventosa.
+  dioLink(partOnTool, io:bIn0)
+  // bIn1 -&gt; partAtClass: Presencia 2: pieza en clasificacion.
+  dioLink(partAtClass, io:bIn1)
+  // bIn2 -&gt; partIsMetal: Inductivo: 1 metalica, 0 no metalica CON presencia.
+  dioLink(partIsMetal, io:bIn2)
+  // bIn3 -&gt; partAtSource: Presencia 1: pieza disponible en alimentacion.
+  dioLink(partAtSource, io:bIn3)
+  // bIn4 -&gt; partAtRamp: Presencia 3: paso de pieza por la rampa.
+  dioLink(partAtRamp, io:bIn4)
+  // bIn5 -&gt; gate1Extended: Actuador 1 no metalico extendido.
+  dioLink(gate1Extended, io:bIn5)
+  // bIn6 -&gt; gate1Retracted: Actuador 1 no metalico retraido.
+  dioLink(gate1Retracted, io:bIn6)
+  // bIn7 -&gt; gate2Extended: Actuador 2 metalico extendido.
+  dioLink(gate2Extended, io:bIn7)
+  // bIn8 -&gt; gate2Retracted: Actuador 2 metalico retraido.
+  dioLink(gate2Retracted, io:bIn8)
+  // bOut0 -&gt; vacuumOn: Orden de aspiracion.
+  dioLink(vacuumOn, io:bOut0)
+  // bOut1 -&gt; blowOn: Orden de soplado para liberar.
+  dioLink(blowOn, io:bOut1)
+  // bOut2 -&gt; trolleyOn: Orden de movimiento del carro.
+  dioLink(trolleyOn, io:bOut2)
+  // bOut3 -&gt; nonMetalGate: Orden actuador 1: supuesto 1=extender.
+  dioLink(nonMetalGate, io:bOut3)
+  // bOut4 -&gt; metalGate: Orden actuador 2: supuesto 1=extender.
+  dioLink(metalGate, io:bOut4)
+  // bOut5 -&gt; barrierClosed: Orden barrera: supuesto 1=retener, 0=liberar.
+  dioLink(barrierClosed, io:bOut5)
+  ioLinked = true
+
+  // ============================================================
+  // 3. PREPARACION: MATRIZ VACIA Y ESTACION LIBRE
+  // ============================================================
+  // El programa reinicia los contadores: no reanuda una matriz a medias.
+  // No borramos los sensores: su valor lo da la estacion o el usuario.
+  if partOnTool == true or partAtClass == true or partAtRamp == true
+    putln("ERROR: clear gripper/classification/ramp before starting")
+    return
+  endIf
+  placedCount[0] = 0
+  placedCount[1] = 0
+  vacuumOn = false
+  blowOn = false
+  trolleyOn = false
+  // TODO FISICO: confirmar bOut5=1 retiene y bOut5=0 libera.
+  // Si es al reves, invertir el enlace logico en TODAS las ordenes de barrera.
+  barrierClosed = true
+  movej(homePose, vacuumTool, moveSpeed)
+  waitEndMove()
+
+  // ============================================================
+  // 4. CICLO PRINCIPAL: CLASIFICAR Y COLOCAR OCHO PIEZAS
+  // ============================================================
+  while placedCount[0] &lt; 4 or placedCount[1] &lt; 4
+    // FASE 10: una pieza disponible en la torre de alimentacion.
+    cycleStep = 10
+    putln("10 - Waiting for source part: partAtSource")
+    if !watch(partAtSource == true, 10)
+      trolleyOn = false
+      barrierClosed = true
+      putln("ERROR: source part timeout")
+      return
+    endIf
+
+    // FASE 20: transportar hasta el sensor de clasificacion.
+    trolleyOn = true
+    cycleStep = 20
+    putln("20 - Set material BEFORE confirming partAtClass")
+    if !watch(partAtClass == true, 10)
+      trolleyOn = false
+      barrierClosed = true
+      putln("ERROR: classification arrival timeout")
+      return
+    endIf
+    trolleyOn = false
+    // Solo interpretamos el inductivo cuando hay presencia confirmada.
+    if partIsMetal == true
+      materialType = 1
+      putln("Metallic part")
+    else
+      materialType = 0
+      putln("Non-metallic part")
+    endIf
+    if placedCount[materialType] &gt;= 4
+      putln("ERROR: this material row is already full")
+      return
+    endIf
+
+    // FASE 30: elegir ruta y esperar las posiciones de los actuadores.
+    // TODO FISICO: confirmar que bOut3/bOut4=1 significa extender/empujar.
+    // Actuador 1 = no metalicas rojas, derecha. Actuador 2 = metalicas.
+    // TODO FISICO: comprobar las rutas combinadas antes de abrir barrera.
+    cycleStep = 30
+    putln("30 - Confirm gate positions for the selected route")
+    if materialType == 0
+      nonMetalGate = true
+      metalGate = false
+      if !watch(gate1Extended == true and gate1Retracted == false and gate2Extended == false and gate2Retracted == true, 10)
+        trolleyOn = false
+        barrierClosed = true
+        putln("ERROR: non-metallic gate position timeout")
+        return
+      endIf
+    else
+      nonMetalGate = false
+      metalGate = true
+      if !watch(gate1Extended == false and gate1Retracted == true and gate2Extended == true and gate2Retracted == false, 10)
+        trolleyOn = false
+        barrierClosed = true
+        putln("ERROR: metallic gate position timeout")
+        return
+      endIf
+    endIf
+
+    // FASE 40: liberar UNA pieza y detectar su paso hacia la rampa.
+    // TODO FISICO: comprobar el ciclo del carro; puede requerir otro retorno.
+    // bIn4 indica PASO, no llegada al punto de recogida.
+    if partAtRamp == true
+      putln("ERROR: ramp sensor must be clear before release")
+      return
+    endIf
+    barrierClosed = false
+    trolleyOn = true
+    cycleStep = 40
+    putln("40 - Waiting for ramp passage: partAtRamp=true")
+    if !watch(partAtRamp == true, 10)
+      trolleyOn = false
+      barrierClosed = true
+      putln("ERROR: ramp passage timeout")
+      return
+    endIf
+    trolleyOn = false
+    barrierClosed = true
+
+    // FASE 50: el paso y la zona de clasificacion deben quedar libres.
+    cycleStep = 50
+    putln("50 - Clear partAtRamp and partAtClass")
+    if !watch(partAtRamp == false and partAtClass == false, 10)
+      trolleyOn = false
+      barrierClosed = true
+      putln("ERROR: classification/ramp did not clear")
+      return
+    endIf
+    // TODO FISICO: medir tiempo de llegada a la ventosa; 0.5 s inicial.
+    delay(0.5)
+
+    // Se reutiliza esta rutina para las ocho piezas.
+    placeIndex = 4*materialType + placedCount[materialType]
+    call pickAndPlace()
+    if !cycleOK
+      trolleyOn = false
+      barrierClosed = true
+      putln("ERROR: robot phase incomplete; inspect before restart")
+      return
+    endIf
+    // Contar solo despues de soltar y retirarse correctamente.
+    placedCount[materialType] = placedCount[materialType] + 1
+    cycleStep = 80
+    putln("80 - Piece placed; prepare next source part")
+  endWhile
+  trolleyOn = false
+  barrierClosed = true
+  cycleStep = 100
+  putln("100 - Completed: four parts of each material")
+end
+</code>
+    </source>
+  </program>
+</programList>

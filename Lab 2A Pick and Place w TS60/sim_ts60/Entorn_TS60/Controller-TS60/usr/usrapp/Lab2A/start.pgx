@@ -1,93 +1,197 @@
-<?xml version='1.0' encoding='UTF-8'?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <programList xmlns="ProgramNameSpace">
   <program name="start" public="false">
-    <description>Motion-only simulation. PHYSICAL blocks are commented; no I/O or sensor waits are active.</description>
-    <paramSection/>
-    <localSection/>
+    <description>Level 3: setup, joint matrix, classification and cycle. MANUAL simulation; no physical I/O.</description>
+    <paramSection />
+    <localSection>
+      <local name="rowIndex" type="num" size="1" />
+      <local name="columnIndex" type="num" size="1" />
+      <local name="targetIndex" type="num" size="1" />
+      <local name="targetPose" type="pointRs" size="1" />
+    </localSection>
     <source>
       <code>begin
+  // ============================================================
+  // LAB 2A - LEVEL 3: SIMULACION MANUAL SIN PINES
+  // ============================================================
+  // materialType: 0 = NO METALICA (roja, rampa derecha).
+  // materialType: 1 = METALICA (segunda rampa).
+  // placedCount[materialType]: piezas ya colocadas, de 0 a 4.
+  // placeIndex: destino 0..7; indices 0..3 no metal, 4..7 metal.
+  // cycleStep informa de la fase. No lo cambies manualmente.
   userPage()
   cls()
-  bIOReady = false
-  bCycleOK = false
-  putln("Lab2A - motion simulation / 8 placements")
+  cycleOK = false
+  cycleStep = 0
+  putln("Lab2A - MANUAL simulation Level 3")
 
-  mNomSpeed.vel = 10
-  mNomSpeed.accel = 10
-  mNomSpeed.decel = 10
-  mNomSpeed.blend = off
+  // ============================================================
+  // 1. PARAMETROS DE MOVIMIENTO Y MATRIZ DE JOINTS
+  // ============================================================
+  // moveSpeed es un mdesc: aceleracion, velocidad y deceleracion.
+  // blend=off evita redondear las entradas y retiradas.
+  moveSpeed.vel = 10
+  moveSpeed.accel = 10
+  moveSpeed.decel = 10
+  moveSpeed.blend = off
 
-  call initPlace()
-  if !bCycleOK
-    putln("Matrix generation failed - no robot movement")
+  // Solo placePose[0] es la referencia ensenada de la matriz.
+  // Calculamos las otras siete joints sin mover el robot.
+  // 2 filas x 4 columnas; columnas 60 mm, filas 70 mm.
+  // TODO: verificar en simulacion la esquina y el signo de estos offsets.
+  for rowIndex = 0 to 1
+    for columnIndex = 0 to 3
+      targetIndex = 4*rowIndex + columnIndex
+      targetPose = jointToPoint(vacuumTool, world, placePose[0])
+      targetPose.trsf.x = targetPose.trsf.x - 70*rowIndex
+      targetPose.trsf.y = targetPose.trsf.y - 60*columnIndex
+      if targetIndex != 0
+        if !pointToJoint(vacuumTool, placePose[0], targetPose, placePose[targetIndex])
+          putln("ERROR: unreachable matrix destination")
+          putln(targetIndex)
+          return
+        endIf
+      endIf
+      // Aproximacion a 50 mm sobre el destino, en world Z.
+      targetPose.trsf.z = targetPose.trsf.z + 50
+      if !pointToJoint(vacuumTool, placePose[targetIndex], targetPose, placeApproach[targetIndex])
+        putln("ERROR: unreachable matrix approach")
+        putln(targetIndex)
+        return
+      endIf
+    endFor
+  endFor
+
+  // ============================================================
+  // 2. MAPA DE SENALES: VARIABLES BOOL QUE REPRESENTAN LOS DETECTORES
+  // ============================================================
+  // bIn0 -&gt; partOnTool: Pieza detectada en la ventosa.
+  // bIn1 -&gt; partAtClass: Presencia 2: pieza en clasificacion.
+  // bIn2 -&gt; partIsMetal: Inductivo: 1 metalica, 0 no metalica CON presencia.
+  // bIn3 -&gt; partAtSource: Presencia 1: pieza disponible en alimentacion.
+  // bIn4 -&gt; partAtRamp: Presencia 3: paso de pieza por la rampa.
+  // bIn5 -&gt; gate1Extended: Actuador 1 no metalico extendido.
+  // bIn6 -&gt; gate1Retracted: Actuador 1 no metalico retraido.
+  // bIn7 -&gt; gate2Extended: Actuador 2 metalico extendido.
+  // bIn8 -&gt; gate2Retracted: Actuador 2 metalico retraido.
+  // bOut0 -&gt; vacuumOn: Orden de aspiracion.
+  // bOut1 -&gt; blowOn: Orden de soplado para liberar.
+  // bOut2 -&gt; trolleyOn: Orden de movimiento del carro.
+  // bOut3 -&gt; nonMetalGate: Orden actuador 1: supuesto 1=extender.
+  // bOut4 -&gt; metalGate: Orden actuador 2: supuesto 1=extender.
+  // bOut5 -&gt; barrierClosed: Orden barrera: supuesto 1=retener, 0=liberar.
+  // No hay dioLink ni alias io. No se acciona ninguna salida fisica.
+  // Edita solo las nueve entradas, en la memoria del emulador en ejecucion.
+
+  // ============================================================
+  // 3. PREPARACION: MATRIZ VACIA Y ESTACION LIBRE
+  // ============================================================
+  // El programa reinicia los contadores: no reanuda una matriz a medias.
+  // No borramos los sensores: su valor lo da la estacion o el usuario.
+  if partOnTool == true or partAtClass == true or partAtRamp == true
+    putln("ERROR: clear gripper/classification/ramp before starting")
     return
   endIf
-
-  // PHYSICAL | dioLink(bOut0, io:bOut0)
-  // PHYSICAL | dioLink(bOut1, io:bOut1)
-  // PHYSICAL | dioLink(bOut2, io:bOut2)
-  // PHYSICAL | dioLink(bOut3, io:bOut3)
-  // PHYSICAL | dioLink(bOut4, io:bOut4)
-  // PHYSICAL | dioLink(bOut5, io:bOut5)
-  // PHYSICAL | dioLink(bIn0, io:bIn0)
-  // PHYSICAL | dioLink(bIn1, io:bIn1)
-  // PHYSICAL | dioLink(bIn2, io:bIn2)
-  // PHYSICAL | dioLink(bIn3, io:bIn3)
-  // PHYSICAL | dioLink(bIn4, io:bIn4)
-  // PHYSICAL | dioLink(bIn5, io:bIn5)
-  // PHYSICAL | dioLink(bIn6, io:bIn6)
-  // PHYSICAL | dioLink(bIn7, io:bIn7)
-  // PHYSICAL | dioLink(bIn8, io:bIn8)
-  // PHYSICAL | bIOReady = true
-  // PHYSICAL | 
-  // PHYSICAL | // Start only with an empty matrix, empty gripper and clear station.
-  // PHYSICAL | if bIn0 == true or bIn1 == true or bIn4 == true
-  // PHYSICAL | putln("ERROR: gripper or station not empty; inspect before restart")
-  // PHYSICAL | return
-  // PHYSICAL | endIf
-  // PHYSICAL | 
-  nCount[0] = 0
-  nCount[1] = 0
-  // SIM ONLY: alternate the two pickup ramps, without sensors.
-  nType = 0
-  // PHYSICAL | bOut0 = false
-  // PHYSICAL | bOut1 = false
-  // PHYSICAL | bOut2 = false
-  // PHYSICAL | bOut5 = true
-  // PHYSICAL | 
-  movej(pHome, tTool, mNomSpeed)
+  placedCount[0] = 0
+  placedCount[1] = 0
+  vacuumOn = false
+  blowOn = false
+  trolleyOn = false
+  // TODO FISICO: confirmar bOut5=1 retiene y bOut5=0 libera.
+  // Si es al reves, invertir el enlace logico en TODAS las ordenes de barrera.
+  barrierClosed = true
+  movej(homePose, vacuumTool, moveSpeed)
   waitEndMove()
 
-  while nCount[0] &lt; 4 or nCount[1] &lt; 4
-  // PHYSICAL | call feedPart()
-  // PHYSICAL | if !bCycleOK
-  // PHYSICAL | bOut2 = false
-  // PHYSICAL | bOut5 = true
-  // PHYSICAL | putln("Feeding failed; inspect station before restarting")
-  // PHYSICAL | return
-  // PHYSICAL | endIf
-    if nType != 0 and nType != 1
-      putln("ERROR: material index must be 0 or 1")
-      return
+  // ============================================================
+  // 4. CICLO PRINCIPAL: CLASIFICAR Y COLOCAR OCHO PIEZAS
+  // ============================================================
+  while placedCount[0] &lt; 4 or placedCount[1] &lt; 4
+    // FASE 10: una pieza disponible en la torre de alimentacion.
+    cycleStep = 10
+    putln("10 - Waiting for source part: partAtSource")
+    // SIMULACION: espera tu cambio manual; no hay timeout.
+    wait(partAtSource == true)
+
+    // FASE 20: transportar hasta el sensor de clasificacion.
+    trolleyOn = true
+    cycleStep = 20
+    putln("20 - Set material BEFORE confirming partAtClass")
+    // SIMULACION: espera tu cambio manual; no hay timeout.
+    wait(partAtClass == true)
+    trolleyOn = false
+    // Solo interpretamos el inductivo cuando hay presencia confirmada.
+    if partIsMetal == true
+      materialType = 1
+      putln("Metallic part")
+    else
+      materialType = 0
+      putln("Non-metallic part")
     endIf
-    if nCount[nType] &gt;= 4
-      putln("ERROR: material row full")
+    if placedCount[materialType] &gt;= 4
+      putln("ERROR: this material row is already full")
       return
     endIf
 
-    nPlace = 4*nType + nCount[nType]
-    call pickPlace()
-    if !bCycleOK
-      // PHYSICAL | bOut2 = false
-      // PHYSICAL | bOut5 = true
-      putln("Robot phase failed; inspect held part before restarting")
+    // FASE 30: elegir ruta y esperar las posiciones de los actuadores.
+    // TODO FISICO: confirmar que bOut3/bOut4=1 significa extender/empujar.
+    // Actuador 1 = no metalicas rojas, derecha. Actuador 2 = metalicas.
+    // TODO FISICO: comprobar las rutas combinadas antes de abrir barrera.
+    cycleStep = 30
+    putln("30 - Confirm gate positions for the selected route")
+    if materialType == 0
+      nonMetalGate = true
+      metalGate = false
+      // SIMULACION: espera tu cambio manual; no hay timeout.
+      wait(gate1Extended == true and gate1Retracted == false and gate2Extended == false and gate2Retracted == true)
+    else
+      nonMetalGate = false
+      metalGate = true
+      // SIMULACION: espera tu cambio manual; no hay timeout.
+      wait(gate1Extended == false and gate1Retracted == true and gate2Extended == true and gate2Retracted == false)
+    endIf
+
+    // FASE 40: liberar UNA pieza y detectar su paso hacia la rampa.
+    // TODO FISICO: comprobar el ciclo del carro; puede requerir otro retorno.
+    // bIn4 indica PASO, no llegada al punto de recogida.
+    if partAtRamp == true
+      putln("ERROR: ramp sensor must be clear before release")
       return
     endIf
-    nCount[nType] = nCount[nType] + 1
-    // SIM ONLY: remove this line when restoring feedPart.
-    nType = 1 - nType
+    barrierClosed = false
+    trolleyOn = true
+    cycleStep = 40
+    putln("40 - Waiting for ramp passage: partAtRamp=true")
+    // SIMULACION: espera tu cambio manual; no hay timeout.
+    wait(partAtRamp == true)
+    trolleyOn = false
+    barrierClosed = true
+
+    // FASE 50: el paso y la zona de clasificacion deben quedar libres.
+    cycleStep = 50
+    putln("50 - Clear partAtRamp and partAtClass")
+    // SIMULACION: espera tu cambio manual; no hay timeout.
+    wait(partAtRamp == false and partAtClass == false)
+    // Al poner ambos a false representas que ya puede recogerse la pieza.
+
+    // Se reutiliza esta rutina para las ocho piezas.
+    placeIndex = 4*materialType + placedCount[materialType]
+    call pickAndPlace()
+    if !cycleOK
+      trolleyOn = false
+      barrierClosed = true
+      putln("ERROR: robot phase incomplete; inspect before restart")
+      return
+    endIf
+    // Contar solo despues de soltar y retirarse correctamente.
+    placedCount[materialType] = placedCount[materialType] + 1
+    cycleStep = 80
+    putln("80 - Piece placed; prepare next source part")
   endWhile
-  putln("Motion simulation completed: 8 placements")
+  trolleyOn = false
+  barrierClosed = true
+  cycleStep = 100
+  putln("100 - Completed: four parts of each material")
 end
 </code>
     </source>

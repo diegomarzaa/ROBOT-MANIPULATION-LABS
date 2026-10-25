@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project xmlns="ProjectNameSpace">
+  <parameters version="s6.8" stackSize="5000" millimeterUnit="true"/>
+  <programSection>
+    <program file="start.pgx"/>
+    <program file="pickAndPlace.pgx"/>
+    <program file="stop.pgx"/>
+  </programSection>
+  <dataSection>
+    <data file="Lab2A_Physical.dtx"/>
+  </dataSection>
+  <aliasSection>
+    <alias name="io" interface="io" autoload="true"/>
+  </aliasSection>
+</project>

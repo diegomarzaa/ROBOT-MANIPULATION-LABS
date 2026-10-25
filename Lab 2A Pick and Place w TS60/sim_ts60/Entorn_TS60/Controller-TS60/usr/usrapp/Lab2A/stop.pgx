@@ -1,17 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <programList xmlns="ProgramNameSpace">
   <program name="stop" public="false">
-    <description>Cancel robot motion; physical outputs remain commented in simulation.</description>
+    <description>Stop motion and carriage; preserve vacuum command.</description>
     <paramSection/>
     <localSection/>
     <source>
       <code>begin
+  // ============================================================
+  // PARADA SIN SOLTAR AUTOMATICAMENTE UNA PIEZA
+  // ============================================================
   resetMotion()
-  // PHYSICAL | if bIOReady
-  // PHYSICAL | bOut2 = false
-  // PHYSICAL | bOut5 = true
-  // PHYSICAL | endIf
-  putln("Motion simulation stopped")
+  trolleyOn = false
+  barrierClosed = true
+  // TODO FISICO: confirmar que barrierClosed=true realmente cierra bOut5.
+  // vacuumOn se conserva para no soltar una pieza al ordenar STOP.
+  cycleOK = false
+  cycleStep = -1
+  putln("Stopped: inspect station before restarting")
 end
 </code>
     </source>

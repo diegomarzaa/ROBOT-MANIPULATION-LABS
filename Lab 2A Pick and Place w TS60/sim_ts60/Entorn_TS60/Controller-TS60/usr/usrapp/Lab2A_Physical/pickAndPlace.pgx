@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="pickAndPlace" public="false">
+    <description>Reusable pickup/place sequence. Material 0 non-metallic; 1 metallic.</description>
+    <paramSection/>
+    <localSection/>
+    <source>
+      <code>begin
+  // ============================================================
+  // RECOGER DE LA RAMPA Y COLOCAR EN LA MATRIZ
+  // ============================================================
+  // materialType=0: pickPose[0], no metalicas.
+  // materialType=1: pickPose[1], metalicas. Correspondencia verificada por usuario.
+  // Entrada: materialType y placedCount. Salida: cycleOK.
+  cycleOK = false
+  if materialType != 0 and materialType != 1
+    putln("ERROR: materialType must be 0 or 1")
+    return
+  endIf
+  if placedCount[materialType] &lt; 0 or placedCount[materialType] &gt; 3
+    putln("ERROR: invalid material counter")
+    return
+  endIf
+  placeIndex = 4*materialType + placedCount[materialType]
+  if partOnTool == true
+    putln("ERROR: gripper already reports a part")
+    return
+  endIf
+
+  // ============================================================
+  // A. APROXIMACION, RECOGIDA Y CONFIRMACION DE VACIO
+  // ============================================================
+  vacuumOn = false
+  blowOn = false
+  movej(pickApproach[materialType], vacuumTool, moveSpeed)
+  waitEndMove()
+  // movel necesita un point: convertir la joint no mueve el robot.
+  movel(jointToPoint(vacuumTool, world, pickPose[materialType]), vacuumTool, moveSpeed)
+  waitEndMove()
+  vacuumOn = true
+  cycleStep = 60
+  putln("60 - Waiting for suction confirmation: partOnTool=true")
+  if !watch(partOnTool == true, 3)
+    trolleyOn = false
+    barrierClosed = true
+    putln("ERROR: no suction confirmation")
+    return
+  endIf
+  movel(jointToPoint(vacuumTool, world, pickApproach[materialType]), vacuumTool, moveSpeed)
+  waitEndMove()
+
+  // ============================================================
+  // B. TRASLADO CON VACIO ACTIVO Y DEPOSITO
+  // ============================================================
+  movej(placeApproach[placeIndex], vacuumTool, moveSpeed)
+  waitEndMove()
+  // Comprobacion puntual; no es una vigilancia continua durante el movimiento.
+  if partOnTool == false
+    putln("ERROR: part lost during transfer")
+    return
+  endIf
+  movel(jointToPoint(vacuumTool, world, placePose[placeIndex]), vacuumTool, moveSpeed)
+  waitEndMove()
+  vacuumOn = false
+  blowOn = true
+  // Tiempo inicial de soplado; validar en la estacion fisica.
+  delay(0.3)
+  blowOn = false
+  cycleStep = 70
+  putln("70 - Waiting for release confirmation: partOnTool=false")
+  if !watch(partOnTool == false, 3)
+    trolleyOn = false
+    barrierClosed = true
+    putln("ERROR: release not confirmed")
+    return
+  endIf
+
+  // ============================================================
+  // C. RETIRADA Y VUELTA A HOME
+  // ============================================================
+  movel(jointToPoint(vacuumTool, world, placeApproach[placeIndex]), vacuumTool, moveSpeed)
+  waitEndMove()
+  movej(homePose, vacuumTool, moveSpeed)
+  waitEndMove()
+  cycleOK = true
+end
+</code>
+    </source>
+  </program>
+</programList>
