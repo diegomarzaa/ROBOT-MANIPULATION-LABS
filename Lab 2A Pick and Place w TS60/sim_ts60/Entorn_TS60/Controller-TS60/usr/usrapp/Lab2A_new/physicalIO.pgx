@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<programList xmlns="ProgramNameSpace">
+  <program name="physicalIO" public="false">
+    <description>Lab2A Level 3 - shared manual simulation / physical cycle</description>
+    <paramSection />
+    <localSection />
+    <source>
+      <code>begin
+  // ============================================================
+  // ADAPTADOR ENTRE LAS VARIABLES Y LOS PINES FISICOS
+  // ============================================================
+  // start solo crea esta tarea cuando simulation=false.
+  //
+  // Trabaja en paralelo con el ciclo principal:
+  // 1. Lee entradas reales y actualiza nuestros sensores bool.
+  // 2. Lee nuestras ordenes bool y las escribe en salidas reales.
+  // 3. Hace una pausa breve y repite.
+  //
+  // Asi, un wait del programa principal puede desbloquearse
+  // cuando esta tarea detecta un cambio en un sensor real.
+  //
+  // En fisico NO modificar los sensores bool a mano:
+  // esta tarea los sobrescribe con las lecturas reales.
+  while true
+    // ==========================================================
+    // 1. LEER LOS SENSORES DE PIEZA
+    // ==========================================================
+    // Cada comparacion convierte la lectura de la entrada
+    // en un valor bool: true si esta activa, false si no.
+
+    // bIn0: confirma que hay una pieza en la ventosa.
+    // No es la orden de aspiracion, sino su confirmacion.
+    partOnTool = io:bIn0 == true
+
+    // bIn1: confirma presencia en la zona de clasificacion.
+    partAtClass = io:bIn1 == true
+
+    // bIn2: detector inductivo.
+    // Activo significa metalica.
+    // Inactivo se interpreta como no metalica SOLO cuando
+    // sabemos que hay una pieza en clasificacion.
+    partIsMetal = io:bIn2 == true
+
+    // bIn3: hay una pieza disponible en alimentacion.
+    partAtSource = io:bIn3 == true
+
+    // bIn4: detecta el paso de una pieza por la rampa.
+    // No confirma que ya haya llegado al punto de recogida.
+    partAtRamp = io:bIn4 == true
+
+
+    // ==========================================================
+    // 2. LEER LOS FINALES DE CARRERA DE LOS ACTUADORES
+    // ==========================================================
+    // Son confirmaciones de posicion, no ordenes de movimiento.
+    //
+    // Actuador 1: asociado a las piezas no metalicas.
+    // Actuador 2: asociado a las piezas metalicas.
+
+    // bIn5: actuador 1 ha alcanzado la posicion extendida.
+    gate1Extended = io:bIn5 == true
+
+    // bIn6: actuador 1 ha alcanzado la posicion retraida.
+    gate1Retracted = io:bIn6 == true
+
+    // bIn7: actuador 2 ha alcanzado la posicion extendida.
+    gate2Extended = io:bIn7 == true
+
+    // bIn8: actuador 2 ha alcanzado la posicion retraida.
+    gate2Retracted = io:bIn8 == true
+
+
+    // ==========================================================
+    // 3. APLICAR LAS ORDENES DE LA VENTOSA
+    // ==========================================================
+    // El programa principal cambia vacuumOn y blowOn.
+    // Aqui convertimos esas variables en salidas fisicas.
+
+    // bOut0: activar o desactivar la aspiracion.
+    io:bOut0 = vacuumOn
+
+    // bOut1: activar o desactivar el soplado.
+    io:bOut1 = blowOn
+
+
+    // ==========================================================
+    // 4. APLICAR LAS ORDENES DE ALIMENTACION Y CLASIFICACION
+    // ==========================================================
+
+    // bOut2: orden al carro de alimentacion.
+    io:bOut2 = trolleyOn
+
+    // bOut3: actuador 1, asociado a las no metalicas.
+    // TODO FISICO: confirmar que true significa empujar.
+    io:bOut3 = nonMetalGate
+
+    // bOut4: actuador 2, asociado a las metalicas.
+    // TODO FISICO: confirmar que true significa empujar.
+    io:bOut4 = metalGate
+
+    // bOut5: barrera de retencion.
+    // TODO FISICO: confirmar true=retener y false=liberar.
+    io:bOut5 = barrierClosed
+
+
+    // ==========================================================
+    // 5. AVISAR DE QUE LA PRIMERA ACTUALIZACION ESTA HECHA
+    // ==========================================================
+    // start espera esta variable antes de continuar en fisico.
+    // Una vez pasa a true, permanece true durante la ejecucion.
+    ioReady = true
+
+    // Pausa de 0.01 segundos antes de repetir las lecturas.
+    // No garantiza un periodo exacto de 10 ms: tambien cuenta
+    // el tiempo empleado en ejecutar y planificar la tarea.
+    delay(0.01)
+
+  endWhile
+end</code>
+    </source>
+  </program>
+</programList>

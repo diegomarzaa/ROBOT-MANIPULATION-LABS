@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="pickAndPlace" public="false">
+    <description>Lab2A Level 3 - shared manual simulation / physical cycle</description>
+    <paramSection/>
+    <localSection/>
+    <source>
+      <code><![CDATA[begin
+  // ============================================================
+  // RECOGER: materialType ELIGE RAMPA; placeIndex ELIGE DESTINO
+  // ============================================================
+  vacuumOn = false
+  blowOn = false
+  movej(pickApproach[materialType], vacuumTool, moveSpeed)
+  waitEndMove()
+  movel(jointToPoint(vacuumTool, world, pickPose[materialType]), vacuumTool, moveSpeed)
+  waitEndMove()
+  vacuumOn = true
+  cycleStep = 60
+  putln("60 - Wait: partOnTool=true; keep true during transfer")
+  wait(partOnTool == true)
+  movel(jointToPoint(vacuumTool, world, pickApproach[materialType]), vacuumTool, moveSpeed)
+  waitEndMove()
+
+  // ============================================================
+  // TRASLADAR, DEPOSITAR Y CONFIRMAR LIBERACION
+  // ============================================================
+  movej(placeApproach[placeIndex], vacuumTool, moveSpeed)
+  waitEndMove()
+  movel(jointToPoint(vacuumTool, world, placePose[placeIndex]), vacuumTool, moveSpeed)
+  waitEndMove()
+  vacuumOn = false
+  blowOn = true
+  // TODO FISICO: validar duracion del soplado.
+  delay(0.3)
+  blowOn = false
+  cycleStep = 70
+  putln("70 - Wait: partOnTool=false")
+  wait(partOnTool == false)
+
+  // ============================================================
+  // RETIRAR Y VOLVER A HOME ANTES DE CONTAR LA PIEZA
+  // ============================================================
+  movel(jointToPoint(vacuumTool, world, placeApproach[placeIndex]), vacuumTool, moveSpeed)
+  waitEndMove()
+  movej(homePose, vacuumTool, moveSpeed)
+  waitEndMove()
+end
+]]></code>
+    </source>
+  </program>
+</programList>

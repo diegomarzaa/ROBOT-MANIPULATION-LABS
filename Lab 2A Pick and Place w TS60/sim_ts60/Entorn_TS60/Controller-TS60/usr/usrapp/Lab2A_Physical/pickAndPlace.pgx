@@ -1,90 +1,121 @@
-<?xml version='1.0' encoding='UTF-8'?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <programList xmlns="ProgramNameSpace">
   <program name="pickAndPlace" public="false">
     <description>Reusable pickup/place sequence. Material 0 non-metallic; 1 metallic.</description>
-    <paramSection/>
-    <localSection/>
+    <paramSection />
+    <localSection />
     <source>
       <code>begin
   // ============================================================
-  // RECOGER DE LA RAMPA Y COLOCAR EN LA MATRIZ
+  // RECOGER Y COLOCAR UNA PIEZA
   // ============================================================
-  // materialType=0: pickPose[0], no metalicas.
-  // materialType=1: pickPose[1], metalicas. Correspondencia verificada por usuario.
-  // Entrada: materialType y placedCount. Salida: cycleOK.
-  cycleOK = false
-  if materialType != 0 and materialType != 1
-    putln("ERROR: materialType must be 0 or 1")
-    return
-  endIf
-  if placedCount[materialType] &lt; 0 or placedCount[materialType] &gt; 3
-    putln("ERROR: invalid material counter")
-    return
-  endIf
-  placeIndex = 4*materialType + placedCount[materialType]
-  if partOnTool == true
-    putln("ERROR: gripper already reports a part")
-    return
-  endIf
+  // Esta rutina se reutiliza para todas las piezas.
+  //
+  // materialType=0: recoger de la rampa no metalica.
+  // materialType=1: recoger de la rampa metalica.
+  //
+  // placeIndex indica el destino de la matriz: 0..7.
+
 
   // ============================================================
-  // A. APROXIMACION, RECOGIDA Y CONFIRMACION DE VACIO
+  // 1. IR A LA APROXIMACION DE RECOGIDA
   // ============================================================
+  // Empezamos con aspiracion y soplado apagados.
   vacuumOn = false
   blowOn = false
+
+  // Ir a la posicion situada sobre la recogida correspondiente.
+  // movej no obliga al TCP a seguir una linea recta.
   movej(pickApproach[materialType], vacuumTool, moveSpeed)
   waitEndMove()
-  // movel necesita un point: convertir la joint no mueve el robot.
+
+
+  // ============================================================
+  // 2. ENTRAR LINEALMENTE HASTA LA PIEZA
+  // ============================================================
+  // pickPose esta guardada como joints.
+  // jointToPoint calcula el punto cartesiano equivalente
+  // porque movel necesita un objetivo cartesiano.
+  // Al utilizar movel, el TCP sigue una linea recta.
   movel(jointToPoint(vacuumTool, world, pickPose[materialType]), vacuumTool, moveSpeed)
   waitEndMove()
+
+
+  // ============================================================
+  // FASE 60: ACTIVAR ASPIRACION Y CONFIRMAR EL AGARRE
+  // ============================================================
+  // vacuumOn es la ORDEN de aspirar.
+  // partOnTool es la CONFIRMACION de pieza en la ventosa.
+  // Mantenerlo true durante el traslado.
   vacuumOn = true
   cycleStep = 60
-  putln("60 - Waiting for suction confirmation: partOnTool=true")
-  if !watch(partOnTool == true, 3)
-    trolleyOn = false
-    barrierClosed = true
-    putln("ERROR: no suction confirmation")
-    return
-  endIf
+  putln("60 - Wait: partOnTool=true; keep true during transfer")
+  wait(partOnTool == true)
+
+
+  // ============================================================
+  // 3. SALIR LINEALMENTE DE LA ZONA DE RECOGIDA
+  // ============================================================
   movel(jointToPoint(vacuumTool, world, pickApproach[materialType]), vacuumTool, moveSpeed)
   waitEndMove()
 
-  // ============================================================
-  // B. TRASLADO CON VACIO ACTIVO Y DEPOSITO
-  // ============================================================
-  movej(placeApproach[placeIndex], vacuumTool, moveSpeed)
-  waitEndMove()
-  // Comprobacion puntual; no es una vigilancia continua durante el movimiento.
-  if partOnTool == false
-    putln("ERROR: part lost during transfer")
-    return
-  endIf
-  movel(jointToPoint(vacuumTool, world, placePose[placeIndex]), vacuumTool, moveSpeed)
-  waitEndMove()
-  vacuumOn = false
-  blowOn = true
-  // Tiempo inicial de soplado; validar en la estacion fisica.
-  delay(0.3)
-  blowOn = false
-  cycleStep = 70
-  putln("70 - Waiting for release confirmation: partOnTool=false")
-  if !watch(partOnTool == false, 3)
-    trolleyOn = false
-    barrierClosed = true
-    putln("ERROR: release not confirmed")
-    return
-  endIf
 
   // ============================================================
-  // C. RETIRADA Y VUELTA A HOME
+  // 4. TRASLADAR LA PIEZA HASTA ENCIMA DE SU DESTINO
   // ============================================================
+  // placeIndex ya calculado.
+  movej(placeApproach[placeIndex], vacuumTool, moveSpeed)
+  waitEndMove()
+
+
+  // ============================================================
+  // 5. ENTRAR LINEALMENTE HASTA LA POSICION DE DEPOSITO
+  // ============================================================
+  // Desde la aproximacion entramos en linea recta al hueco.
+  // Esperamos a llegar antes de cortar la aspiracion.
+  movel(jointToPoint(vacuumTool, world, placePose[placeIndex]), vacuumTool, moveSpeed)
+  waitEndMove()
+
+
+  // ============================================================
+  // 6. SOLTAR LA PIEZA
+  // ============================================================
+  // Primero dejamos de aspirar.
+  // Despues aplicamos un soplado breve para ayudar a separarla.
+  vacuumOn = false
+  blowOn = true
+  delay(0.3)
+  blowOn = false
+
+
+  // ============================================================
+  // FASE 70: CONFIRMAR QUE LA PIEZA YA NO ESTA EN LA VENTOSA
+  // ============================================================
+  // En fisico esperamos que bIn0 deje de detectar pieza.
+  //
+  // SIMULACION: solo al llegar a esta fase,
+  // cambiar partOnTool=false.
+  cycleStep = 70
+  putln("70 - Wait: partOnTool=false")
+
+  wait(partOnTool == false)
+
+
+  // ============================================================
+  // 7. RETIRARSE DEL HUECO Y VOLVER A HOME
+  // ============================================================
+  // Primero salimos linealmente hasta la aproximacion.
+  // Despues volvemos a la posicion inicial mediante movej.
   movel(jointToPoint(vacuumTool, world, placeApproach[placeIndex]), vacuumTool, moveSpeed)
   waitEndMove()
+
   movej(homePose, vacuumTool, moveSpeed)
   waitEndMove()
-  cycleOK = true
-end
-</code>
+
+  // Al terminar, regresamos a start.
+  // Alli se incrementa el contador del material colocado.
+
+end</code>
     </source>
   </program>
 </programList>

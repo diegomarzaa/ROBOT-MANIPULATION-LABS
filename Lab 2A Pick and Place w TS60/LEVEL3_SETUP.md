@@ -1,50 +1,117 @@
-# Lab2A — simulación de movimientos lista
+# Lab 2A — Level 3 explicado y simulacion manual
 
-## Ahora
+## Que abrir
 
-Recargar la aplicación Lab2A desde disco sin sobrescribir estos archivos con la copia antigua de SRS. Pasar Check Syntax y ejecutar en el emulador local con el MCP al 10%. No hay variables de modo ni señales que activar manualmente.
+- **Simulacion para aprender:** `sim_ts60/Entorn_TS60/Controller-TS60/usr/usrapp/Lab2A/Lab2A.pjx`. Tiene entradas y salidas logicas BOOL, sin enlaces ni alias de E/S fisicas. Es la aplicacion actual.
+- **Version fisica, pendiente de validar:** `sim_ts60/Entorn_TS60/Controller-TS60/usr/usrapp/Lab2A_Physical/Lab2A_Physical.pjx`. Tiene la misma secuencia, con variables DIO descriptivas enlazadas a io:bIn/io:bOut. No ejecutarla en el emulador si lo que se quiere es simulacion manual.
 
-La ejecución activa recorre ocho recogidas/colocaciones sin piezas: alterna pPick[0] y pPick[1], depositando por orden en pPlace[0], [4], [1], [5], [2], [6], [3], [7]. Vuelve a pHome entre ciclos. Conserva comprobaciones de índices y waitEndMove. initPlace resuelve los destinos y aproximaciones antes de mover. La simulación termina tras cuatro colocaciones por cada grupo.
+No hay que descomentar lineas ni configurar un modo. Son dos aplicaciones diferentes; no se han abierto ni ejecutado. Recargar desde disco sin guardar encima una copia antigua de SRS. Pasar Check Syntax para s6.8 SCARA. La simulacion anterior de movimientos sin interaccion se conserva en el ZIP de copia previa.
 
-No se activan salidas, no se llama a feedPart y no se esperan sensores. La alimentación, vacío, soplado y sus comprobaciones están comentados con `// PHYSICAL |`. stop conserva resetMotion activo. No representa una prueba de clasificación física ni de agarre.
+## Organizacion del codigo
 
-## Código físico conservado
+En cada aplicacion solo hay tres programas:
 
-Los programas contienen los bloques físicos originales comentados. feedPart conserva su secuencia completa en comentarios. Para volver al programa físico:
+- `start`: bloques numerados de variables/parametros, generacion cinematica de la matriz, mapa de senales, preparacion y ciclo de clasificacion completo.
+- `pickAndPlace`: recogida, transporte y deposito. Se separa porque se llama para cada una de las ocho piezas.
+- `stop`: parada del programa; es un punto de entrada del sistema.
 
-1. Restaurar las líneas marcadas `// PHYSICAL |` quitando ese prefijo; los comentarios originales que siguen a ese prefijo deben seguir siendo comentarios.
-2. Quitar de start las dos asignaciones marcadas SIM ONLY: nType=0 y nType=1-nType. La detección de feedPart volverá a seleccionar el material. Restaurar su llamada y comprobación de bCycleOK.
-3. Restaurar los mensajes que identifiquen la ejecución física y comprobar sintaxis. La copia ZIP indicada al final conserva exactamente la versión física previa, por si se prefiere recuperar esos PGX en lugar de descomentar.
+Los encabezados `// =====` son comentarios visuales, no mecanismos para activar/desactivar codigo. La separacion entre aplicaciones evita depender de comentarios de bloque y conserva `end` activo. No se han usado `/* ... */` como forma de desactivar programas.
 
-La lógica física está escrita, **pero no validada**. Sus decisiones son bOut5=1 para retener, bOut3/bOut4=1/0 para no metálica y 0/1 para metálica, con 1 como extensión. Recogidas 0=no metálica, 1=metálica. Las polaridades y rutas deben comprobarse en la estación antes del uso físico; no son mediciones confirmadas. Debe verificarse que el carro suministre una sola pieza y quede listo para la siguiente. bIn4 detecta paso y se espera 0.5 s adicionales para la llegada. Los timeouts son 10 s en la estación y 3 s en vacío; soplado de 0.3 s.
+## Nombres nuevos
 
-## Matriz de joints: dos filas y cuatro columnas
+| Antes | Ahora | Significado |
+|---|---|---|
+| nType | materialType | 0=no metalica roja; 1=metalica |
+| nCount | placedCount[2] | Piezas colocadas por material |
+| nPlace | placeIndex | Hueco de destino, de 0 a 7 |
+| bCycleOK | cycleOK | La rutina de robot termino correctamente |
+| pHome | homePose | Joint de referencia para inicio/retorno |
+| pPick[2] | pickPose[2] | Joints de recogida, 0=no metalica y 1=metalica |
+| pApproachPick[2] | pickApproach[2] | Aproximaciones a las recogidas |
+| pPlace[8] | placePose[8] | Joints de los huecos |
+| pApproachPlace[8] | placeApproach[8] | Joints de aproximacion a los huecos |
+| tTool | vacuumTool | TCP de la ventosa |
+| mNomSpeed | moveSpeed | Descriptor de movimiento, 10/10/10 y blend off |
 
-pPlace es ahora jointRs[8], no pointRs. pApproachPlace es jointRs[8]. Se ha eliminado fMatrix y el punto global pAbove. El origen exacto que indicó el usuario es pPlace[0]={-88.99,114.77,10.19,-318.7}. No se cambia esa joint durante initPlace.
+`cycleStep` es nuevo: indica la fase y no debe editarse. Las variables de geometria siguen siendo jointRs; solo targetPose es un punto local temporal para la cinematica. Los nombres de programa y variable respetan el limite de 15 caracteres de esta version.
 
-initPlace usa un único punto cartesiano LOCAL de cálculo y las funciones jointToPoint/pointToJoint del controlador s6.8. Este cálculo es necesario para aplicar milímetros a una postura articular; los destinos y aproximaciones quedan guardados como joints en memoria al arrancar. No se depende de un frame de palet. Los movel convierten momentáneamente la joint a point para conservar las entradas/retiradas lineales.
+## Entradas: las que debes modificar en simulacion
 
-**Las otras siete joints no son valores numéricos precalculados fuera del controlador:** antes de ejecutar initPlace, sus valores en el DTX son copias del origen como semillas de inicialización. No usar esas entradas manualmente como si ya estuvieran calculadas. start solo permite moverse si se han resuelto las ocho aproximaciones y siete destinos restantes. Para conservar los números generados en disco habría que exportarlos/guardarlos desde el controlador después de una ejecución correcta; aquí no se ha ejecutado SRS.
+No hay piezas animadas ni entradas fisicas. Tu representas lo que detectaria cada sensor.
 
-En el CAD, el lado de cuatro huecos tiene paso 60 mm y el de tres filas tiene paso 70 mm; se usan dos filas adyacentes. La orientación elegida recorre el lado largo en CAD -X y cambia de fila en CAD +Y. El RobotWorld guardado gira -90 grados respecto a la escena; por tanto esas direcciones corresponden a world -Y y world -X. Se toma la joint suministrada como la esquina inicial de ese recorrido. **La captura no prueba cuál de las esquinas se enseñó: comprobar el primer desplazamiento en simulación antes del ciclo entero.** Si recorre fuera del palet, corregir el signo/dirección en initPlace; no modificar J1/J2 por ensayo.
+| Variable manual | Senal fisica equivalente | true significa |
+|---|---|---|
+| partOnTool | bIn0 | Pieza detectada en ventosa |
+| partAtClass | bIn1 | Pieza presente en clasificacion |
+| partIsMetal | bIn2 | Pieza metalica; solo se lee con presencia |
+| partAtSource | bIn3 | Pieza disponible en alimentacion |
+| partAtRamp | bIn4 | Pieza pasando por el sensor de rampa |
+| gate1Extended | bIn5 | Actuador no metalico extendido |
+| gate1Retracted | bIn6 | Actuador no metalico retraido |
+| gate2Extended | bIn7 | Actuador metalico extendido |
+| gate2Retracted | bIn8 | Actuador metalico retraido |
 
-| Índice | Fila | Columna | Desplazamiento world X/Y (mm) |
-|---:|---:|---:|---|
-| 0 | 0 | 0 | 0 / 0 |
-| 1 | 0 | 1 | 0 / -60 |
-| 2 | 0 | 2 | 0 / -120 |
-| 3 | 0 | 3 | 0 / -180 |
-| 4 | 1 | 0 | -70 / 0 |
-| 5 | 1 | 1 | -70 / -60 |
-| 6 | 1 | 2 | -70 / -120 |
-| 7 | 1 | 3 | -70 / -180 |
+Inicialmente todas las entradas son false salvo gate1Retracted y gate2Retracted, que son true. start NO las reinicializa: si repites la prueba, deja los sensores en estados coherentes antes de arrancar.
 
-La orientación del TCP se conserva a partir de la joint origen y la cinemática inversa usa esa joint como referencia para buscar una solución próxima. Cada aproximación añade 50 mm en world Z antes de resolver su joint. La altura procede de la nueva joint, ya no del antiguo Z=50 relativo a fMatrix. J4=-318.7 se conserva exactamente en el origen; comprobar el resto del giro y límites en SRS.
+## Salidas: observar, no editar durante la prueba
 
-Tipos SCARA, velocidad/aceleración/deceleración 10/10/10 y blend off. pApproachPick[1].J3=50 como la primera aproximación; revisar el recorrido. Resolver cinemática no comprueba colisiones ni demuestra que los huecos elegidos coincidan con el palet físico. start reinicia contadores y en físico requiere matriz vacía.
+| Variable observada | Equivalente fisico | Orden |
+|---|---|---|
+| vacuumOn | bOut0 | Aspirar |
+| blowOn | bOut1 | Soplar |
+| trolleyOn | bOut2 | Mover carro |
+| nonMetalGate | bOut3 | Extender actuador 1, supuesto |
+| metalGate | bOut4 | Extender actuador 2, supuesto |
+| barrierClosed | bOut5 | Cerrar/retener, supuesto |
 
-Preparado por archivos sin controlar la app. Validación XML y comprobaciones estáticas realizadas; aún pendiente Check Syntax y ejecución en SRS. Sin commits ni cambios al informe abierto de Lab2B.
+En simulacion son solo BOOL y no accionan hardware. No escribas en ellas para fingir un sensor: las escribe el programa. En fisico son DIO, enlazadas una por una en start con comentarios explicativos.
 
-Copia de la versión física previa: `work/recovery/20261019-082612-Lab2A-physical-before-motion-simulation.zip`.
+## Primera prueba manual: una pieza no metalica
 
-Copia previa a la matriz de joints: `work/recovery/20261019-090122-Lab2A-before-joint-matrix.zip`.
+Las ediciones deben hacerse sobre las variables de la aplicacion cargada **en memoria del emulador**, durante su ejecucion; editar solo el DTX en el PC no equivale a cambiar una variable viva. Segun la vista de SRS puede requerir el editor de datos del controlador/emulador. Si no ves los cambios en cycleStep mientras ejecuta, comprobar primero que miras la instancia correcta; no suponer que guardar el archivo modifica el controlador. La ubicacion exacta de esa vista se explicara con el usuario, sin controlar la interfaz.
+
+La simulacion usa wait sin timeout: espera indefinidamente para darte tiempo a editar. No es un bloqueo de interfaz.
+
+| cycleStep / mensaje | Que haces manualmente | Que ocurre despues |
+|---|---|---|
+| 10: espera origen | partAtSource=true | trolleyOn pasa a true |
+| 20: espera clasificacion | Primero partIsMetal=false; luego partAtSource=false y partAtClass=true | Se guarda materialType=0; se ordena ruta no metalica |
+| 30: espera actuadores | gate1Extended=true, gate1Retracted=false; gate2Extended=false, gate2Retracted=true | Se abre barrera y mueve carro |
+| 40: espera paso | partAtRamp=true | Se detiene carro y cierra barrera |
+| 50: espera zona libre | partAtRamp=false y partAtClass=false | El robot va a recoger de la rampa 0 |
+| 60: espera agarre | partOnTool=true | Retira y transporta hacia la matriz |
+| 70: espera liberacion | partOnTool=false | Retira, vuelve a Home y suma placedCount[0] |
+| 10 siguiente ciclo | Prepara otra pieza | Continua hasta cuatro por material |
+
+Para una metalica, en fase 20 pon partIsMetal=true ANTES de partAtClass=true. En fase 30 confirma gate1Extended=false, gate1Retracted=true, gate2Extended=true y gate2Retracted=false. El robot usa recogida 1 y destinos 4..7. Puedes introducir un orden mezclado; no hay alternancia automatica.
+
+80 puede pasar demasiado rapido para verlo; informa de que termino una pieza, no es una espera. 100 indica cuatro piezas de cada tipo colocadas. -1 indica stop. Si un material ya tiene cuatro piezas, la siguiente de ese tipo se retiene en clasificacion y el programa termina con aviso: no descarta automaticamente sobrantes.
+
+## Matriz y geometria conservadas
+
+Origen exacto: placePose[0]={-88.99,114.77,10.19,-318.7}. start calcula siete destinos y ocho aproximaciones con jointToPoint y pointToJoint ANTES de mover. Los valores restantes del DTX son semillas iguales al origen, no soluciones precalculadas; no usarlos manualmente antes del calculo.
+
+Dos filas de cuatro huecos: paso 60 mm a lo largo de columnas y 70 entre filas. Offsets elegidos en world: X=-70*rowIndex, Y=-60*columnIndex. TODO: confirmar esquina y sentidos con el palet real/simulado. Aproximaciones 50 mm sobre cada destino. No se usa fMatrix. Se han preservado todas las transformaciones, las joints de recogida actualizadas por el usuario (J3=100 en ambas aproximaciones) y la definicion geometrica del TCP. Las herramientas necesitan una referencia DIO valida incluso sin usar open/close. En simulacion flange y vacuumTool referencian toolDummy[0], una DIO local auxiliar sin dioLink ni alias fisico. No es un detector que deba editarse. En fisico referencian io:valve1[0], como en la configuracion original; aspiracion y soplado siguen controlandose explicitamente mediante vacuumOn/blowOn, sin open/close.
+
+## TODOs fisicos conservados
+
+- Verificar bOut5: supuesto 1=retener y 0=liberar. Invertir las ordenes coherentemente si es al reves, incluidos arranque, fallos y stop.
+- Verificar que bOut3=1 y bOut4=1 extienden/empujan sus actuadores. Actuador 1 no metalico rojo a la derecha, actuador 2 metalico, segun usuario. Confirmar la ruta combinada.
+- Verificar el ciclo del carro para suministrar UNA pieza y quedar listo para la siguiente; puede necesitar un retorno diferente al propuesto.
+- Verificar el pulso de bIn4 y medir llegada a la ventosa. La version fisica espera 0.5 s despues del paso; valor inicial.
+- Confirmar 0.3 s de soplado, timeouts de 10 s para estacion y 3 s para ventosa. Simulacion no tiene estos timeouts de sensores para permitir el control manual.
+- Revisar homePose, movimientos entre zonas, TCP, signos de matriz y altura. La cinematica no comprueba colisiones.
+
+En fisico iniciar con matriz vacia, rampas sin piezas antiguas y ventosa vacia. Un reinicio borra los contadores y no recupera una tarea interrumpida. La comprobacion de pieza durante el traslado es puntual; no hay vigilancia continua ni recuperacion automatica. stop no suelta automaticamente la pieza. Nada de esto sustituye los dispositivos de seguridad del robot.
+
+## Estado de validacion
+
+Preparacion por archivos, sin controlar SRS, sin ejecutar el robot, sin commits. Comprobados esquemas XML oficiales s6.8, declaraciones/referencias, limites de nombres, preservacion de geometria y ausencia de enlaces fisicos en Lab2A. Falta Check Syntax en SRS y prueba de la secuencia manual. La version fisica es codigo preparado con TODOs, no una instalacion validada.
+
+Copia previa completa: `work/recovery/20261025-195032-Lab2A-before-interactive-simulation.zip`.
+
+## Correccion de enlaces de herramientas
+
+El compilador s6.8 rechazo los enlaces de herramienta con alias/nombre vacios (dos errores por aplicacion). Se sustituyeron por toolDummy[0] local sin enlace en simulacion y por io:valve1[0] en fisico. El TCP no cambia. Recargar ambas aplicaciones desde disco y repetir Check Syntax; comprobar estos enlaces y XML no equivale a una compilacion confirmada. No editar toolDummy ni enlazarla a un pin.
+
+Copia previa a la correccion: `work/recovery/20261025-201457-Lab2A-before-tool-link-fix.zip`.

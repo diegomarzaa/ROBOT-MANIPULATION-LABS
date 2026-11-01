@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<programList xmlns="ProgramNameSpace">
+  <program name="stop" public="false">
+    <description>Lab2A Level 3 - shared manual simulation / physical cycle</description>
+    <paramSection />
+    <localSection />
+    <source>
+      <code>begin
+  // ============================================================
+  // 1. REINICIAR EL CONTROL DE MOVIMIENTO
+  // ============================================================
+  resetMotion()
+
+  // ============================================================
+  // 2. PREPARAR LAS ORDENES DE PARADA
+  // ============================================================
+  // Parar el carro, ordenar que la barrera retenga
+  // y dejar de soplar.
+  trolleyOn = false
+  barrierClosed = true
+  blowOn = false
+
+  // ============================================================
+  // 3. SI ES FISICO, PARAR EL ADAPTADOR Y ESCRIBIR LAS SALIDAS
+  // ============================================================
+  if physicalRun
+    taskKill("physicalIO")
+
+    // Parar carro y soplado.
+    io:bOut2 = false
+    io:bOut1 = false
+
+    // Ordenar retencion con la polaridad que hemos supuesto.
+    // TODO FISICO: confirmar que bOut5=true retiene.
+    io:bOut5 = true
+
+    // No escribimos bOut0: conservamos la aspiracion.
+    // Tampoco cambiamos aqui los actuadores de clasificacion.
+  endIf
+
+
+  // ============================================================
+  // 4. INDICAR QUE SE HA EJECUTADO LA PARADA
+  // ============================================================
+  cycleStep = -1
+  putln("Stopped - empty matrix before a new start")
+
+end</code>
+    </source>
+  </program>
+</programList>
