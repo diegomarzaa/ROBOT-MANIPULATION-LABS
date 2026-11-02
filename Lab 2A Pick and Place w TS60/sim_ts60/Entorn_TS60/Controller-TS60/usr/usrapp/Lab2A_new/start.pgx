@@ -226,9 +226,23 @@
     // El pulso es temporal: por si solo no confirma dosificacion unitaria.
     cycleStep = 40
     putln("40 - Barrier pulse; then wait partAtRamp=true")
-    barrierClosed = false
+    barrierClosed = false    
+
     delay(0.2)
     barrierClosed = true
+
+    // delay para copiar la order al pin
+    delay(0.05)
+    if barrierClosed
+      putln("40 - after cllose: barrierClosed=true")
+    else
+      putln("40 - after cllose: barrierClosed=false")
+    endIf    
+    if io:bOut5
+      putln("40 - after cllose: bOut5=true")
+    else
+      putln("40 - after cllose: bOut5=false")
+    endIf
 
     // La barrera ya tiene orden de cierre durante esta espera.
     // SIMULACION: partAtRamp=true representa el paso de la pieza.
