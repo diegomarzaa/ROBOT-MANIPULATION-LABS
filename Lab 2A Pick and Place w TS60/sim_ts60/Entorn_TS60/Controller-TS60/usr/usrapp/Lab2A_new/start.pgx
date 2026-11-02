@@ -217,30 +217,32 @@
     delay(0.5)
 
     // ==========================================================
-    // FASE 40: LIBERAR LA PIEZA Y DETECTAR SU PASO POR LA RAMPA
+    // FASE 40: ABRIR BREVEMENTE Y CERRAR ANTES DE ESPERAR LA RAMPA
     // ==========================================================
-    // Liberamos la barrera; la alimentacion sigue moviendose.
-    // Esperamos que el detector bIn4 vea pasar la pieza.
-    // TODO FISICO: confirmar que bOut5=1 retiene y 0 libera.
-    // TODO FISICO: verificar dosificacion con alimentacion continua.
-    barrierClosed = false
+    // La cinta sigue en marcha. No podemos dejar la barrera abierta
+    // hasta que la pieza llegue a bIn4: pasarian tambien las demas.
+    // Damos un pulso de apertura y ordenamos cerrar inmediatamente.
+    // TODO FISICO: confirmar true=retener y ajustar 0.2 s para UNA pieza.
+    // El pulso es temporal: por si solo no confirma dosificacion unitaria.
     cycleStep = 40
-    putln("40 - Wait: partAtRamp=true")
-    wait(partAtRamp == true)
-
-    // Tras detectar el paso, retenemos la siguiente pieza.
-    // La alimentacion sigue activa durante recogida y colocacion.
+    putln("40 - Barrier pulse; then wait partAtRamp=true")
+    barrierClosed = false
+    delay(0.2)
     barrierClosed = true
 
+    // La barrera ya tiene orden de cierre durante esta espera.
+    // SIMULACION: partAtRamp=true representa el paso de la pieza.
+    wait(partAtRamp == true)
 
     // ==========================================================
-    // FASE 50: ESPERAR QUE LA PIEZA DEJE LIBRES LOS DETECTORES
+    // FASE 50: ESPERAR QUE LA PIEZA DEJE LIBRE EL SENSOR DE RAMPA
     // ==========================================================
-    // La pieza debe abandonar tanto el detector de rampa
-    // como la zona de clasificacion.
+    // No esperamos partAtClass=false: con la cinta continua,
+    // la siguiente pieza puede estar ya retenida en clasificacion.
+    // Su material se leera en la siguiente vuelta, no en esta.
     cycleStep = 50
-    putln("50 - Wait: partAtRamp=false AND partAtClass=false")
-    wait(partAtRamp == false and partAtClass == false)
+    putln("50 - Wait: partAtRamp=false")
+    wait(partAtRamp == false)
 
     // El detector confirma PASO, no llegada al punto de recogida.
     // En fisico dejamos un tiempo adicional para que llegue.

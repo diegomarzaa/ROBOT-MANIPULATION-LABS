@@ -47,8 +47,8 @@ Ya no existen `partAtSource` ni los cuatro bool de finales de carrera en esta ap
 |---|---|---|
 | 20 | Primero **`partIsMetal=false`** (roja) o **`true`** (metal); al final **`partAtClass=true`** | Llega una pieza a clasificación con su material definido. |
 | 30 | **Nada.** Transcurre una pausa de 0,5 s. | Se supone que los desviadores llegan a la posición ordenada. |
-| 40 | **`partAtRamp=true`** | La pieza cruza el detector de paso. |
-| 50 | **`partAtRamp=false`, `partAtClass=false`** | La pieza deja libres ambos detectores. |
+| 40 | Tras el pulso de apertura/cierre, **`partAtRamp=true`**. | La barrera abre 0,2 s, vuelve a cerrar y la pieza cruza el detector. |
+| 50 | **`partAtRamp=false`**. En simulación, poner también **`partAtClass=false`** antes de preparar otra pieza. | Sale del sensor de rampa. En físico no se espera clasificación vacía: la siguiente pieza puede estar ya retenida allí. |
 | 60 | **`partOnTool=true`**, mantenerlo durante el traslado | La ventosa ha cogido la pieza. |
 | 70 | **`partOnTool=false`**, solo al llegar a esta fase | La pieza se ha soltado en la matriz. |
 | 80 → 20 | Ningún cambio de contadores; preparar la siguiente pieza | Se cuenta una pieza y se espera la siguiente en clasificación. |
@@ -57,6 +57,20 @@ Ya no existen `partAtSource` ni los cuatro bool de finales de carrera en esta ap
 No editar `materialType`, `placedCount`, `placeIndex`, `cycleStep`, `physicalRun`
 ni las órdenes de salida. Si un sensor ya cumple la condición, `wait` no se
 detiene. Preparar sus valores a tiempo; no es una confirmación de flanco.
+
+## Dosificación de la barrera con alimentación continua
+
+La barrera **abre 0,2 s y vuelve a cerrar antes de esperar bIn4**. Antes se
+mantenía abierta hasta el paso por rampa, permitiendo que salieran más piezas.
+El pulso es provisional: ajustar su duración para que pase una sola pieza.
+Si pasan varias, reducirlo; si no pasa ninguna, comprobar polaridad y tiempos.
+No garantiza una pieza si no hay separación física suficiente para cerrar entre ellas.
+La lectura de rampa debe producirse después del pulso para que el `wait` la vea:
+si el pulso de bIn4 termina antes, este código no lo memoriza.
+
+No se espera clasificación vacía en fase 50: con alimentación continua, otra
+pieza puede ocupar bIn1 mientras la primera baja por la rampa. El material de
+la pieza en curso ya está guardado en `materialType`.
 
 ## Geometría y físico: pendientes conservados
 
