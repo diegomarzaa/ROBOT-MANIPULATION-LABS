@@ -1,9 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <programList xmlns="ProgramNameSpace">
   <program name="physicalIO" public="false">
     <description>Lab2A Level 3 - shared manual simulation / physical cycle</description>
-    <paramSection />
-    <localSection />
+    <paramSection/>
+    <localSection/>
     <source>
       <code>begin
   // ============================================================
@@ -41,34 +41,15 @@
     // sabemos que hay una pieza en clasificacion.
     partIsMetal = io:bIn2 == true
 
-    // bIn3: hay una pieza disponible en alimentacion.
-    partAtSource = io:bIn3 == true
+    // bIn3 no se usa: esperamos directamente presencia en clasificacion.
 
     // bIn4: detecta el paso de una pieza por la rampa.
     // No confirma que ya haya llegado al punto de recogida.
     partAtRamp = io:bIn4 == true
 
 
-    // ==========================================================
-    // 2. LEER LOS FINALES DE CARRERA DE LOS ACTUADORES
-    // ==========================================================
-    // Son confirmaciones de posicion, no ordenes de movimiento.
-    //
-    // Actuador 1: asociado a las piezas no metalicas.
-    // Actuador 2: asociado a las piezas metalicas.
-
-    // bIn5: actuador 1 ha alcanzado la posicion extendida.
-    gate1Extended = io:bIn5 == true
-
-    // bIn6: actuador 1 ha alcanzado la posicion retraida.
-    gate1Retracted = io:bIn6 == true
-
-    // bIn7: actuador 2 ha alcanzado la posicion extendida.
-    gate2Extended = io:bIn7 == true
-
-    // bIn8: actuador 2 ha alcanzado la posicion retraida.
-    gate2Retracted = io:bIn8 == true
-
+    // bIn5..bIn8 no se usan en esta version simplificada.
+    // Los desviadores reciben su orden y damos un tiempo fijo.
 
     // ==========================================================
     // 3. APLICAR LAS ORDENES DE LA VENTOSA

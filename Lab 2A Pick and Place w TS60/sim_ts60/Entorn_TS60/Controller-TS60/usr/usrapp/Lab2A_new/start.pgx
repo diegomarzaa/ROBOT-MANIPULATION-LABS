@@ -153,32 +153,23 @@
   // materialType=1: metalica, segunda rampa.
   // El "or" hace que continuemos mientras falte completar
   // cualquiera de los dos materiales.
+  // Alimentacion continua durante toda la mision, incluso con el robot ocupado.
+  // La barrera dosifica la liberacion; no paramos bOut2 entre piezas.
+  trolleyOn = true
   while placedCount[0] &lt; 4 or placedCount[1] &lt; 4
-
-    // ==========================================================
-    // FASE 10: ESPERAR UNA PIEZA DISPONIBLE EN ALIMENTACION
-    // ==========================================================
-    // partAtSource representa el detector bIn3.
-    // SIMULACION: cambiar partAtSource=true.
-    cycleStep = 10
-    putln("10 - Wait: partAtSource=true")
-    wait(partAtSource == true)
 
     // ==========================================================
     // FASE 20: LLEVAR LA PIEZA HASTA CLASIFICACION
     // ==========================================================
-    // Ordenamos mover el carro y esperamos la presencia bIn1.
-    // Cuando la pieza llega, paramos el carro.
+    // La alimentacion ya esta en marcha. Esperamos presencia bIn1.
+    // El material se lee cuando la pieza llega a clasificacion.
     //
     // SIMULACION, en este orden:
     // 1. partIsMetal=false para roja o true para metalica.
-    // 2. partAtSource=false: ya ha salido de alimentacion.
-    // 3. partAtClass=true: ya esta en clasificacion.
-    trolleyOn = true
+    // 2. partAtClass=true: ya esta en clasificacion.
     cycleStep = 20
     putln("20 - Set partIsMetal, then partAtClass=true")
     wait(partAtClass == true)
-    trolleyOn = false
 
     // Interpretamos el detector inductivo solo despues de
     // confirmar que hay una pieza delante de el.
@@ -193,12 +184,14 @@
     // Cada material dispone de cuatro destinos.
     // Una quinta pieza del mismo material no tiene hueco.
     if placedCount[materialType] &gt;= 4
+      trolleyOn = false
+      barrierClosed = true
       putln("Row full: stop and empty matrix before restarting")
       return
     endIf
 
     // ==========================================================
-    // FASE 30: ELEGIR LA RAMPA Y ESPERAR A LOS ACTUADORES
+    // FASE 30: ORDENAR LA RUTA Y DAR TIEMPO AL ACTUADOR
     // ==========================================================
     // Estas dos variables son ORDENES:
     // nonMetalGate controla bOut3, actuador 1.
@@ -211,43 +204,32 @@
     // TODO FISICO: confirmar que salida=1 significa empujar
     // y que estas combinaciones conducen a la rampa correcta.
     cycleStep = 30
-    putln("30 - Wait: gate end switches for selected material")
+    putln("30 - Select route; actuator settling delay")
 
     nonMetalGate = materialType == 0
     metalGate = materialType == 1
 
-    // Ahora esperamos las CONFIRMACIONES de posicion.
-    // No basta con ordenar extender: el final de carrera
-    // debe indicar que el actuador ha llegado.
-    // SIMULACION: cambiamos los cuatro sensores correspondientes.
-    if materialType == 0
-      // Ruta no metalica:
-      // Actuador 1 extendido y no retraido.
-      // Actuador 2 retraido y no extendido.
-      wait(gate1Extended and !gate1Retracted and !gate2Extended and gate2Retracted)
-    else
-      // Ruta metalica:
-      // Actuador 1 retraido y no extendido.
-      // Actuador 2 extendido y no retraido.
-      wait(!gate1Extended and gate1Retracted and gate2Extended and !gate2Retracted)
-    endIf
-    
+    // Suponemos que los actuadores alcanzan su posicion.
+    // No leemos ni esperamos finales de carrera bIn5..bIn8.
+    // Dejamos una pausa antes de liberar la pieza.
+    // TODO FISICO: ajustar 0.5 s al tiempo real de los actuadores.
+    // Esta pausa NO confirma que el actuador se haya movido.
+    delay(0.5)
+
     // ==========================================================
     // FASE 40: LIBERAR LA PIEZA Y DETECTAR SU PASO POR LA RAMPA
     // ==========================================================
-    // Liberamos la barrera y ordenamos mover el carro.
+    // Liberamos la barrera; la alimentacion sigue moviendose.
     // Esperamos que el detector bIn4 vea pasar la pieza.
     // TODO FISICO: confirmar que bOut5=1 retiene y 0 libera.
-    // TODO FISICO: comprobar esta secuencia del carro.
+    // TODO FISICO: verificar dosificacion con alimentacion continua.
     barrierClosed = false
-    trolleyOn = true
     cycleStep = 40
     putln("40 - Wait: partAtRamp=true")
     wait(partAtRamp == true)
 
-    // Tras detectar el paso, paramos el carro y volvemos
-    // a ordenar que la barrera retenga.
-    trolleyOn = false
+    // Tras detectar el paso, retenemos la siguiente pieza.
+    // La alimentacion sigue activa durante recogida y colocacion.
     barrierClosed = true
 
 
@@ -286,13 +268,15 @@
     placedCount[materialType] = placedCount[materialType] + 1
 
     cycleStep = 80
-    putln("80 - Piece placed; next source part")
+    putln("80 - Piece placed; next classification part")
   endWhile
 
   // ============================================================
   // MISION COMPLETADA
   // ============================================================
   // Llegamos aqui cuando ambos contadores valen cuatro.
+  trolleyOn = false
+  barrierClosed = true
   cycleStep = 100
   putln("100 - Completed: four parts of each material")
 end

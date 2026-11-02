@@ -30,27 +30,29 @@ y el soplado se ordenan explícitamente por bOut0/bOut1.
   (evitan usar destinos sin calcular o índices fuera del array).
 - `pickAndPlace` agrupa la rutina repetida ocho veces. `physicalIO` es un
   adaptador independiente y automático; no es otro ciclo de misión.
+- Alimentación bOut2 continua durante la misión: arranca después de calcular
+  la matriz y llegar a home, y se para al completar, en STOP o por fila llena.
+- Sin espera de alimentación bIn3 ni finales de carrera bIn5..8. Se espera
+  directamente clasificación y se conceden 0,5 s a los desviadores antes de
+  liberar. Ese tiempo es provisional: no confirma que hayan llegado.
 - Sin rearme ni reanudación: **matriz vacía al iniciar**, cuatro piezas por tipo.
 
 ## Simulación manual: qué cambiar
 
-Al inicio: `partAtSource`, `partAtClass`, `partIsMetal`, `partAtRamp`,
-`partOnTool`, `gate1Extended`, `gate2Extended` a **false**;
-`gate1Retracted`, `gate2Retracted` a **true**.
-No se borran automáticamente estos sensores al iniciar.
+Al inicio: `partAtClass`, `partIsMetal`, `partAtRamp` y `partOnTool`
+a **false**. No se borran automáticamente al iniciar.
+Ya no existen `partAtSource` ni los cuatro bool de finales de carrera en esta aplicación.
 
 | `cycleStep` | Cambios manuales en memoria del emulador | Qué simulas |
 |---|---|---|
-| 10 | **`partAtSource=true`** | Hay pieza disponible en alimentación. |
-| 20 | Primero **`partIsMetal=false`** (roja) o **`true`** (metal); después **`partAtSource=false`** y al final **`partAtClass=true`** | La pieza sale de alimentación y llega al inductivo. El material debe estar fijado antes de confirmar presencia. |
-| 30, roja | **`gate1Extended=true`, `gate1Retracted=false`, `gate2Extended=false`, `gate2Retracted=true`** | Los finales de carrera confirman la ruta no metálica. |
-| 30, metal | **`gate1Extended=false`, `gate1Retracted=true`, `gate2Extended=true`, `gate2Retracted=false`** | Los finales de carrera confirman la ruta metálica. |
+| 20 | Primero **`partIsMetal=false`** (roja) o **`true`** (metal); al final **`partAtClass=true`** | Llega una pieza a clasificación con su material definido. |
+| 30 | **Nada.** Transcurre una pausa de 0,5 s. | Se supone que los desviadores llegan a la posición ordenada. |
 | 40 | **`partAtRamp=true`** | La pieza cruza el detector de paso. |
-| 50 | **`partAtRamp=false`, `partAtClass=false`** | Ha dejado libres los detectores y se considera disponible en recogida. |
+| 50 | **`partAtRamp=false`, `partAtClass=false`** | La pieza deja libres ambos detectores. |
 | 60 | **`partOnTool=true`**, mantenerlo durante el traslado | La ventosa ha cogido la pieza. |
 | 70 | **`partOnTool=false`**, solo al llegar a esta fase | La pieza se ha soltado en la matriz. |
-| 80 → 10 | Ningún cambio de contadores; preparar la siguiente pieza | Se cuenta una pieza y comienza otro ciclo. |
-| 100 | Ninguno | Cuatro piezas de cada tipo colocadas. |
+| 80 → 20 | Ningún cambio de contadores; preparar la siguiente pieza | Se cuenta una pieza y se espera la siguiente en clasificación. |
+| 100 | Ninguno | Cuatro piezas de cada tipo colocadas; alimentación parada. |
 
 No editar `materialType`, `placedCount`, `placeIndex`, `cycleStep`, `physicalRun`
 ni las órdenes de salida. Si un sensor ya cumple la condición, `wait` no se
@@ -74,7 +76,7 @@ destino 4 que no resolvía; no demuestra que hubiera una singularidad.
 recorridos en SRS y en la célula real.
 
 **TODO físico:** confirmar bOut5=1 retiene; bOut3/bOut4=1 empujan y las rutas
-(1,0) no metal / (0,1) metal; ciclo del carro; llegada a recogida (0,5 s
+(1,0) no metal / (0,1) metal; dosificación de una sola pieza con alimentación continua; pausa de desviadores (0,5 s); llegada a recogida (0,5 s
 provisionales) y soplado (0,3 s). El selector no calibra estas diferencias.
 STOP conserva aspiración, para carro y soplado y manda retener con la polaridad
 asumida. La tarea física permanece activa al terminar la misión hasta STOP.
