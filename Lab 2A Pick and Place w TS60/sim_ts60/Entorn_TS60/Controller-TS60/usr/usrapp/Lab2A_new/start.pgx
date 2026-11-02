@@ -1,13 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <programList xmlns="ProgramNameSpace">
   <program name="start" public="false">
     <description>Lab2A Level 3 - shared manual simulation / physical cycle</description>
-    <paramSection />
+    <paramSection/>
     <localSection>
-      <local name="rowIndex" type="num" size="1" />
-      <local name="columnIndex" type="num" size="1" />
-      <local name="targetIndex" type="num" size="1" />
-      <local name="targetPose" type="pointRs" size="1" />
+      <local name="rowIndex" type="num" size="1"/>
+      <local name="columnIndex" type="num" size="1"/>
+      <local name="targetIndex" type="num" size="1"/>
+      <local name="targetPose" type="pointRs" size="1"/>
     </localSection>
     <source>
       <code>begin
@@ -82,8 +82,8 @@
   // ============================================================
   // 5. CALCULAR LA MATRIZ DE DOS FILAS Y CUATRO COLUMNAS
   // ============================================================
-  // placePose[0] es la joint inicial de referencia.
-  // A partir de ella calculamos las otras siete posiciones.
+  // Referencias ensenadas: placePose[0] para fila 0 y placePose[4] para fila 1.
+  // Se conservan ambas joints y se calculan las otras tres columnas por fila.
   //
   // Distribucion de los indices:
   // Primera fila:  0, 1, 2, 3.
@@ -91,7 +91,7 @@
   //
   // Para aplicar distancias en milimetros:
   // 1. Convertimos la joint de referencia a un punto cartesiano.
-  // 2. Desplazamos ese punto en X e Y.
+  // 2. Desplazamos ese punto en Y para recorrer las columnas.
   // 3. Convertimos el resultado de nuevo a joints.
 
   for rowIndex = 0 to 1
@@ -99,12 +99,13 @@
       targetIndex = 4*rowIndex + columnIndex
 
       // Obtener la posicion del TCP correspondiente a la joint
-      // de referencia, expresada respecto al sistema world.
-      targetPose = jointToPoint(vacuumTool, world, placePose[0])
+      // de referencia de SU fila, expresada respecto al sistema world.
+      // 4*rowIndex vale 0 para la primera fila y 4 para la segunda.
+      targetPose = jointToPoint(vacuumTool, world, placePose[4*rowIndex])
 
-      // Aplicar el desplazamiento de la fila y de la columna.
-      // Filas separadas 70 mm. Columnas separadas 60 mm.
-      targetPose.trsf.x = targetPose.trsf.x - 70*rowIndex
+      // Segunda fila: usar su joint ensenada, NO desplazar X=-70.
+      // Columnas separadas 60 mm desde la referencia de cada fila.
+      // TODO: verificar que world Y negativa sigue los huecos en ambas filas.
       targetPose.trsf.y = targetPose.trsf.y - 60*columnIndex
 
       // Argumento 1: herramienta cuyo TCP queremos posicionar.
@@ -112,8 +113,10 @@
       // Argumento 3: posicion y orientacion deseadas del TCP.
       // Argumento 4: variable donde se guardan las joints calculadas.
       // Devuelve true si encuentra solucion. No mueve el robot.
-      if targetIndex != 0
-        if !pointToJoint(vacuumTool, placePose[0], targetPose, placePose[targetIndex])
+      // Columna cero: conservar la joint ensenada (indice 0 o 4).
+      // Otras columnas: calcular usando la referencia de su propia fila.
+      if columnIndex != 0
+        if !pointToJoint(vacuumTool, placePose[4*rowIndex], targetPose, placePose[targetIndex])
           putln("ERROR: unreachable matrix destination")
           putln(targetIndex)
           return

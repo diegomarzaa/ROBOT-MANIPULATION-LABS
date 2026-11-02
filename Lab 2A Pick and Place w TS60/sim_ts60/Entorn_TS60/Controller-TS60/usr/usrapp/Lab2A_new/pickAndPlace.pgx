@@ -5,7 +5,7 @@
     <paramSection/>
     <localSection/>
     <source>
-      <code><![CDATA[begin
+      <code>begin
   // ============================================================
   // RECOGER: materialType ELIGE RAMPA; placeIndex ELIGE DESTINO
   // ============================================================
@@ -46,7 +46,7 @@
   movej(homePose, vacuumTool, moveSpeed)
   waitEndMove()
 end
-]]></code>
+</code>
     </source>
   </program>
 </programList>

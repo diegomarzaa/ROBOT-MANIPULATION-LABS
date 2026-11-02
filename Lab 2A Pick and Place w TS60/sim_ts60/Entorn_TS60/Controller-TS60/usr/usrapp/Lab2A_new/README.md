@@ -58,11 +58,20 @@ detiene. Preparar sus valores a tiempo; no es una confirmación de flanco.
 
 ## Geometría y físico: pendientes conservados
 
-Se han copiado sin modificar las joints, el TCP (0,20,0) y velocidad 10.
-`placePose[0]` es el origen enseñado. Las otras siete posiciones y ocho
-aproximaciones se calculan al iniciar: 2 filas × 4 columnas, world X=-70 mm
-por fila, world Y=-60 mm por columna y aproximación world Z+50 mm.
-**TODO:** verificar esquina, signos, TCP y recorridos en la célula real.
+Se conservan el TCP (0,20,0), velocidad 10 y las posiciones de recogida.
+La matriz usa **dos referencias enseñadas**, una por fila:
+
+- `placePose[0]`: primer hueco de la primera fila, conservado.
+- `placePose[4]`: primer hueco de la segunda fila: **J1=-77.39, J2=100.14,
+  J3=8.89, J4=-353.18**, proporcionado por el usuario.
+
+Se calculan los destinos 1..3 y 5..7 desde la referencia de su propia fila,
+con desplazamiento world Y=-60 mm por columna. Se conservan la altura y la
+orientación de cada referencia. Las ocho aproximaciones son world Z+50 mm.
+Ya no se usa X=-70 mm para calcular la segunda fila. Este cambio sustituye el
+destino 4 que no resolvía; no demuestra que hubiera una singularidad.
+**TODO:** comprobar destinos 5..7, aproximaciones, dirección de columnas y
+recorridos en SRS y en la célula real.
 
 **TODO físico:** confirmar bOut5=1 retiene; bOut3/bOut4=1 empujan y las rutas
 (1,0) no metal / (0,1) metal; ciclo del carro; llegada a recogida (0,5 s
