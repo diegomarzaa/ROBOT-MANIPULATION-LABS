@@ -8,7 +8,7 @@
       <local name="columnIndex" type="num" size="1"/>
       <local name="targetIndex" type="num" size="1"/>
       <local name="targetPose" type="pointRs" size="1"/>
-    </localSection>
+    <local name="metalSample" type="bool" size="1"/></localSection>
     <source>
       <code>begin
   // ============================================================
@@ -21,6 +21,7 @@
   userPage()
   cls()
   physicalRun = !simulation
+  rampPassSeen = false
   
   // ============================================================
   // 2. REINICIAR CONTADORES Y PREPARAR LAS ORDENES
@@ -171,11 +172,21 @@
     putln("20 - Set partIsMetal, then partAtClass=true")
     wait(partAtClass == true)
 
+    // En fisico dar tiempo a estabilizar el inductivo con la pieza retenida.
+    // Leer el pin directamente para no usar una copia de la vuelta anterior.
+    // TODO FISICO: validar estos 0.1 s de asentamiento.
+    if physicalRun
+      delay(0.1)
+      metalSample = io:bIn2 == true
+    else
+      metalSample = partIsMetal
+    endIf
+
     // Interpretamos el detector inductivo solo despues de
     // confirmar que hay una pieza delante de el.
     // Guardamos el material para el resto de esta pieza:
     // aunque luego el sensor cambie, materialType ya esta elegido.
-    if partIsMetal
+    if metalSample
       materialType = 1
     else
       materialType = 0
@@ -222,17 +233,23 @@
     // La cinta sigue en marcha. No podemos dejar la barrera abierta
     // hasta que la pieza llegue a bIn4: pasarian tambien las demas.
     // Damos un pulso de apertura y ordenamos cerrar inmediatamente.
-    // TODO FISICO: confirmar true=retener y ajustar 0.2 s para UNA pieza.
+    // barrierClosed=true ordena retener y envia bOut5=0.
+    // TODO FISICO: validar polaridad y ajustar 0.2 s para UNA pieza.
     // El pulso es temporal: por si solo no confirma dosificacion unitaria.
     cycleStep = 40
     putln("40 - Barrier pulse; then wait partAtRamp=true")
+    // Olvidar el paso anterior ANTES de liberar una nueva pieza.
+    // physicalIO memoriza el paso aunque ocurra durante el delay.
+    rampPassSeen = false
     barrierClosed = false
     delay(0.2)
     barrierClosed = true
 
     // La barrera ya tiene orden de cierre durante esta espera.
     // SIMULACION: partAtRamp=true representa el paso de la pieza.
-    wait(partAtRamp == true)
+    // En fisico esperar el evento memorizado; en simulacion sigue
+    // siendo suficiente cambiar partAtRamp=true manualmente.
+    wait(rampPassSeen == true or partAtRamp == true)
 
     // ==========================================================
     // FASE 50: ESPERAR QUE LA PIEZA DEJE LIBRE EL SENSOR DE RAMPA
