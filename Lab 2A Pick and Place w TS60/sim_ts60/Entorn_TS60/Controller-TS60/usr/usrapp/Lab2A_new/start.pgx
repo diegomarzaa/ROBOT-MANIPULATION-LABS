@@ -181,14 +181,8 @@
       materialType = 0
     endIf
 
-    // Cada material dispone de cuatro destinos.
-    // Una quinta pieza del mismo material no tiene hueco.
-    if placedCount[materialType] &gt;= 4
-      trolleyOn = false
-      barrierClosed = true
-      putln("Row full: stop and empty matrix before restarting")
-      return
-    endIf
+    // Aunque su fila ya este llena, dejamos pasar esta pieza.
+    // La decision de recoger se toma despues, usando el mismo contador.
 
     // ==========================================================
     // FASE 30: ORDENAR LA RUTA Y DAR TIEMPO AL ACTUADOR
@@ -253,25 +247,22 @@
 
 
     // ==========================================================
-    // ELEGIR EL HUECO Y LLAMAR A LA RUTINA DEL ROBOT
+    // RECOGER SOLO SI QUEDAN HUECOS PARA ESTE MATERIAL
     // ==========================================================
-    // No metalicas usan destinos 0..3.
-    // Metalicas usan destinos 4..7.
-    // El contador indica cuantos huecos de ese material
-    // estan ocupados y, por tanto, cual es el siguiente.
-    // Ejemplo: tercera metalica:
-    // materialType=1, placedCount[1]=2 -&gt; placeIndex=6.
-    placeIndex = 4*materialType + placedCount[materialType]
-
-    // Ejecutar recogida, traslado, deposito y vuelta a home.
-    // start espera aqui hasta que la rutina termine.
-    call pickAndPlace()
-
-    // Contamos la pieza despues de completar toda la rutina.
-    placedCount[materialType] = placedCount[materialType] + 1
-
-    cycleStep = 80
-    putln("80 - Piece placed; next classification part")
+    // La pieza ya ha pasado por su rampa. Si su fila esta completa,
+    // no movemos el robot, no calculamos otro indice y no contamos.
+    // Volvemos a clasificar la siguiente hasta completar ambas filas.
+    if placedCount[materialType] &lt; 4
+      // No metalicas: destinos 0..3. Metalicas: destinos 4..7.
+      placeIndex = 4*materialType + placedCount[materialType]
+      call pickAndPlace()
+      placedCount[materialType] = placedCount[materialType] + 1
+      cycleStep = 80
+      putln("80 - Piece placed; next classification part")
+    else
+      cycleStep = 80
+      putln("80 - Row full: part passed without pickup; next part")
+    endIf
   endWhile
 
   // ============================================================
