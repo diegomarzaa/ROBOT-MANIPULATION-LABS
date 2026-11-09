@@ -80,8 +80,9 @@
     io:bOut4 = metalGate
 
     // bOut5: barrera de retencion.
-    // TODO FISICO: confirmar true=retener y false=liberar.
-    io:bOut5 = barrierClosed
+    // Polaridad invertida: retener=true envia bOut5=0.
+    // Liberar=false envia bOut5=1; pendiente comprobar en fisico.
+    io:bOut5 = !barrierClosed
 
 
     // ==========================================================
