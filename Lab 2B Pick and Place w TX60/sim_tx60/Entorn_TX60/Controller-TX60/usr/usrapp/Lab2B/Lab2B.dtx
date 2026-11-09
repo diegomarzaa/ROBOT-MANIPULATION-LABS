@@ -1,130 +1,135 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <dataList xmlns="DataNameSpace">
-  <aioSection />
+  <aioSection/>
   <boolSection>
     <bool name="simulation" public="true">
-      <valueBool value="false" index="0" />
+      <valueBool value="false" index="0"/>
     </bool>
     <bool name="physicalRun" public="false">
-      <valueBool value="false" index="0" />
+      <valueBool value="false" index="0"/>
     </bool>
     <bool name="ioReady" public="false">
-      <valueBool value="false" index="0" />
+      <valueBool value="false" index="0"/>
     </bool>
     <bool name="cylinderPresent" public="true">
-      <valueBool value="false" index="0" />
+      <valueBool value="false" index="0"/>
     </bool>
     <bool name="gripperOpen" public="true">
-      <valueBool value="true" index="0" />
+      <valueBool value="true" index="0"/>
     </bool>
   </boolSection>
-  <configRsSection />
-  <configSection />
+  <configRsSection/>
+  <configSection/>
   <dioSection>
-    <dio size="1" name="toolDummy" public="false" />
+    <dio size="1" name="toolDummy" public="false"/>
   </dioSection>
   <frameSection>
     <frame name="world" public="false">
-      <fFather alias="" name="" fatherIndex="0" />
+      <fFather alias="" name="" fatherIndex="0"/>
       <valueFrame index="0">
-        <tfValue x="0" y="0" z="0" rx="0" ry="0" rz="0" />
+        <tfValue x="0" y="0" z="0" rx="0" ry="0" rz="0"/>
       </valueFrame>
     </frame>
   </frameSection>
-  <jointRsSection />
+  <jointRsSection/>
   <jointSection>
     <joint name="jStart" public="true">
       <valueJoint index="0">
-        <jointValue j1="-17.54" j2="47.8" j3="73.74" j4="-22.19" j5="-14.71" j6="-3.13" />
+        <jointValue j1="-17.54" j2="47.8" j3="73.74" j4="-22.19" j5="-14.71" j6="-3.13"/>
       </valueJoint>
       <valueJoint index="1">
-        <jointValue j1="8.29" j2="62.36" j3="74" j4="-230.42" j5="69.15" j6="170.23" />
+        <jointValue j1="8.29" j2="62.36" j3="74" j4="-230.42" j5="69.15" j6="170.23"/>
       </valueJoint>
     </joint>
     <joint name="jCylinderPick" public="true">
       <valueJoint index="0">
-        <jointValue j1="-24.56" j2="81.43" j3="76.8" j4="-112.1" j5="82.12" j6="114.24" />
+        <jointValue j1="-24.56" j2="81.43" j3="76.8" j4="-112.1" j5="82.12" j6="114.24"/>
       </valueJoint>
       <valueJoint index="1">
-        <jointValue j1="-24.56" j2="95.71" j3="62.86" j4="-112.14" j5="82.26" j6="114.57" />
+        <jointValue j1="-24.56" j2="95.71" j3="62.86" j4="-112.14" j5="82.26" j6="114.57"/>
       </valueJoint>
     </joint>
     <joint name="jCylinderPlace" public="true">
       <valueJoint index="0">
-        <jointValue j1="6.68" j2="68.02" j3="69.81" j4="-246.67" j5="70.51" j6="175.115" />
+        <jointValue j1="6.68" j2="68.02" j3="69.81" j4="-246.67" j5="70.51" j6="175.115"/>
       </valueJoint>
       <valueJoint index="1">
-        <jointValue j1="6.68" j2="105.16" j3="35.36" j4="-245.83" j5="71.59" j6="172.56" />
+        <jointValue j1="6.68" j2="105.16" j3="35.36" j4="-245.83" j5="71.59" j6="172.56"/>
       </valueJoint>
     </joint>
     <joint name="jPistonPick" public="true">
       <valueJoint index="0">
-        <jointValue j1="35.93" j2="53.14" j3="89.53" j4="-181.57" j5="-35.49" j6="171.49" />
+        <jointValue j1="35.93" j2="53.14" j3="89.53" j4="-181.57" j5="-35.49" j6="171.49"/>
       </valueJoint>
       <valueJoint index="1">
-        <jointValue j1="31.41" j2="62.88" j3="87.66" j4="-181.66" j5="-27.59" j6="167.17" />
+        <jointValue j1="31.41" j2="62.88" j3="87.66" j4="-181.66" j5="-27.59" j6="167.17"/>
       </valueJoint>
     </joint>
     <joint name="jPistonInsert" public="true">
       <valueJoint index="0">
-        <jointValue j1="27.71" j2="87.95" j3="13.52" j4="-180.66" j5="-76" j6="162.22" />
+        <jointValue j1="27.71" j2="87.95" j3="13.52" j4="-180.66" j5="-76" j6="162.22"/>
       </valueJoint>
       <valueJoint index="1">
-        <jointValue j1="27.71" j2="98.34" j3="0.04" j4="-180.65" j5="-79.06" j6="162.19" />
+        <jointValue j1="27.71" j2="98.34" j3="0.04" j4="-180.65" j5="-79.06" j6="162.19"/>
       </valueJoint>
     </joint>
     <joint name="jRampPlace" public="true">
       <valueJoint index="0">
-        <jointValue j1="10.96" j2="57.65" j3="75.86" j4="-194.07" j5="43.71" j6="147.05" />
+        <jointValue j1="10.96" j2="57.65" j3="75.86" j4="-194.07" j5="43.71" j6="147.05"/>
       </valueJoint>
       <valueJoint index="1">
-        <jointValue j1="11.48" j2="75.68" j3="62.76" j4="-192.26" j5="48.42" j6="145" />
+        <jointValue j1="11.48" j2="75.68" j3="62.76" j4="-192.26" j5="48.42" j6="145"/>
       </valueJoint>
     </joint>
   </jointSection>
   <mdescSection>
     <mdesc name="mNomSpeed" public="true">
       <valueMdesc index="0">
-        <mdescValue accel="10" vel="30" decel="10" tmax="99999" rmax="99999" blend="off" leave="50" reach="50" />
+        <mdescValue accel="10" vel="30" decel="10" tmax="99999" rmax="99999" blend="off" leave="50" reach="50"/>
       </valueMdesc>
     </mdesc>
     <mdesc name="mInsertSpeed" public="false">
       <valueMdesc index="0">
-        <mdescValue accel="10" vel="5" decel="10" tmax="10" rmax="10" blend="off" leave="50" reach="50" />
+        <mdescValue accel="10" vel="5" decel="10" tmax="10" rmax="10" blend="off" leave="50" reach="50"/>
+      </valueMdesc>
+    </mdesc>
+    <mdesc name="mApproachSpeed" public="true">
+      <valueMdesc index="0">
+        <mdescValue accel="10" vel="20" decel="10" tmax="100" rmax="60" blend="off" leave="50" reach="50"/>
       </valueMdesc>
     </mdesc>
   </mdescSection>
   <numSection>
     <num name="cycleStep" public="true">
-      <valueNum value="0" index="0" />
+      <valueNum value="0" index="0"/>
     </num>
   </numSection>
-  <pointRsSection />
-  <pointSection />
-  <sioSection />
-  <stringSection />
+  <pointRsSection/>
+  <pointSection/>
+  <sioSection/>
+  <stringSection/>
   <toolSection>
     <tool name="flange" public="false">
-      <tFather alias="" name="" fatherIndex="0" />
+      <tFather alias="" name="" fatherIndex="0"/>
       <valueTool index="0">
-        <ttValue x="0" y="0" z="0" rx="0" ry="0" rz="0" />
-        <io alias="io" name="valve1" ioIndex="0" open="0" close="0" />
+        <ttValue x="0" y="0" z="0" rx="0" ry="0" rz="0"/>
+        <io alias="io" name="valve1" ioIndex="0" open="0" close="0"/>
       </valueTool>
     </tool>
     <tool name="tLateral" public="false">
-      <tFather alias="" name="flange" fatherIndex="0" />
+      <tFather alias="" name="flange" fatherIndex="0"/>
       <valueTool index="0">
-        <ttValue x="30" y="30" z="170" rx="-90" ry="44" rz="-90" />
-        <io alias="" name="toolDummy" ioIndex="0" open="1" close="1" />
+        <ttValue x="30" y="30" z="170" rx="-90" ry="44" rz="-90"/>
+        <io alias="" name="toolDummy" ioIndex="0" open="1" close="1"/>
       </valueTool>
     </tool>
     <tool name="tTip" public="false">
-      <tFather alias="" name="flange" fatherIndex="0" />
+      <tFather alias="" name="flange" fatherIndex="0"/>
       <valueTool index="0">
-        <ttValue x="-30" y="-30" z="175" rx="0" ry="0" rz="-134" />
-        <io alias="" name="toolDummy" ioIndex="0" open="1" close="1" />
+        <ttValue x="-30" y="-30" z="175" rx="0" ry="0" rz="-134"/>
+        <io alias="" name="toolDummy" ioIndex="0" open="1" close="1"/>
       </valueTool>
     </tool>
   </toolSection>
-  <trsfSection />
+  <trsfSection/>
 </dataList>

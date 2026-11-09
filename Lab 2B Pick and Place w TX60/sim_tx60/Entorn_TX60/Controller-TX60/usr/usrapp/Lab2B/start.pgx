@@ -58,7 +58,7 @@
   // 20. RECOGER EL CILINDRO CON EL TCP LATERAL
   // ============================================================
   // movej: traslado articular entre aproximaciones.
-  // movel: entrada y retirada rectas del TCP, a velocidad de precision.
+  // movel: entradas/retiradas con mApproachSpeed; insercion con mInsertSpeed.
   // jointToPoint convierte la joint para movel; no mueve el robot.
   // Usar el mismo TCP en la conversion y en la orden de movimiento.
   // waitEndMove termina cada movimiento antes de accionar la pinza.
@@ -69,14 +69,14 @@
   waitEndMove()
   movej(jCylinderPick[0], tLateral, mNomSpeed)
   waitEndMove()
-  movel(jointToPoint(tLateral, world, jCylinderPick[1]), tLateral, mInsertSpeed)
+  movel(jointToPoint(tLateral, world, jCylinderPick[1]), tLateral, mApproachSpeed)
   waitEndMove()
 
   // Cerrar y dar el tiempo mecanico guardado en la herramienta (1 s).
   // No hay confirmacion de agarre en el mapa de E/S de esta practica.
   gripperOpen = false
   delay(tLateral.ctime)
-  movel(jointToPoint(tLateral, world, jCylinderPick[0]), tLateral, mInsertSpeed)
+  movel(jointToPoint(tLateral, world, jCylinderPick[0]), tLateral, mApproachSpeed)
   waitEndMove()
 
   // ============================================================
@@ -86,11 +86,11 @@
   putln("30 - Place cylinder at assembly station")
   movej(jCylinderPlace[0], tLateral, mNomSpeed)
   waitEndMove()
-  movel(jointToPoint(tLateral, world, jCylinderPlace[1]), tLateral, mInsertSpeed)
+  movel(jointToPoint(tLateral, world, jCylinderPlace[1]), tLateral, mApproachSpeed)
   waitEndMove()
   gripperOpen = true
   delay(tLateral.otime)
-  movel(jointToPoint(tLateral, world, jCylinderPlace[0]), tLateral, mInsertSpeed)
+  movel(jointToPoint(tLateral, world, jCylinderPlace[0]), tLateral, mApproachSpeed)
   waitEndMove()
 
   // ============================================================
@@ -105,11 +105,11 @@
   delay(tTip.otime)
   movej(jPistonPick[0], tTip, mNomSpeed)
   waitEndMove()
-  movel(jointToPoint(tTip, world, jPistonPick[1]), tTip, mInsertSpeed)
+  movel(jointToPoint(tTip, world, jPistonPick[1]), tTip, mApproachSpeed)
   waitEndMove()
   gripperOpen = false
   delay(tTip.ctime)
-  movel(jointToPoint(tTip, world, jPistonPick[0]), tTip, mInsertSpeed)
+  movel(jointToPoint(tTip, world, jPistonPick[0]), tTip, mApproachSpeed)
   waitEndMove()
 
   // ============================================================
@@ -140,11 +140,11 @@
   delay(tLateral.otime)
   movej(jCylinderPlace[0], tLateral, mNomSpeed)
   waitEndMove()
-  movel(jointToPoint(tLateral, world, jCylinderPlace[1]), tLateral, mInsertSpeed)
+  movel(jointToPoint(tLateral, world, jCylinderPlace[1]), tLateral, mApproachSpeed)
   waitEndMove()
   gripperOpen = false
   delay(tLateral.ctime)
-  movel(jointToPoint(tLateral, world, jCylinderPlace[0]), tLateral, mInsertSpeed)
+  movel(jointToPoint(tLateral, world, jCylinderPlace[0]), tLateral, mApproachSpeed)
   waitEndMove()
 
   // ============================================================
@@ -154,11 +154,11 @@
   putln("70 - Place assembly on final ramp")
   movej(jRampPlace[0], tLateral, mNomSpeed)
   waitEndMove()
-  movel(jointToPoint(tLateral, world, jRampPlace[1]), tLateral, mInsertSpeed)
+  movel(jointToPoint(tLateral, world, jRampPlace[1]), tLateral, mApproachSpeed)
   waitEndMove()
   gripperOpen = true
   delay(tLateral.otime)
-  movel(jointToPoint(tLateral, world, jRampPlace[0]), tLateral, mInsertSpeed)
+  movel(jointToPoint(tLateral, world, jRampPlace[0]), tLateral, mApproachSpeed)
   waitEndMove()
 
   // ============================================================
