@@ -223,12 +223,12 @@
     // hasta que la pieza llegue a bIn4: pasarian tambien las demas.
     // Damos un pulso de apertura y ordenamos cerrar inmediatamente.
     // Retener=true envia bOut5=0; liberar=false envia bOut5=1.
-    // TODO FISICO: verificar polaridad y pulso de 0.2 s para UNA pieza.
+    // TODO FISICO: verificar polaridad y pulso de 0.4 s para UNA pieza.
     // El pulso es temporal: por si solo no confirma dosificacion unitaria.
     cycleStep = 40
     putln("40 - Barrier pulse; then wait partAtRamp=true")
     barrierClosed = false
-    delay(0.2)
+    delay(0.4)
     barrierClosed = true
 
     // La barrera ya tiene orden de cierre durante esta espera.
