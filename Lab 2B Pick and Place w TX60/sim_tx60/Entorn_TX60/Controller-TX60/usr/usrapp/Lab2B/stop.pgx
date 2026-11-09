@@ -1,13 +1,25 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <programList xmlns="ProgramNameSpace">
   <program name="stop" public="false">
-    <description>Level 1 single-cycle sequence; simulation validation pending.</description>
+    <description>Stop motion and the IO task; preserve the actual gripper output.</description>
     <paramSection/>
     <localSection/>
     <source>
       <code>begin
+  // ============================================================
+  // PARAR MOVIMIENTO Y EL ADAPTADOR, CONSERVANDO LA PINZA
+  // ============================================================
+  // Congelar primero las escrituras sobre la pinza.
+  taskKill("physicalIO")
   resetMotion()
-  putln("Lab2B stopped - gripper command unchanged")
+  ioReady = false
+  cycleStep = -1
+
+  // No cambiar gripperOpen ni escribir bOut0:
+  // conservamos la salida real, sin soltar una posible pieza.
+  // No retornar a jStart por una trayectoria pendiente de validar.
+  // Un nuevo start comienza desde el principio; no es una reanudacion.
+  putln("Stopped - gripper output unchanged; prepare cell before restart")
 end
 </code>
     </source>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<programList xmlns="ProgramNameSpace">
+  <program name="physicalIO" public="false">
+    <description>TX60 Level 1 IO adapter: bIn2 cylinder presence; bOut0 gripper.</description>
+    <paramSection/>
+    <localSection/>
+    <source>
+      <code>begin
+  // ============================================================
+  // MAPA DEL TX60, SEGUN lesson2b, APARTADO 2.8
+  // ============================================================
+  // start solo crea esta tarea si simulation=false al arrancar.
+  // Una lectura DIO necesita comparacion: bIn2 == true devuelve bool.
+  // No usar directamente wait(io:bIn2), que da "invalid type".
+  //
+  // bIn0: sensor de presencia en herramienta para buscar pistones
+  //        en Level 3. NO es confirmacion de pieza agarrada.
+  // bOut10: extender/retraer el alimentador de cilindros, Level 2.
+  // bIn14/bIn15: finales extendido/retraido de ese alimentador.
+  // Estas cuatro senales no intervienen en nuestro Level 1.
+  while true
+    // bIn2=1: hay cilindro preparado; bIn2=0: no detecta cilindro.
+    cylinderPresent = io:bIn2 == true
+
+    // bOut0=1 ABRE; bOut0=0 CIERRA. No copiar la logica de vacio de 2A.
+    // Una sola pinza para tLateral y tTip, un unico escritor de la salida.
+    // TODO FISICO: comprobar respuesta real antes del primer recorrido.
+    io:bOut0 = gripperOpen
+
+    // Primera lectura/escritura realizada; start ya puede continuar.
+    ioReady = true
+    delay(0.01)
+  endWhile
+end
+</code>
+    </source>
+  </program>
+</programList>
