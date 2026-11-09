@@ -105,8 +105,8 @@
 
       // Segunda fila: usar su joint ensenada, NO desplazar X=-70.
       // Columnas separadas 60 mm desde la referencia de cada fila.
-      // TODO: verificar que world Y negativa sigue los huecos en ambas filas.
-      targetPose.trsf.y = targetPose.trsf.y - 60*columnIndex
+      // Avance invertido a world Y positiva; verificar destino 1 y 5 en SRS.
+      targetPose.trsf.y = targetPose.trsf.y + 60*columnIndex
 
       // Argumento 1: herramienta cuyo TCP queremos posicionar.
       // Argumento 2: joints de referencia para buscar la solucion.
