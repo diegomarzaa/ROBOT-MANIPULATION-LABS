@@ -9,13 +9,13 @@
   // ============================================================
   // PARAR MOVIMIENTO Y EL ADAPTADOR, CONSERVANDO LA PINZA
   // ============================================================
-  // Congelar primero las escrituras sobre la pinza.
+  // Terminar primero la tarea de lectura de sensores.
   taskKill("physicalIO")
   resetMotion()
   ioReady = false
   cycleStep = -1
 
-  // No cambiar gripperOpen ni escribir valve1:
+  // No llamar a open/close ni escribir valve1:
   // conservamos la salida real, sin soltar una posible pieza.
   // No retornar a jStart por una trayectoria pendiente de validar.
   // Un nuevo start comienza desde el principio; no es una reanudacion.

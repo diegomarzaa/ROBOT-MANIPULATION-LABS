@@ -14,15 +14,11 @@
     <bool name="cylinderPresent" public="true">
       <valueBool value="false" index="0"/>
     </bool>
-    <bool name="gripperOpen" public="true">
-      <valueBool value="true" index="0"/>
-    </bool>
-  </boolSection>
+    </boolSection>
   <configRsSection/>
   <configSection/>
   <dioSection>
-    <dio size="1" name="toolDummy" public="false"/>
-  </dioSection>
+    </dioSection>
   <frameSection>
     <frame name="world" public="false">
       <fFather alias="" name="" fatherIndex="0"/>
@@ -120,14 +116,14 @@
       <tFather alias="" name="flange" fatherIndex="0"/>
       <valueTool index="0">
         <ttValue x="30" y="30" z="170" rx="-90" ry="44" rz="-90"/>
-        <io alias="" name="toolDummy" ioIndex="0" open="1" close="1"/>
+        <io alias="io" name="valve1" ioIndex="0" open="1" close="1"/>
       </valueTool>
     </tool>
     <tool name="tTip" public="false">
       <tFather alias="" name="flange" fatherIndex="0"/>
       <valueTool index="0">
         <ttValue x="-30" y="-30" z="175" rx="0" ry="0" rz="-134"/>
-        <io alias="" name="toolDummy" ioIndex="0" open="1" close="1"/>
+        <io alias="io" name="valve1" ioIndex="0" open="1" close="1"/>
       </valueTool>
     </tool>
   </toolSection>
