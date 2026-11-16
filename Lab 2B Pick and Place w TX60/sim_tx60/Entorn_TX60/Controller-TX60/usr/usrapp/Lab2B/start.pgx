@@ -17,6 +17,7 @@
   // Excepcion: jStart contiene dos posturas iniciales; solo se usa [0].
   userPage()
   cls()
+  putln("DBG START - New execution of Lab2B")
 
   // Fijamos el modo hasta el siguiente arranque, como en Lab2A_new.
   // La tarea anterior se elimina si existe; no escribe ninguna salida.
@@ -103,14 +104,45 @@
   putln("40 - Pick piston - tTip")
   gripperOpen = true
   delay(tTip.otime)
+  putln("DBG 40A - BEFORE movej: piston approach [0]")
   movej(jPistonPick[0], tTip, mNomSpeed)
   waitEndMove()
+  putln("DBG 40B - Approach reached; BEFORE movel: piston pick [1]")
   movel(jointToPoint(tTip, world, jPistonPick[1]), tTip, mApproachSpeed)
   waitEndMove()
+  putln("DBG 40C - Pick reached; sending CLOSE command")
   gripperOpen = false
+  putln("DBG 40D - CLOSE sent; waiting gripper closing time")
   delay(tTip.ctime)
+  // Diagnostico despues de la pausa: el adaptador ha tenido tiempo
+  // para aplicar la orden. No se escribe ninguna salida desde aqui.
+  putln("DBG 40E - Closing delay finished; cycleStep:")
+  putln(cycleStep)
+  if gripperOpen
+    putln("DBG gripperOpen=true (OPEN command)")
+  else
+    putln("DBG gripperOpen=false (CLOSE command)")
+  endIf
+  if physicalRun
+    putln("DBG physicalRun=true; physicalIO task status:")
+    putln(taskStatus("physicalIO"))
+    putln("DBG task status: 1=running, 0=suspended, -1=absent, other=error")
+    if ioReady and taskStatus("physicalIO") == 1
+      if io:bOut0 == true
+        putln("DBG bOut0=1 (OPEN output)")
+      else
+        putln("DBG bOut0=0 (CLOSE output)")
+      endIf
+    else
+      putln("DBG bOut0 not read: IO task not ready/running")
+    endIf
+  else
+    putln("DBG physicalRun=false; manual simulation, no pin access")
+  endIf
+  putln("DBG 40F - BEFORE movel: withdraw to piston approach [0]")
   movel(jointToPoint(tTip, world, jPistonPick[0]), tTip, mApproachSpeed)
   waitEndMove()
+  putln("DBG 40G - Withdrawal completed; leaving piston pickup")
 
   // ============================================================
   // 50. INSERTAR EL PISTON Y SOLTARLO ANTES DE RETIRARSE
@@ -120,8 +152,10 @@
   // Este movimiento es por posicion; no mide fuerza ni confirma montaje.
   cycleStep = 50
   putln("50 - Insert piston into cylinder")
+  putln("DBG 50A - BEFORE movej: insertion approach [0]")
   movej(jPistonInsert[0], tTip, mNomSpeed)
   waitEndMove()
+  putln("DBG 50B - Insertion approach reached")
   movel(jointToPoint(tTip, world, jPistonInsert[1]), tTip, mInsertSpeed)
   waitEndMove()
   gripperOpen = true
