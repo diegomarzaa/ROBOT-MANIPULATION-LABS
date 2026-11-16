@@ -15,7 +15,7 @@
   ioReady = false
   cycleStep = -1
 
-  // No cambiar gripperOpen ni escribir bOut0:
+  // No cambiar gripperOpen ni escribir valve1:
   // conservamos la salida real, sin soltar una posible pieza.
   // No retornar a jStart por una trayectoria pendiente de validar.
   // Un nuevo start comienza desde el principio; no es una reanudacion.

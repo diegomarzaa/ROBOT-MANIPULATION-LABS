@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <programList xmlns="ProgramNameSpace">
   <program name="physicalIO" public="false">
-    <description>TX60 Level 1 IO adapter: bIn2 cylinder presence; bOut0 gripper.</description>
+    <description>TX60 Level 1 IO adapter: bIn2 cylinder presence; valve1 gripper.</description>
     <paramSection/>
     <localSection/>
     <source>
       <code>begin
   // ============================================================
-  // MAPA DEL TX60, SEGUN lesson2b, APARTADO 2.8
+  // E/S DEL TX60: PINZA AJUSTADA AL MANDO MANUAL T1
   // ============================================================
   // start solo crea esta tarea si simulation=false al arrancar.
   // Una lectura DIO necesita comparacion: bIn2 == true devuelve bool.
@@ -22,10 +22,12 @@
     // bIn2=1: hay cilindro preparado; bIn2=0: no detecta cilindro.
     cylinderPresent = io:bIn2 == true
 
-    // bOut0=1 ABRE; bOut0=0 CIERRA. No copiar la logica de vacio de 2A.
+    // El enunciado indicaba bOut0; en esta celda T1 usa valve1.
+    // El usuario confirma que la pinza responde al mando manual.
+    // valve1=1 ABRE; valve1=0 CIERRA. No copiar la logica de vacio de 2A.
     // Una sola pinza para tLateral y tTip, un unico escritor de la salida.
     // TODO FISICO: comprobar respuesta real antes del primer recorrido.
-    io:bOut0 = gripperOpen
+    io:valve1 = gripperOpen
 
     // Primera lectura/escritura realizada; start ya puede continuar.
     ioReady = true

@@ -31,7 +31,7 @@
   // 0. CONECTAR E/S SOLO EN FISICO Y ABRIR LA PINZA
   // ============================================================
   // cylinderPresent: lectura de bIn2, presencia en el dispensador.
-  // gripperOpen: ORDEN a bOut0; true=abrir, false=cerrar.
+  // gripperOpen: ORDEN a valve1; true=abrir, false=cerrar.
   // No es un sensor de agarre. bIn0 tampoco confirma el agarre:
   // detecta pistones delante de la herramienta para Level 3.
   // Los TCP usan toolDummy; toda la salida real pasa por physicalIO.
@@ -97,7 +97,7 @@
   // ============================================================
   // 40. RECOGER EL PISTON CON EL TCP DE PUNTA
   // ============================================================
-  // tTip y tLateral son DOS TCP de LA MISMA PINZA y salida bOut0.
+  // tTip y tLateral son DOS TCP de LA MISMA PINZA y salida valve1.
   // Cambiar de TCP no cambia fisicamente la herramienta.
   // Level 1 supone un piston en el punto ensenado; no espera bIn0.
   cycleStep = 40
@@ -128,13 +128,13 @@
     putln(taskStatus("physicalIO"))
     putln("DBG task status: 1=running, 0=suspended, -1=absent, other=error")
     if ioReady and taskStatus("physicalIO") == 1
-      if io:bOut0 == true
-        putln("DBG bOut0=1 (OPEN output)")
+      if io:valve1 == true
+        putln("DBG valve1=1 (OPEN output)")
       else
-        putln("DBG bOut0=0 (CLOSE output)")
+        putln("DBG valve1=0 (CLOSE output)")
       endIf
     else
-      putln("DBG bOut0 not read: IO task not ready/running")
+      putln("DBG valve1 not read: IO task not ready/running")
     endIf
   else
     putln("DBG physicalRun=false; manual simulation, no pin access")
@@ -158,10 +158,13 @@
   putln("DBG 50B - Insertion approach reached")
   movel(jointToPoint(tTip, world, jPistonInsert[1]), tTip, mInsertSpeed)
   waitEndMove()
+  putln("DBG 50C - Insertion reached with tTip; opening gripper")
   gripperOpen = true
   delay(tTip.otime)
+  putln("DBG 50D - BEFORE withdrawal with tTip to jPistonInsert[0]")
   movel(jointToPoint(tTip, world, jPistonInsert[0]), tTip, mInsertSpeed)
   waitEndMove()
+  putln("DBG 50E - Tip withdrawal completed")
 
   // ============================================================
   // 60. RECOGER EL CONJUNTO CON EL TCP LATERAL
@@ -172,14 +175,21 @@
   putln("60 - Pick assembled cylinder - tLateral")
   gripperOpen = true
   delay(tLateral.otime)
+  // El siguiente movimiento usa el TCP lateral. Las joints guardadas
+  // deben describir la postura de agarre lateral; el TCP no anade un giro.
+  putln("DBG 60A - BEFORE movej with tLateral to jCylinderPlace[0]")
   movej(jCylinderPlace[0], tLateral, mNomSpeed)
   waitEndMove()
+  putln("DBG 60B - Lateral approach reached; BEFORE descent to jCylinderPlace[1]")
   movel(jointToPoint(tLateral, world, jCylinderPlace[1]), tLateral, mApproachSpeed)
   waitEndMove()
+  putln("DBG 60C - Assembly pickup reached with tLateral; closing gripper")
   gripperOpen = false
   delay(tLateral.ctime)
+  putln("DBG 60D - BEFORE withdrawal of assembly with tLateral")
   movel(jointToPoint(tLateral, world, jCylinderPlace[0]), tLateral, mApproachSpeed)
   waitEndMove()
+  putln("DBG 60E - Assembly withdrawal completed")
 
   // ============================================================
   // 70. DEPOSITAR EL CONJUNTO EN LA RAMPA Y RETIRARSE
