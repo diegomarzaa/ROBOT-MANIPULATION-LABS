@@ -183,6 +183,17 @@
   putln("DBG 50E - Tip withdrawal completed")
 
   // ============================================================
+  // 55. POSTURA INTERMEDIA ANTES DE RECOGER EL CONJUNTO
+  // ============================================================
+  // Joint indicada por el usuario. Se alcanza DESPUES de soltar
+  // el piston y retirarse con tTip, antes del agarre con tLateral.
+  cycleStep = 55
+  putln("DBG 55A - BEFORE movej: jAssemblyTransit with tTip")
+  movej(jAssemblyTransit, tTip, mNomSpeed)
+  waitEndMove()
+  putln("DBG 55B - Assembly transit posture reached")
+
+  // ============================================================
   // 60. RECOGER EL CONJUNTO CON EL TCP LATERAL
   // ============================================================
   // Recoger en jCylinderPlace[1], donde se ha depositado el cilindro.
