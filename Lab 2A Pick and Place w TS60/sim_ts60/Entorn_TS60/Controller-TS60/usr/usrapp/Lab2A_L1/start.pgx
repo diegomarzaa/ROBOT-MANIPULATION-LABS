@@ -70,10 +70,10 @@
   // PICK AND PLACE
   // ============================================================
 
-  // NON-METALLIC PART (RAMP 0 - SLOT 0)
-
   movej(homePose, vacuumTool, moveSpeed)                             // Move robot to safe home pose
   waitEndMove()
+
+  // NON-METALLIC PART (RAMP 0 - SLOT 0)
   
   materialType = 0                                                   // Select NON-METALLIC ramp 
   placeIndex = 0                                                     // Select first matrix row start 
