@@ -41,55 +41,70 @@
   moveSpeed.decel = 10                                               // Set deceleration to 10%
   moveSpeed.blend = off                                              // Disable path blending for exact stops
   
-  
   // ============================================================
-  // COMPUTE APPROACH POSES FOR SLOTS 0 AND 4
+  // COMPUTE 2x4 MATRIX POSES AND APPROACHES
   // ============================================================
-  
-  // SLOT 0
+  // Index distribution
+  // First row:  0, 1, 2, 3
+  // Second row:  4, 5, 6, 7
 
-  targetPose = jointToPoint(vacuumTool, world, placePose[0])         // Get Cartesian pose of slot 0
-  targetPose.trsf.z = targetPose.trsf.z + 50                         // Shift Z +50 mm above slot 0 (approach)
+  for rowIndex = 0 to 1                                              // Loop rows: 0 = non-metallic, 1 = metallic
+    for columnIndex = 0 to 3                                         // Loop 4 columns per row
+      targetIndex = 4*rowIndex + columnIndex                         // Compute flat slot index (0 to 7)
+      targetPose = jointToPoint(vacuumTool, world, placePose[4*rowIndex]) // Get Cartesian pose of row reference
+      targetPose.trsf.y = targetPose.trsf.y + 60*columnIndex         // Offset Y by 60 mm per column
 
-  if !pointToJoint(vacuumTool, placePose[0], targetPose, placeApproach[0]) // Solve IK for slot 0 approach
-    putln("ERROR: unreachable approach for slot 0")                  // Report IK error on MCP
-    return                                                           
-  endIf
 
-  // SLOT 4
-  targetPose = jointToPoint(vacuumTool, world, placePose[4])         // Get Cartesian pose of slot 4
-  targetPose.trsf.z = targetPose.trsf.z + 50                         // Shift Z +50 mm above slot 4 (approach)
+      //POSE
 
-  if !pointToJoint(vacuumTool, placePose[4], targetPose, placeApproach[4]) // Solve IK for slot 4 approach
-    putln("ERROR: unreachable approach for slot 4")                  
-    return                                                           
-  endIf
+      if columnIndex != 0                                            // Keep taught joint for column 0; solve IK for 1..3
+        if !pointToJoint(vacuumTool, placePose[4*rowIndex], targetPose, placePose[targetIndex]) // Solve IK for matrix slot and save in placePose[targetIndex]
+          putln("ERROR: unreachable matrix destination")             
+          putln(targetIndex)                                         
+          return                                               
+        endIf
+      endIf
+
+
+      //APPROACH
+
+      targetPose.trsf.z = targetPose.trsf.z + 50                     // Shift Z +50 mm above slot (approach)
+      if !pointToJoint(vacuumTool, placePose[targetIndex], targetPose, placeApproach[targetIndex]) // Solve IK for approach and save it in placeApproach[targetIndex]
+        putln("ERROR: unreachable matrix approach")                
+        putln(targetIndex)                                          
+        return                                                      
+      endIf
+
+    endFor
+
+  endFor
   
 
   // ============================================================
   // PICK AND PLACE
   // ============================================================
 
-  // NON-METALLIC PART (RAMP 0 - SLOT 0)
-
   movej(homePose, vacuumTool, moveSpeed)                             // Move robot to safe home pose
   waitEndMove()
-  
-  materialType = 0                                                   // Select NON-METALLIC ramp 
-  placeIndex = 0                                                     // Select first matrix row start 
-  putln("Step 1/2: Picking NON-METALLIC part")             
-  call pickAndPlace()                                                // Execute unit pick-and-place routine
-  placedCount[0] = 1                                                 // Record NON-METALLIC part placed
-  
-  //  METALLIC PART (RAMP 1 - SLOT 4) 
 
-  materialType = 1                                                   // Select METALLIC ramp 
-  placeIndex = 4                                                     // Select second matrix row start 
-  putln("Step 2/2: Picking METALLIC part")                           
-  call pickAndPlace()                                                // Execute unit pick-and-place routine
-  placedCount[1] = 1                                                 // Record METALLIC part placed
-  
+  for columnIndex = 0 to 3                                           // Repeat 4 times to fill all columns
+    
+    // NON-METALLIC PART (RAMP 0 - SLOTS 0, 1, 2 and 3)
 
+    materialType = 0                                                 // Select NON-METALLIC ramp
+    placeIndex = columnIndex                                         // Select slot in row 0 (0 to 3)
+    putln("Picking NON-METALLIC part...")                            
+    call pickAndPlace()                                              // Execute unit pick-and-place routine
+    placedCount[0] = placedCount[0] + 1                              // Increment NON-METALLIC counter
+
+    // METALLIC PART (RAMP 1 - SLOTS 4, 5, 6 and 7)
+    materialType = 1                                                 // Select METALLIC ramp
+    placeIndex = 4 + columnIndex                                     // Select slot in row 1 (4 to 7)
+    putln("Picking METALLIC part...")                              // Prompt progress on MCP
+    call pickAndPlace()                                              // Execute unit pick-and-place routine
+    placedCount[1] = placedCount[1] + 1                              // Increment METALLIC counter
+  endFor
+  
   cycleStep = 100                                                    // Mark mission as finished
   putln("100 - Level 1 completed: 2 parts classified.")            // Display completion message on MCP
 end
