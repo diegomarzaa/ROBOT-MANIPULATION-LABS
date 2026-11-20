@@ -171,8 +171,6 @@ The taught joint values below use degrees for J1, J2 and J4, and millimetres for
 The pickup approaches keep the same J1, J2 and J4 values and raise J3 to 100\,mm, while the placement approaches and remaining matrix destinations are calculated at startup. Their initial values in the data file are placeholders, rather than the final positions used during the cycle. No payload measurement is included in our notes.
 
 \subsection{Variables and I/O}
-Array sizes are shown in brackets; other data contain one element.
-
 \begin{compactitems}
 \item \textbf{Mode and I/O setup:} \texttt{simulation}, \texttt{physicalRun} and \texttt{ioReady} are booleans for the chosen mode, the stored mode and completion of the first I/O update.
 \item \textbf{Suction tool:} \texttt{partOnTool} reads \texttt{bIn0}; \texttt{vacuumOn} and \texttt{blowOn} command \texttt{bOut0} and \texttt{bOut1}. All three are booleans.
