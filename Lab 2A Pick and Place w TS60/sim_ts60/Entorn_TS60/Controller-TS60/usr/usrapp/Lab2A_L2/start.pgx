@@ -30,9 +30,9 @@
   if physicalRun                                                     // Check if running on real station
     taskCreate "physicalIO", 10, physicalIO()                        // Spawn background I/O task (priority 10)
     wait(ioReady == true)                                            // Block until first I/O scan completes
-    putln("Lab2A Level 1 - PHYSICAL MODE")                           // Display active mode on MCP
+    putln("Lab2A Level 2 - PHYSICAL MODE")                           // Display active mode on MCP
   else
-    putln("Lab2A Level 1 - MANUAL SIMULATION")
+    putln("Lab2A Level 2 - MANUAL SIMULATION")
   endIf
 
 
