@@ -1,66 +1,41 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <programList xmlns="ProgramNameSpace">
   <program name="pickAndPlace" public="false">
-    <description>Lab2A Level 3 - shared manual simulation / physical cycle</description>
+    <description>Pick one part, place it and return home</description>
     <paramSection/>
     <localSection/>
     <source>
       <code>begin
-  // Executes a complete pick-and-place cycle for the active part:
-  // picks from ramp [materialType], places into matrix slot [placeIndex],
-  // verifies vacuum grip/release via partOnTool, and returns to homePose.
-
-  //===========================
-  //PICK
-  //===========================
-
-  vacuumOn = false                                                               // Ensure suction is off before approach
-  blowOn = false                                                                 // Ensure blow-off is off before approach
-  
-  movej(pickApproach[materialType], vacuumTool, moveSpeed)                       // Joint move to safe height above ramp
-  waitEndMove()                                                                  
-  
-  movel(jointToPoint(vacuumTool, world, pickPose[materialType]), vacuumTool, moveSpeed) // Linear descent to pick pose
-  waitEndMove()                                                                  // Wait until suction pad contacts part
-
-  vacuumOn = true                                                                // Activate vacuum suction (bOut0)
-  cycleStep = 60                                                                 // Update step indicator
-  putln("60 - Picking part: waiting for vacuum confirmation (partOnTool=true)")  // Prompt status on MCP
-  wait(partOnTool == true)                                                       // Block until vacuum sensor confirms grip
-
-  movel(jointToPoint(vacuumTool, world, pickApproach[materialType]), vacuumTool, moveSpeed) // Linear vertical lift with part
-  waitEndMove()                                                                 
-
-
-  //===========================
-  // PLACE
-  //===========================
-
-  movej(placeApproach[placeIndex], vacuumTool, moveSpeed)                        // Joint move above target matrix slot
-  waitEndMove()                                                                  
-  
-  movel(jointToPoint(vacuumTool, world, placePose[placeIndex]), vacuumTool, moveSpeed) // Linear descent into matrix pocket
-  waitEndMove()                                                                 
-
-  vacuumOn = false                                                               // Cut vacuum suction
-  blowOn = true                                                                  // Trigger blow-off pulse to release part (bOut1)
-  delay(0.3)                                                                     // Hold blow-off for 300 ms
-  blowOn = false                                                                 // Stop blow-off pulse
-  cycleStep = 70                                                                 // Update step indicator
-  putln("70 - Releasing part: waiting for release confirmation (partOnTool=false)") // Prompt status on MCP
-  wait(partOnTool == false)
-
-
-  //===========================  
-  // HOME
-  //===========================  
-
-  movel(jointToPoint(vacuumTool, world, placeApproach[placeIndex]), vacuumTool, moveSpeed) // Linear vertical retreat from matrix
-  waitEndMove()                                
-                     
-  movej(homePose, vacuumTool, moveSpeed)                                         // Joint return to home position
+  // materialType selects the ramp; placeIndex selects the destination.
+  vacuumOn = false
+  blowOn = false
+  movej(pickApproach[materialType], vacuumTool, moveSpeed)
+  waitEndMove()
+  movel(jointToPoint(vacuumTool, world, pickPose[materialType]), vacuumTool, moveSpeed)
+  waitEndMove()
+  vacuumOn = true
+  cycleStep = 60
+  putln("60 - Wait for partOnTool=true")
+  wait(partOnTool == true)
+  movel(jointToPoint(vacuumTool, world, pickApproach[materialType]), vacuumTool, moveSpeed)
   waitEndMove()
 
+  movej(placeApproach[placeIndex], vacuumTool, moveSpeed)
+  waitEndMove()
+  movel(jointToPoint(vacuumTool, world, placePose[placeIndex]), vacuumTool, moveSpeed)
+  waitEndMove()
+  vacuumOn = false
+  blowOn = true
+  delay(0.3)
+  blowOn = false
+  cycleStep = 70
+  putln("70 - Wait for partOnTool=false")
+  wait(partOnTool == false)
+
+  movel(jointToPoint(vacuumTool, world, placeApproach[placeIndex]), vacuumTool, moveSpeed)
+  waitEndMove()
+  movej(homePose, vacuumTool, moveSpeed)
+  waitEndMove()
 end
 </code>
     </source>

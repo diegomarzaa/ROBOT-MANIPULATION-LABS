@@ -1,101 +1,12 @@
-# Lab2A_new — nivel 3, simulación manual y físico
+# Lab 2A - Level 1
 
-Una sola aplicación. Las versiones anteriores no se han modificado.
+Open `Lab2A_new.pjx` from this folder. Load one part in each ramp and empty the destinations before starting.
 
-## Elegir modo
+- `simulation=true`: manual sensor simulation. Set `partOnTool=true` at step 60 and `false` at step 70 for each part.
+- `simulation=false`: real suction sensor and outputs (`bIn0`, `bOut0`, `bOut1`). The saved mode remains physical; choose the mode before starting.
+- Placement uses two taught destinations indexed 0 and 1 (the former slots 0 and 4). Taught joint values, TCP and motion settings are preserved.
+- `start` selects the ramp and destination; `pickAndPlace` performs the movement. `physicalIO` handles the suction tool; `stop` preserves suction and turns off blow-off.
 
-Abrir `Lab2A_new.pjx` en SRS. **Antes de arrancar**, ajustar el bool público
-**`simulation`** en los datos de la aplicación cargada:
+No conveyor, barrier, material detector or diverter control is included. Configure the station for ramp loading before running. Sensor waits have no timeout.
 
-- **`true` (por defecto): simulación manual.** Tú cambias los sensores bool;
-  las salidas son órdenes bool observables y no se escriben pines físicos.
-- **`false`: físico.** `physicalIO` copia las entradas reales a esos mismos bool
-  y escribe sus órdenes en bOut0…5. No cambies los sensores bool a mano.
-
-El modo se copia a `physicalRun` al arrancar. Cambiar `simulation` durante la
-ejecución no cambia el modo: parar la aplicación y volver a arrancarla.
-La librería `io` se carga en ambos modos, pero solo el físico accede a los pines.
-El TCP usa `toolDummy` local: no se emplean `open()`/`close()`, la aspiración
-y el soplado se ordenan explícitamente por bOut0/bOut1.
-
-## Qué se ha simplificado
-
-- Un único `start` para ambos modos, sin duplicar el ciclo.
-- `wait()` para todos los sensores; **sin `watch()` ni timeouts**. Si falta una
-  señal, se queda esperando en la fase indicada por `cycleStep`.
-- Sin comprobaciones de estación vacía, sensor de rampa previo, pérdida de pieza
-  en traslado, ni `cycleOK`. Los `waitEndMove()` se conservan para completar
-  cada movimiento antes de ordenar aspiración/soplado o avanzar.
-- Se conservan únicamente el fallo de conversión cinemática y fila llena
-  (evitan usar destinos sin calcular o índices fuera del array).
-- `pickAndPlace` agrupa la rutina repetida ocho veces. `physicalIO` es un
-  adaptador independiente y automático; no es otro ciclo de misión.
-- Alimentación bOut2 continua durante la misión: arranca después de calcular
-  la matriz y llegar a home, y se para al completar, en STOP o por fila llena.
-- Sin espera de alimentación bIn3 ni finales de carrera bIn5..8. Se espera
-  directamente clasificación y se conceden 0,5 s a los desviadores antes de
-  liberar. Ese tiempo es provisional: no confirma que hayan llegado.
-- Sin rearme ni reanudación: **matriz vacía al iniciar**, cuatro piezas por tipo.
-
-## Simulación manual: qué cambiar
-
-Al inicio: `partAtClass`, `partIsMetal`, `partAtRamp` y `partOnTool`
-a **false**. No se borran automáticamente al iniciar.
-Ya no existen `partAtSource` ni los cuatro bool de finales de carrera en esta aplicación.
-
-| `cycleStep` | Cambios manuales en memoria del emulador | Qué simulas |
-|---|---|---|
-| 20 | Primero **`partIsMetal=false`** (roja) o **`true`** (metal); al final **`partAtClass=true`** | Llega una pieza a clasificación con su material definido. |
-| 30 | **Nada.** Transcurre una pausa de 0,5 s. | Se supone que los desviadores llegan a la posición ordenada. |
-| 40 | Tras el pulso de apertura/cierre, **`partAtRamp=true`**. | La barrera abre 0,2 s, vuelve a cerrar y la pieza cruza el detector. |
-| 50 | **`partAtRamp=false`**. En simulación, poner también **`partAtClass=false`** antes de preparar otra pieza. | Sale del sensor de rampa. En físico no se espera clasificación vacía: la siguiente pieza puede estar ya retenida allí. |
-| 60 | **`partOnTool=true`**, mantenerlo durante el traslado | La ventosa ha cogido la pieza. |
-| 70 | **`partOnTool=false`**, solo al llegar a esta fase | La pieza se ha soltado en la matriz. |
-| 80 → 20 | Ningún cambio de contadores; preparar la siguiente pieza | Se cuenta una pieza y se espera la siguiente en clasificación. |
-| 100 | Ninguno | Cuatro piezas de cada tipo colocadas; alimentación parada. |
-
-No editar `materialType`, `placedCount`, `placeIndex`, `cycleStep`, `physicalRun`
-ni las órdenes de salida. Si un sensor ya cumple la condición, `wait` no se
-detiene. Preparar sus valores a tiempo; no es una confirmación de flanco.
-
-## Dosificación de la barrera con alimentación continua
-
-La barrera **abre 0,2 s y vuelve a cerrar antes de esperar bIn4**. Antes se
-mantenía abierta hasta el paso por rampa, permitiendo que salieran más piezas.
-El pulso es provisional: ajustar su duración para que pase una sola pieza.
-Si pasan varias, reducirlo; si no pasa ninguna, comprobar polaridad y tiempos.
-No garantiza una pieza si no hay separación física suficiente para cerrar entre ellas.
-La lectura de rampa debe producirse después del pulso para que el `wait` la vea:
-si el pulso de bIn4 termina antes, este código no lo memoriza.
-
-No se espera clasificación vacía en fase 50: con alimentación continua, otra
-pieza puede ocupar bIn1 mientras la primera baja por la rampa. El material de
-la pieza en curso ya está guardado en `materialType`.
-
-## Geometría y físico: pendientes conservados
-
-Se conservan el TCP (0,20,0), velocidad 10 y las posiciones de recogida.
-La matriz usa **dos referencias enseñadas**, una por fila:
-
-- `placePose[0]`: primer hueco de la primera fila, conservado.
-- `placePose[4]`: primer hueco de la segunda fila: **J1=-77.39, J2=100.14,
-  J3=8.89, J4=-353.18**, proporcionado por el usuario.
-
-Se calculan los destinos 1..3 y 5..7 desde la referencia de su propia fila,
-con desplazamiento world Y=-60 mm por columna. Se conservan la altura y la
-orientación de cada referencia. Las ocho aproximaciones son world Z+50 mm.
-Ya no se usa X=-70 mm para calcular la segunda fila. Este cambio sustituye el
-destino 4 que no resolvía; no demuestra que hubiera una singularidad.
-**TODO:** comprobar destinos 5..7, aproximaciones, dirección de columnas y
-recorridos en SRS y en la célula real.
-
-**TODO físico:** confirmar bOut5=1 retiene; bOut3/bOut4=1 empujan y las rutas
-(1,0) no metal / (0,1) metal; dosificación de una sola pieza con alimentación continua; pausa de desviadores (0,5 s); llegada a recogida (0,5 s
-provisionales) y soplado (0,3 s). El selector no calibra estas diferencias.
-STOP conserva aspiración, para carro y soplado y manda retener con la polaridad
-asumida. La tarea física permanece activa al terminar la misión hasta STOP.
-
-## Verificación pendiente en SRS
-
-Los XML se han validado contra los XSD de VAL3 s6.8. Esto no sustituye
-**Check Syntax** ni la prueba de movimientos/sensores en SRS y la estación.
+Pending: reload the whole application, run Check Syntax and check trajectories and grip/release in SRS before physical trials.

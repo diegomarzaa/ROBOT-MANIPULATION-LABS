@@ -1,34 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <programList xmlns="ProgramNameSpace">
   <program name="stop" public="false">
-    <description>Lab2A Level 3 - shared manual simulation / physical cycle</description>
+    <description>Stop motion and preserve suction</description>
     <paramSection/>
     <localSection/>
     <source>
       <code>begin
-
-  // Halts robot motion, stops the background I/O task, and puts actuators
-  // in a safe state while preserving vacuum grip if a part is held.
-
-  resetMotion()                     // Decelerate robot and clear motion queue
-
-  trolleyOn = false                 // Set logical flag to stop conveyor
-  barrierClosed = true              // Set logical flag to close barrier
-  blowOn = false                    // Set logical flag to disable blow-off (we want to keep the piece in the robot)
-
-  if physicalRun                    // Only write hardware pins on real station
-    taskKill("physicalIO")          // Terminate background I/O polling task
-    io:bOut2 = false                // Stop conveyor motor directly
-    io:bOut1 = false                // Turn off blow-off valve directly
-    io:bOut5 = false                // Close barrier directly (INVERSE LOGIC)
+  resetMotion()
+  blowOn = false
+  if physicalRun
+    taskKill("physicalIO")
+    io:bOut1 = false
   endIf
-
-  cycleStep = -1                    // Mark application state as stopped
-  putln("Application stopped safely.") // Print status message to MCP
-  resetMotion()                     // Gives us the control of the robot again
-
-
-end</code>
+  // Preserve suction so a held part is not released by STOP.
+  cycleStep = -1
+  putln("Stopped - empty the destinations before restarting")
+end
+</code>
     </source>
   </program>
 </programList>

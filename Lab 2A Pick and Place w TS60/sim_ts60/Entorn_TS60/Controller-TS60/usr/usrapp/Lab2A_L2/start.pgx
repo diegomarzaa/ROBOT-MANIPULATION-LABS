@@ -1,112 +1,72 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <programList xmlns="ProgramNameSpace">
   <program name="start" public="false">
-    <description>Lab2A Level 2 - shared manual simulation / physical cycle</description>
+    <description>Lab2A Level 2 - parts loaded in ramps</description>
     <paramSection/>
     <localSection>
-      <local name="rowIndex" type="num" size="1"/>
-      <local name="columnIndex" type="num" size="1"/>
-      <local name="targetIndex" type="num" size="1"/>
-      <local name="targetPose" type="pointRs" size="1"/>
-    </localSection>
+      <local name="rowIndex" type="num" size="1"/><local name="columnIndex" type="num" size="1"/><local name="targetIndex" type="num" size="1"/><local name="targetPose" type="pointRs" size="1"/></localSection>
     <source>
       <code>begin
-  // Level 2 main routine:
-  // Picks 4 manually loaded non-metallic parts (ramp 0 - slots 0, 1, 2, 3)
-  // and 4 manually loaded metallic parts (ramp 1 - slots 4, 5, 6, 7).
+  // Four parts in each ramp. Start with an empty matrix.
+  userPage()
+  cls()
+  physicalRun = !simulation
+  cycleStep = 0
+  vacuumOn = false
+  blowOn = false
+  ioReady = false
 
-  userPage()                                                         // Switch MCP display to user text screen
-  cls()                                                              // Clear MCP screen
-  physicalRun = !simulation                                          // Lock execution mode at startup
-
-  cycleStep = 0                                                      // Reset step counter
-  placedCount[0] = 0                                                 // Reset NON-METALLIC counter
-  placedCount[1] = 0                                                 // Reset METALLIC counter
-  vacuumOn = false                                                   // Ensure suction is off
-  blowOn = false                                                     // Ensure blow-off is off
-  
-
-  ioReady = false                                                    // Reset I/O sync flag
-  if physicalRun                                                     // Check if running on real station
-    taskCreate "physicalIO", 10, physicalIO()                        // Spawn background I/O task (priority 10)
-    wait(ioReady == true)                                            // Block until first I/O scan completes
-    putln("Lab2A Level 2 - PHYSICAL MODE")                           // Display active mode on MCP
+  if physicalRun
+    taskCreate "physicalIO", 10, physicalIO()
+    wait(ioReady == true)
+    putln("PHYSICAL - parts loaded in ramps")
   else
-    putln("Lab2A Level 2 - MANUAL SIMULATION")
+    putln("SIMULATION - edit partOnTool at steps 60 and 70")
   endIf
 
+  moveSpeed.vel = 10
+  moveSpeed.accel = 10
+  moveSpeed.decel = 10
+  moveSpeed.blend = off
 
-  moveSpeed.vel = 10                                                 // Set speed to 10% 
-  moveSpeed.accel = 10                                               // Set acceleration to 10%
-  moveSpeed.decel = 10                                               // Set deceleration to 10%
-  moveSpeed.blend = off                                              // Disable path blending for exact stops
-  
-  // ============================================================
-  // COMPUTE 2x4 MATRIX POSES AND APPROACHES
-  // ============================================================
-  // Index distribution
-  // First row:  0, 1, 2, 3
-  // Second row:  4, 5, 6, 7
-
-  for rowIndex = 0 to 1                                              // Loop rows: 0 = non-metallic, 1 = metallic
-    for columnIndex = 0 to 3                                         // Loop 4 columns per row
-      targetIndex = 4*rowIndex + columnIndex                         // Compute flat slot index (0 to 7)
-      targetPose = jointToPoint(vacuumTool, world, placePose[4*rowIndex]) // Get Cartesian pose of row reference
-      targetPose.trsf.y = targetPose.trsf.y + 60*columnIndex         // Offset Y by 60 mm per column
-
-
-      //POSE
-
-      if columnIndex != 0                                            // Keep taught joint for column 0; solve IK for 1..3
-        if !pointToJoint(vacuumTool, placePose[4*rowIndex], targetPose, placePose[targetIndex]) // Solve IK for matrix slot and save in placePose[targetIndex]
-          putln("ERROR: unreachable matrix destination")             
-          putln(targetIndex)                                         
-          return                                               
+  // Each row starts at its own taught pose (0 or 4).
+  for rowIndex = 0 to 1
+    for columnIndex = 0 to 3
+      targetIndex = 4*rowIndex + columnIndex
+      targetPose = jointToPoint(vacuumTool, world, placePose[4*rowIndex])
+      targetPose.trsf.y = targetPose.trsf.y + 60*columnIndex
+      if columnIndex != 0
+        if !pointToJoint(vacuumTool, placePose[4*rowIndex], targetPose, placePose[targetIndex])
+          putln("ERROR: unreachable matrix destination")
+          putln(targetIndex)
+          return
         endIf
       endIf
 
-
-      //APPROACH
-
-      targetPose.trsf.z = targetPose.trsf.z + 50                     // Shift Z +50 mm above slot (approach)
-      if !pointToJoint(vacuumTool, placePose[targetIndex], targetPose, placeApproach[targetIndex]) // Solve IK for approach and save it in placeApproach[targetIndex]
-        putln("ERROR: unreachable matrix approach")                
-        putln(targetIndex)                                          
-        return                                                      
+      targetPose.trsf.z = targetPose.trsf.z + 50
+      if !pointToJoint(vacuumTool, placePose[targetIndex], targetPose, placeApproach[targetIndex])
+        putln("ERROR: unreachable matrix approach")
+        putln(targetIndex)
+        return
       endIf
-
     endFor
-
   endFor
-  
 
-  // ============================================================
-  // PICK AND PLACE
-  // ============================================================
-
-  movej(homePose, vacuumTool, moveSpeed)                             // Move robot to safe home pose
+  movej(homePose, vacuumTool, moveSpeed)
   waitEndMove()
 
-  for columnIndex = 0 to 3                                           // Repeat 4 times to fill all columns
-    
-    // NON-METALLIC PART (RAMP 0 - SLOTS 0, 1, 2, 3)
-
-    materialType = 0                                                 // Select NON-METALLIC ramp
-    placeIndex = columnIndex                                         // Select slot in row 0 (0 to 3)
-    putln("Picking NON-METALLIC part...")                            
-    call pickAndPlace()                                              // Execute unit pick-and-place routine
-    placedCount[0] = placedCount[0] + 1                              // Increment NON-METALLIC counter
-
-    // METALLIC PART (RAMP 1 - SLOTS 4, 5, 6, 7)
-    materialType = 1                                                 // Select METALLIC ramp
-    placeIndex = 4 + columnIndex                                     // Select slot in row 1 (4 to 7)
-    putln("Picking METALLIC part...")                              
-    call pickAndPlace()                                              // Execute unit pick-and-place routine
-    placedCount[1] = placedCount[1] + 1                              // Increment METALLIC counter
+  // Alternate ramps for each column: 0,4,1,5,2,6,3,7.
+  for columnIndex = 0 to 3
+    for materialType = 0 to 1
+      placeIndex = 4*materialType + columnIndex
+      putln("Place in slot:")
+      putln(placeIndex)
+      call pickAndPlace()
+    endFor
   endFor
-  
-  cycleStep = 100                                                    // Mark mission as finished
-  putln("100 - Level 2 completed: 8 parts classified.")            // Display completion message on MCP
+
+  cycleStep = 100
+  putln("Level 2 completed: eight parts placed")
 end
 </code>
     </source>
