@@ -1,10 +1,10 @@
-# Lab2A_new — nivel 3, simulación manual y físico
+# Lab2A_L3 — nivel 3, simulación manual y físico
 
 Una sola aplicación. Las versiones anteriores no se han modificado.
 
 ## Elegir modo
 
-Abrir `Lab2A_new.pjx` en SRS. **Antes de arrancar**, ajustar el bool público
+Abrir `Lab2A_L3.pjx` en SRS. **Antes de arrancar**, ajustar el bool público
 **`simulation`** en los datos de la aplicación cargada:
 
 - **`true` (por defecto): simulación manual.** Tú cambias los sensores bool;

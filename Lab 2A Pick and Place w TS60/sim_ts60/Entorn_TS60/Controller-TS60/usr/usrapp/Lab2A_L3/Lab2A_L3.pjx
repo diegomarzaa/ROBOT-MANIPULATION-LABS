@@ -7,7 +7,7 @@
     <program file="stop.pgx"/>
   <program file="physicalIO.pgx"/></programSection>
   <dataSection>
-    <data file="Lab2A_new.dtx"/>
+    <data file="Lab2A_L3.dtx"/>
   </dataSection>
   <aliasSection>
     <alias name="io" interface="io" autoload="true"/>
