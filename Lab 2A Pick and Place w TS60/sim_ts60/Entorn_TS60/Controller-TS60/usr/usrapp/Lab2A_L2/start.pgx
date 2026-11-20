@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="start" public="false">
+    <description>Lab2A Level 3 - shared manual simulation / physical cycle</description>
+    <paramSection/>
+    <localSection>
+      <local name="rowIndex" type="num" size="1"/>
+      <local name="columnIndex" type="num" size="1"/>
+      <local name="targetIndex" type="num" size="1"/>
+      <local name="targetPose" type="pointRs" size="1"/>
+    </localSection>
+    <source>
+      <code>begin
+  // Level 1 main routine:
+  // Picks 1 manually placed non-metallic part (ramp 0 = slot 0)
+  // and 1 manually placed metallic part (ramp 1 = slot 4).
+
+  userPage()                                                         // Switch MCP display to user text screen
+  cls()                                                              // Clear MCP screen
+  physicalRun = !simulation                                          // Lock execution mode at startup
+
+  cycleStep = 0                                                      // Reset step counter
+  placedCount[0] = 0                                                 // Reset NON-METALLIC counter
+  placedCount[1] = 0                                                 // Reset METALLIC counter
+  vacuumOn = false                                                   // Ensure suction is off
+  blowOn = false                                                     // Ensure blow-off is off
+  
+
+  ioReady = false                                                    // Reset I/O sync flag
+  if physicalRun                                                     // Check if running on real station
+    taskCreate "physicalIO", 10, physicalIO()                        // Spawn background I/O task (priority 10)
+    wait(ioReady == true)                                            // Block until first I/O scan completes
+    putln("Lab2A Level 1 - PHYSICAL MODE")                           // Display active mode on MCP
+  else
+    putln("Lab2A Level 1 - MANUAL SIMULATION")
+  endIf
+
+
+  moveSpeed.vel = 10                                                 // Set speed to 10% 
+  moveSpeed.accel = 10                                               // Set acceleration to 10%
+  moveSpeed.decel = 10                                               // Set deceleration to 10%
+  moveSpeed.blend = off                                              // Disable path blending for exact stops
+  
+  
+  // ============================================================
+  // COMPUTE APPROACH POSES FOR SLOTS 0 AND 4
+  // ============================================================
+  
+  // SLOT 0
+
+  targetPose = jointToPoint(vacuumTool, world, placePose[0])         // Get Cartesian pose of slot 0
+  targetPose.trsf.z = targetPose.trsf.z + 50                         // Shift Z +50 mm above slot 0 (approach)
+
+  if !pointToJoint(vacuumTool, placePose[0], targetPose, placeApproach[0]) // Solve IK for slot 0 approach
+    putln("ERROR: unreachable approach for slot 0")                  // Report IK error on MCP
+    return                                                           
+  endIf
+
+  // SLOT 4
+  targetPose = jointToPoint(vacuumTool, world, placePose[4])         // Get Cartesian pose of slot 4
+  targetPose.trsf.z = targetPose.trsf.z + 50                         // Shift Z +50 mm above slot 4 (approach)
+
+  if !pointToJoint(vacuumTool, placePose[4], targetPose, placeApproach[4]) // Solve IK for slot 4 approach
+    putln("ERROR: unreachable approach for slot 4")                  
+    return                                                           
+  endIf
+  
+
+  // ============================================================
+  // PICK AND PLACE
+  // ============================================================
+
+  // NON-METALLIC PART (RAMP 0 - SLOT 0)
+
+  movej(homePose, vacuumTool, moveSpeed)                             // Move robot to safe home pose
+  waitEndMove()
+  
+  materialType = 0                                                   // Select NON-METALLIC ramp 
+  placeIndex = 0                                                     // Select first matrix row start 
+  putln("Step 1/2: Picking NON-METALLIC part")             
+  call pickAndPlace()                                                // Execute unit pick-and-place routine
+  placedCount[0] = 1                                                 // Record NON-METALLIC part placed
+  
+  //  METALLIC PART (RAMP 1 - SLOT 4) 
+
+  materialType = 1                                                   // Select METALLIC ramp 
+  placeIndex = 4                                                     // Select second matrix row start 
+  putln("Step 2/2: Picking METALLIC part")                           
+  call pickAndPlace()                                                // Execute unit pick-and-place routine
+  placedCount[1] = 1                                                 // Record METALLIC part placed
+  
+
+  cycleStep = 100                                                    // Mark mission as finished
+  putln("100 - Level 1 completed: 2 parts classified.")            // Display completion message on MCP
+end
+</code>
+    </source>
+  </program>
+</programList>

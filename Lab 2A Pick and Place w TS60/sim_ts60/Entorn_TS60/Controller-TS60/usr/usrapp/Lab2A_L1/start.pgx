@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <programList xmlns="ProgramNameSpace">
   <program name="start" public="false">
-    <description>Lab2A Level 3 - shared manual simulation / physical cycle</description>
+    <description>Lab2A Level 1 - shared manual simulation / physical cycle</description>
     <paramSection/>
     <localSection>
       <local name="rowIndex" type="num" size="1"/>
