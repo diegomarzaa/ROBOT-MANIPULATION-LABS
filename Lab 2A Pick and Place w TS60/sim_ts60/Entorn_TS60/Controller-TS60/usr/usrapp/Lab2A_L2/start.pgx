@@ -11,9 +11,9 @@
     </localSection>
     <source>
       <code>begin
-  // Level 1 main routine:
-  // Picks 1 manually placed non-metallic part (ramp 0 = slot 0)
-  // and 1 manually placed metallic part (ramp 1 = slot 4).
+  // Level 2 main routine:
+  // Picks 4 manually loaded non-metallic parts (ramp 0 - slots 0, 1, 2, 3)
+  // and 4 manually loaded metallic parts (ramp 1 - slots 4, 5, 6, 7).
 
   userPage()                                                         // Switch MCP display to user text screen
   cls()                                                              // Clear MCP screen
@@ -89,7 +89,7 @@
 
   for columnIndex = 0 to 3                                           // Repeat 4 times to fill all columns
     
-    // NON-METALLIC PART (RAMP 0 - SLOTS 0, 1, 2 and 3)
+    // NON-METALLIC PART (RAMP 0 - SLOTS 0, 1, 2, 3)
 
     materialType = 0                                                 // Select NON-METALLIC ramp
     placeIndex = columnIndex                                         // Select slot in row 0 (0 to 3)
@@ -97,16 +97,16 @@
     call pickAndPlace()                                              // Execute unit pick-and-place routine
     placedCount[0] = placedCount[0] + 1                              // Increment NON-METALLIC counter
 
-    // METALLIC PART (RAMP 1 - SLOTS 4, 5, 6 and 7)
+    // METALLIC PART (RAMP 1 - SLOTS 4, 5, 6, 7)
     materialType = 1                                                 // Select METALLIC ramp
     placeIndex = 4 + columnIndex                                     // Select slot in row 1 (4 to 7)
-    putln("Picking METALLIC part...")                              // Prompt progress on MCP
+    putln("Picking METALLIC part...")                              
     call pickAndPlace()                                              // Execute unit pick-and-place routine
     placedCount[1] = placedCount[1] + 1                              // Increment METALLIC counter
   endFor
   
   cycleStep = 100                                                    // Mark mission as finished
-  putln("100 - Level 1 completed: 2 parts classified.")            // Display completion message on MCP
+  putln("100 - Level 2 completed: 8 parts classified.")            // Display completion message on MCP
 end
 </code>
     </source>
