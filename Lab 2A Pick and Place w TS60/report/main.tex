@@ -62,14 +62,57 @@ To pick up a part, the robot first moves to the approach position above the ramp
 
 We use \texttt{movej} to move between approach positions and \texttt{movel} to move in a straight line near the parts. After each move, \texttt{waitEndMove()} makes the program wait until the robot finishes moving before it runs the next command, such as turning on suction or releasing the part.
 
+\noindent\begin{minipage}{\linewidth}
+\textbf{Shared pickAndPlace routine:}
+\begin{quote}\small\ttfamily\setlength{\parskip}{0pt}
+Move to the selected ramp approach; move down to the part\par
+Turn on suction and wait for the grip sensor\par
+Move back up; move above the selected destination\par
+Move down; turn off suction and blow air for 0.3 s\par
+Wait for the sensor to confirm release\par
+Move back up and return home
+\end{quote}
+\end{minipage}
+
 \subsection{Level 1: Basic classification}
 For basic classification, we place one cylinder in each ramp and use two taught destinations, with index 0 for non-metallic and 1 for metallic. After calculating an approach 50\,mm above each destination, \texttt{start} selects the ramp and matching destination and calls \texttt{pickAndPlace}, completing the same operation once for each material.
+
+\noindent\begin{minipage}{\linewidth}
+\textbf{Pseudocode:}
+\begin{quote}\small\ttfamily\setlength{\parskip}{0pt}
+Select simulation or physical mode; set speed and I/O\par
+For each of the two taught destinations:\par
+\hspace*{1em}Calculate an approach 50 mm above the destination\par
+\hspace*{1em}If the approach cannot be calculated, stop\par
+Move home\par
+For each material (non-metallic, then metallic):\par
+\hspace*{1em}Select its ramp and matching destination\par
+\hspace*{1em}Call pickAndPlace\end{quote}
+\end{minipage}
 
 \subsection{Level 2: Continuous feeding}
 Level 2 extends this sequence to four parts per ramp, keeping the two taught reference positions as slots 0 and 4 and calculating the other positions along each material group. A loop alternates the ramps and fills slots in the order \texttt{0,4,1,5,2,6,3,7}; because the number and order of pickups are fixed, the loop indices also give us the next destination. As in Level 1, we load the ramps before starting and the program uses only the suction sensor, vacuum and blow outputs.
 
+\noindent\begin{minipage}{\linewidth}
+\textbf{Pseudocode:}
+\begin{quote}\small\ttfamily\setlength{\parskip}{0pt}
+Select simulation or physical mode; set speed and I/O\par
+For each material and each of its four columns:\par
+\hspace*{1em}Calculate the destination from its taught reference\par
+\hspace*{1em}Calculate its approach 50 mm above\par
+\hspace*{1em}If either position cannot be calculated, stop\par
+Move home\par
+For each column (0 to 3):\par
+\hspace*{1em}Pick from the non-metallic ramp; place in slot 0 + column\par
+\hspace*{1em}Pick from the metallic ramp; place in slot 4 + column
+\end{quote}
+\end{minipage}
+
 \subsection{Level 3: Continuous feeding with automated classification}
 In Level 3, the feeding station sends the parts while the conveyor keeps running. Once the sensor detects a part at the classification station, the program reads the inductive sensor, stores the material as 0 or 1 and selects the matching sorting actuator. After waiting 0.5\,s for the actuator to move, it opens the barrier for 0.4\,s and closes it again, then waits for the ramp sensor to turn on and then off as the part passes. Physical mode includes another 0.5\,s delay to allow the part to reach the pickup location.
+
+
+At first, we assumed that setting \texttt{bOut5} to 1 would close the barrier, but during testing it stayed open. We found that the output worked the other way around, so we inverted it in the program: \texttt{bOut5=0} closes the barrier and \texttt{bOut5=1} opens it.
 
 Each material has its own counter. The next destination is
 \[
@@ -77,16 +120,34 @@ Each material has its own counter. The next destination is
 \]
 The counter increases after \texttt{pickAndPlace} returns, which lets the next part of that material use the following free destination whatever order the parts arrive in. If its group already contains four parts, the program skips pickup and continues looking for the material still needed; these extra parts remain in their ramp. Once both counters reach four, the program stops the conveyor and leaves the barrier closed.
 
-\textbf{Level 3 sequence:}
-\begin{enumerate}
-\setlength{\itemsep}{1pt}
-\setlength{\parsep}{0pt}
-\item Prepare geometry and I/O, start the conveyor and move home.
-\item Wait for classification presence and store the material.
-\item Select the sorting actuator, open and close the barrier, then wait for the part to pass the ramp sensor.
-\item Pick and place if that material still has a free slot, then add one to its counter.
-\item Repeat from step 2 until both counters reach four. Stop the conveyor and keep the barrier closed.
-\end{enumerate}
+\noindent\begin{minipage}{\linewidth}
+\textbf{Pseudocode:}
+\begin{quote}\small\ttfamily\setlength{\parskip}{0pt}
+Select mode; reset both counters; prepare I/O and positions\par
+If a destination or approach cannot be calculated, stop\par
+Start conveyor and move home\par
+While either material has fewer than four placed parts:\par
+\hspace*{1em}Wait until a part reaches classification\par
+\hspace*{1em}Read the inductive sensor and store its material\par
+\hspace*{1em}Select the sorting actuator; wait 0.5 s\par
+\hspace*{1em}Open the barrier for 0.4 s, then close it\par
+\hspace*{1em}Wait for the ramp sensor to turn on, then off\par
+\hspace*{1em}In physical mode, wait another 0.5 s\par
+\hspace*{1em}If this material has fewer than four placed parts:\par
+\hspace*{2em}Select the next slot, call pickAndPlace and add one\par
+\hspace*{1em}Otherwise, skip pickup and continue with the next part\par
+Stop conveyor and keep the barrier closed
+\end{quote}
+\end{minipage}
+
+Figure~\ref{fig:level3-flow} shows the same cycle and how the program handles extra parts.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\linewidth,height=0.70\textheight,keepaspectratio,trim=0 110bp 0 0,clip]{img/level3-flowchart.pdf}
+\caption{Level 3 feeding, classification and placement sequence.}
+\label{fig:level3-flow}
+\end{figure}
 
 \section{Parameters and data}
 We define the application positions relative to \texttt{world}, with zero translation and rotation, and define the suction TCP at an offset of \texttt{(0,20,0)}\,mm from \texttt{flange}, also with zero relative rotation. The tool uses the local \texttt{toolDummy} as its I/O reference because the cycle controls vacuum and blow through separate output commands rather than \texttt{open()} and \texttt{close()}.
@@ -97,7 +158,9 @@ We define the application positions relative to \texttt{world}, with zero transl
 \item \textbf{Timing:} blow pulse 0.3\,s. L3 uses 0.5\,s for the sorting actuators, a 0.4\,s barrier opening and 0.5\,s of extra waiting time at the ramp in physical mode.
 \end{compactitems}
 
-The matrix calculation in L2 and L3 starts from the taught reference for each material, at slots 0 and 4. We convert each reference to Cartesian coordinates with \texttt{jointToPoint}, apply the column offset and pass the result to \texttt{pointToJoint} to get the next joint position. This also gives us a check before starting the cycle: the program exits if a destination or approach cannot be calculated, although we still need to check the path even if the calculation succeeds.
+At first, we tried to calculate the whole matrix from slot 0 by adding a row offset and a column offset. This did not give us a valid position for slot 4, and the position offsets also needed adjustment to match the matrix. We therefore taught slots 0 and 4 separately, giving each material group its own reference.
+
+In L2 and L3, the program converts the reference for each group to Cartesian coordinates with \texttt{jointToPoint} and adds only the column offset: 0, 60, 120 or 180\,mm along world Y. It then uses \texttt{pointToJoint} to calculate the other joint positions and their approaches. The program stops if a position cannot be calculated, although a successful calculation still requires us to check the path.
 
 The taught joint values below use degrees for J1, J2 and J4, and millimetres for J3:
 \begin{compactitems}
@@ -141,8 +204,6 @@ The current sequence uses sensor waits without timeouts and fixed delays for the
 Level 3 was demonstrated on the real robot, and its operation in simulation is available in the \href{https://ugirona-my.sharepoint.com/:v:/g/personal/u6120632_udg_edu/IQCCHUXZbpDZQJx1GxVThgnPAUpKyrIblhpKYQN-_18FjhU?e=oOMlbG}{Level 3 simulation video}. \todo{add the real-execution video and check that the teacher can open both links.}
 
 The syntax check shows zero errors for L1 and L2, so the compiler accepts both programs. We still need to test them in simulation to check the paths and make sure the robot picks up and places the parts as expected. \todo{record the L1/L2 simulation results and videos, and repeat Check Syntax after further code changes.}
-
-During development, the first Cartesian offset did not give us a valid second matrix reference, so we used a taught reference for each material and set the column offset along world Y positive. For the automatic station, we also inverted the barrier output and adjusted its opening to 0.4\,s. We kept these settings in L3, although our notes do not include cycle-time measurements or repeated-run success rates.
 
 \section{Improvements}
 The first improvement would be to keep a record of the ramp sensor signal until the main task reads it, and to wait for a stable material reading after a part is detected. This would help avoid the timing problems described above. We would then use the sorting actuator end switches, add time limits to the sensor waits and check that the robot still holds the part before releasing it. These changes would be made in the station and I/O code, while keeping the same pickup and placement routine for all three levels.
