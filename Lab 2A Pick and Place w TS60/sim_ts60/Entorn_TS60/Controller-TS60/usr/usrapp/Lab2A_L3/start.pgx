@@ -85,32 +85,71 @@
   
 
   // ============================================================
-  // PICK AND PLACE
+  // PICK AND PLACE WITH AUTOMATIC FEEDING AND CLASSIFICATION
   // ============================================================
 
+  trolleyOn = true                                                   // Start conveyor belt (bOut2)
   movej(homePose, vacuumTool, moveSpeed)                             // Move robot to safe home pose
   waitEndMove()
 
-  for columnIndex = 0 to 3                                           // Repeat 4 times to fill all columns
-    
-    // NON-METALLIC PART (RAMP 0 - SLOTS 0, 1, 2, 3)
+  while placedCount[0] &lt; 4 or placedCount[1] &lt; 4
 
-    materialType = 0                                                 // Select NON-METALLIC ramp
-    placeIndex = columnIndex                                         // Select slot in row 0 (0 to 3)
-    putln("Picking NON-METALLIC part...")                            
-    call pickAndPlace()                                              // Execute unit pick-and-place routine
-    placedCount[0] = placedCount[0] + 1                              // Increment NON-METALLIC counter
+    // STEP 20: WAIT FOR PART AT CLASSIFICATION SENSOR
+    cycleStep = 20                                                   // Update step indicator
+    putln("20 - Set partIsMetal, then partAtClass=true")             
+    wait(partAtClass == true)                                        // Wait until presence sensor 2 detects part (bIn1)
 
-    // METALLIC PART (RAMP 1 - SLOTS 4, 5, 6, 7)
-    materialType = 1                                                 // Select METALLIC ramp
-    placeIndex = 4 + columnIndex                                     // Select slot in row 1 (4 to 7)
-    putln("Picking METALLIC part...")                              
-    call pickAndPlace()                                              // Execute unit pick-and-place routine
-    placedCount[1] = placedCount[1] + 1                              // Increment METALLIC counter
-  endFor
+    if partIsMetal                                                   // Read inductive sensor (bIn2) while part is present
+      materialType = 1                                               // Select METALLIC type (index 1)
+    else
+      materialType = 0                                               // Select NON-METALLIC type (index 0)
+    endIf
+
+
+    // STEP 30: ACTIVATE DIVERTER GATE
+    cycleStep = 30                                                   
+    putln("30 - Select route; actuator settling delay")              
+    nonMetalGate = materialType == 0                                 // Extend gate 1 (bOut3) if NON-METALLIC
+    metalGate = materialType == 1                                    // Extend gate 2 (bOut4) if METALLIC
+    delay(0.5)         
+
+    // STEP 40: PULSE BARRIER TO RELEASE ONE PART
+    cycleStep = 40                                                   
+    putln("40 - Barrier pulse; then wait partAtRamp=true")           
+    barrierClosed = false                                            // Open barrier (bOut5=true) to release single part
+    delay(0.4)                                                       // Hold barrier open for 400 ms
+    barrierClosed = true                                             // Close barrier (bOut5=false) to block next parts
+    wait(partAtRamp == true)                                         // Wait until ramp sensor detects passing part (bIn4)
+
+    // STEP 50: WAIT FOR PART TO CLEAR RAMP SENSOR
+    cycleStep = 50                                                   
+    putln("50 - Wait: partAtRamp=false")                             
+    wait(partAtRamp == false)                                        // Wait until part clears sensor beam (bIn4)
+    if physicalRun                                                   // Extra settling time on physical station
+      delay(0.5)                                                     
+    endIf
+
+    // STEP 80: PICK AND PLACE IF ROW IS NOT FULL
+    if placedCount[materialType] &lt; 4                                 // Check if target row still has empty slots
+      placeIndex = 4*materialType + placedCount[materialType]        // Compute next available slot index (0 to 7) in the m terial row
+      call pickAndPlace()                                            // Execute unit pick-and-place routine
+      placedCount[materialType] = placedCount[materialType] + 1      // Increment placed counter for this material
+      cycleStep = 80                                                 
+      putln("80 - Piece placed; next classification part")           
+    else
+      cycleStep = 80                                                 
+      putln("80 - Row full: part passed without pickup; next part")  // Skip pickup if 4 parts already placed
+    endIf
+
+  endWhile
+
+
+
   
+  trolleyOn = false                                                  // Stop conveyor belt
+  barrierClosed = true                                               // Keep barrier closed
   cycleStep = 100                                                    // Mark mission as finished
-  putln("100 - Level 2 completed: 8 parts classified.")            // Display completion message on MCP
+  putln("100 - Completed: four parts of each material")        
 end
 </code>
     </source>
