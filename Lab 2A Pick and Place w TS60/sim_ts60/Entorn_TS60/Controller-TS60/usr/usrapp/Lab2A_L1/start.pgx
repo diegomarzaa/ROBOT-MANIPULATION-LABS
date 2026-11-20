@@ -11,268 +11,87 @@
     </localSection>
     <source>
       <code>begin
-  // ============================================================
-  // LAB 2A - NIVEL 3: MISMO CICLO PARA SIMULACION Y FISICO
-  // ============================================================
-  // ANTES de arrancar: simulation=true manual; false estacion real.
-  // Se fija el modo al arrancar: no cambia durante este ciclo.
-  // materialType: 0=no metalica roja/derecha; 1=metalica.
-  // Matriz VACIA al arrancar: cuatro piezas de cada material.
-  userPage()
-  cls()
-  physicalRun = !simulation
+  // Level 1 main routine:
+  // Picks 1 manually placed non-metallic part (ramp 0 = slot 0)
+  // and 1 manually placed metallic part (ramp 1 = slot 4).
+
+  userPage()                                                         // Switch MCP display to user text screen
+  cls()                                                              // Clear MCP screen
+  physicalRun = !simulation                                          // Lock execution mode at startup
+
+  cycleStep = 0                                                      // Reset step counter
+  placedCount[0] = 0                                                 // Reset NON-METALLIC counter
+  placedCount[1] = 0                                                 // Reset METALLIC counter
+  vacuumOn = false                                                   // Ensure suction is off
+  blowOn = false                                                     // Ensure blow-off is off
   
-  // ============================================================
-  // 2. REINICIAR CONTADORES Y PREPARAR LAS ORDENES
-  // ============================================================
-  // cycleStep indica en que fase estamos. No lo cambias tu.
-  // placedCount[0]: piezas NO metalicas colocadas.
-  // placedCount[1]: piezas metalicas colocadas.
-  cycleStep = 0
-  placedCount[0] = 0
-  placedCount[1] = 0
-  
-  // Estados iniciales. Barrera retiene las piezas.
-  // En simulacion estas son simplemente variables observables.
-  // En fisico el adaptador copiara sus valores a las salidas.
-  vacuumOn = false
-  blowOn = false
-  trolleyOn = false
-  nonMetalGate = false
-  metalGate = false
-  barrierClosed = true
-  ioReady = false
 
-  // ============================================================
-  // 3. CONECTAR LAS VARIABLES CON EL HARDWARE SI ES FISICO
-  // ============================================================
-  // physicalIO es una tarea que trabaja en paralelo:
-  // lee sensores reales y aplica nuestras ordenes a las salidas.
-  //
-  // Esto permite que los sensores sigan actualizandose mientras
-  // el programa principal esta detenido en un wait().
-  //
-  // En simulacion no creamos esa tarea: los sensores los cambias tu.
-  ioReady = false
-
-  if physicalRun
-    taskCreate "physicalIO", 10, physicalIO()
-
-    // No continuar hasta que el adaptador haya completado
-    // su primera lectura de entradas y escritura de salidas.
-    wait(ioReady == true)
-    putln("Lab2A_new - PHYSICAL")
+  ioReady = false                                                    // Reset I/O sync flag
+  if physicalRun                                                     // Check if running on real station
+    taskCreate "physicalIO", 10, physicalIO()                        // Spawn background I/O task (priority 10)
+    wait(ioReady == true)                                            // Block until first I/O scan completes
+    putln("Lab2A Level 1 - PHYSICAL MODE")                           // Display active mode on MCP
   else
-    putln("Lab2A_new - MANUAL SIMULATION")
+    putln("Lab2A Level 1 - MANUAL SIMULATION")
   endIf
 
 
-  // ============================================================
-  // 4. PREPARAR LOS PARAMETROS DE MOVIMIENTO
-  // ============================================================
-  // moveSpeed agrupa velocidad, aceleracion y deceleracion.
-  // blend=off evita redondear las transiciones entre movimientos.
-  // Ademas esperaremos a terminar cada movimiento antes de seguir.
-  moveSpeed.vel = 10
-  moveSpeed.accel = 10
-  moveSpeed.decel = 10
-  moveSpeed.blend = off
+  moveSpeed.vel = 10                                                 // Set speed to 10% 
+  moveSpeed.accel = 10                                               // Set acceleration to 10%
+  moveSpeed.decel = 10                                               // Set deceleration to 10%
+  moveSpeed.blend = off                                              // Disable path blending for exact stops
   
   
   // ============================================================
-  // 5. CALCULAR LA MATRIZ DE DOS FILAS Y CUATRO COLUMNAS
+  // COMPUTE APPROACH POSES FOR SLOTS 0 AND 4
   // ============================================================
-  // Referencias ensenadas: placePose[0] para fila 0 y placePose[4] para fila 1.
-  // Se conservan ambas joints y se calculan las otras tres columnas por fila.
-  //
-  // Distribucion de los indices:
-  // Primera fila:  0, 1, 2, 3.
-  // Segunda fila:  4, 5, 6, 7.
-  //
-  // Para aplicar distancias en milimetros:
-  // 1. Convertimos la joint de referencia a un punto cartesiano.
-  // 2. Desplazamos ese punto en Y para recorrer las columnas.
-  // 3. Convertimos el resultado de nuevo a joints.
+  
+  // SLOT 0
 
-  for rowIndex = 0 to 1
-    for columnIndex = 0 to 3
-      targetIndex = 4*rowIndex + columnIndex
+  targetPose = jointToPoint(vacuumTool, world, placePose[0])         // Get Cartesian pose of slot 0
+  targetPose.trsf.z = targetPose.trsf.z + 50                         // Shift Z +50 mm above slot 0 (approach)
 
-      // Obtener la posicion del TCP correspondiente a la joint
-      // de referencia de SU fila, expresada respecto al sistema world.
-      // 4*rowIndex vale 0 para la primera fila y 4 para la segunda.
-      targetPose = jointToPoint(vacuumTool, world, placePose[4*rowIndex])
+  if !pointToJoint(vacuumTool, placePose[0], targetPose, placeApproach[0]) // Solve IK for slot 0 approach
+    putln("ERROR: unreachable approach for slot 0")                  // Report IK error on MCP
+    return                                                           
+  endIf
 
-      // Segunda fila: usar su joint ensenada, NO desplazar X=-70.
-      // Columnas separadas 60 mm desde la referencia de cada fila.
-      // Avance invertido a world Y positiva; verificar destino 1 y 5 en SRS.
-      targetPose.trsf.y = targetPose.trsf.y + 60*columnIndex
+  // SLOT 4
+  targetPose = jointToPoint(vacuumTool, world, placePose[4])         // Get Cartesian pose of slot 4
+  targetPose.trsf.z = targetPose.trsf.z + 50                         // Shift Z +50 mm above slot 4 (approach)
 
-      // Argumento 1: herramienta cuyo TCP queremos posicionar.
-      // Argumento 2: joints de referencia para buscar la solucion.
-      // Argumento 3: posicion y orientacion deseadas del TCP.
-      // Argumento 4: variable donde se guardan las joints calculadas.
-      // Devuelve true si encuentra solucion. No mueve el robot.
-      // Columna cero: conservar la joint ensenada (indice 0 o 4).
-      // Otras columnas: calcular usando la referencia de su propia fila.
-      if columnIndex != 0
-        if !pointToJoint(vacuumTool, placePose[4*rowIndex], targetPose, placePose[targetIndex])
-          putln("ERROR: unreachable matrix destination")
-          putln(targetIndex)
-          return
-        endIf
-      endIf
-      
-      // Crear tambien una aproximacion 50 mm por encima del
-      // destino. Servira para entrar y salir de forma lineal.
-      targetPose.trsf.z = targetPose.trsf.z + 50
-
-      if !pointToJoint(vacuumTool, placePose[targetIndex], targetPose, placeApproach[targetIndex])
-        putln("ERROR: unreachable matrix approach")
-        putln(targetIndex)
-        return
-      endIf
-
-    endFor
-  endFor
+  if !pointToJoint(vacuumTool, placePose[4], targetPose, placeApproach[4]) // Solve IK for slot 4 approach
+    putln("ERROR: unreachable approach for slot 4")                  
+    return                                                           
+  endIf
+  
 
   // ============================================================
-  // 6. COLOCAR EL ROBOT EN LA POSICION INICIAL
+  // PICK AND PLACE
   // ============================================================
-  // movej mueve las articulaciones hasta homePose.
-  // El recorrido del TCP no tiene por que ser una linea recta.
-  // Esperamos a que termine antes de comenzar la alimentacion.
-  movej(homePose, vacuumTool, moveSpeed)
+
+  // NON-METALLIC PART (RAMP 0 - SLOT 0)
+
+  movej(homePose, vacuumTool, moveSpeed)                             // Move robot to safe home pose
   waitEndMove()
+  
+  materialType = 0                                                   // Select NON-METALLIC ramp 
+  placeIndex = 0                                                     // Select first matrix row start 
+  putln("Step 1/2: Picking NON-METALLIC part")             
+  call pickAndPlace()                                                // Execute unit pick-and-place routine
+  placedCount[0] = 1                                                 // Record NON-METALLIC part placed
+  
+  //  METALLIC PART (RAMP 1 - SLOT 4) 
 
+  materialType = 1                                                   // Select METALLIC ramp 
+  placeIndex = 4                                                     // Select second matrix row start 
+  putln("Step 2/2: Picking METALLIC part")                           
+  call pickAndPlace()                                                // Execute unit pick-and-place routine
+  placedCount[1] = 1                                                 // Record METALLIC part placed
+  
 
-  // ============================================================
-  // 7. REPETIR EL CICLO HASTA TENER CUATRO PIEZAS DE CADA TIPO
-  // ============================================================
-  // materialType=0: NO metalica, roja, rampa derecha.
-  // materialType=1: metalica, segunda rampa.
-  // El "or" hace que continuemos mientras falte completar
-  // cualquiera de los dos materiales.
-  // Alimentacion continua durante toda la mision, incluso con el robot ocupado.
-  // La barrera dosifica la liberacion; no paramos bOut2 entre piezas.
-  trolleyOn = true
-  while placedCount[0] &lt; 4 or placedCount[1] &lt; 4
-
-    // ==========================================================
-    // FASE 20: LLEVAR LA PIEZA HASTA CLASIFICACION
-    // ==========================================================
-    // La alimentacion ya esta en marcha. Esperamos presencia bIn1.
-    // El material se lee cuando la pieza llega a clasificacion.
-    //
-    // SIMULACION, en este orden:
-    // 1. partIsMetal=false para roja o true para metalica.
-    // 2. partAtClass=true: ya esta en clasificacion.
-    cycleStep = 20
-    putln("20 - Set partIsMetal, then partAtClass=true")
-    wait(partAtClass == true)
-
-    // Interpretamos el detector inductivo solo despues de
-    // confirmar que hay una pieza delante de el.
-    // Guardamos el material para el resto de esta pieza:
-    // aunque luego el sensor cambie, materialType ya esta elegido.
-    if partIsMetal
-      materialType = 1
-    else
-      materialType = 0
-    endIf
-
-    // Aunque su fila ya este llena, dejamos pasar esta pieza.
-    // La decision de recoger se toma despues, usando el mismo contador.
-
-    // ==========================================================
-    // FASE 30: ORDENAR LA RUTA Y DAR TIEMPO AL ACTUADOR
-    // ==========================================================
-    // Estas dos variables son ORDENES:
-    // nonMetalGate controla bOut3, actuador 1.
-    // metalGate controla bOut4, actuador 2.
-    //
-    // La comparacion produce true o false directamente:
-    // - No metalica: nonMetalGate=true, metalGate=false.
-    // - Metalica: nonMetalGate=false, metalGate=true.
-    //
-    // TODO FISICO: confirmar que salida=1 significa empujar
-    // y que estas combinaciones conducen a la rampa correcta.
-    cycleStep = 30
-    putln("30 - Select route; actuator settling delay")
-
-    nonMetalGate = materialType == 0
-    metalGate = materialType == 1
-
-    // Suponemos que los actuadores alcanzan su posicion.
-    // No leemos ni esperamos finales de carrera bIn5..bIn8.
-    // Dejamos una pausa antes de liberar la pieza.
-    // TODO FISICO: ajustar 0.5 s al tiempo real de los actuadores.
-    // Esta pausa NO confirma que el actuador se haya movido.
-    delay(0.5)
-
-    // ==========================================================
-    // FASE 40: ABRIR BREVEMENTE Y CERRAR ANTES DE ESPERAR LA RAMPA
-    // ==========================================================
-    // La cinta sigue en marcha. No podemos dejar la barrera abierta
-    // hasta que la pieza llegue a bIn4: pasarian tambien las demas.
-    // Damos un pulso de apertura y ordenamos cerrar inmediatamente.
-    // Retener=true envia bOut5=0; liberar=false envia bOut5=1.
-    // TODO FISICO: verificar polaridad y pulso de 0.4 s para UNA pieza.
-    // El pulso es temporal: por si solo no confirma dosificacion unitaria.
-    cycleStep = 40
-    putln("40 - Barrier pulse; then wait partAtRamp=true")
-    barrierClosed = false
-    delay(0.4)
-    barrierClosed = true
-
-    // La barrera ya tiene orden de cierre durante esta espera.
-    // SIMULACION: partAtRamp=true representa el paso de la pieza.
-    wait(partAtRamp == true)
-
-    // ==========================================================
-    // FASE 50: ESPERAR QUE LA PIEZA DEJE LIBRE EL SENSOR DE RAMPA
-    // ==========================================================
-    // No esperamos partAtClass=false: con la cinta continua,
-    // la siguiente pieza puede estar ya retenida en clasificacion.
-    // Su material se leera en la siguiente vuelta, no en esta.
-    cycleStep = 50
-    putln("50 - Wait: partAtRamp=false")
-    wait(partAtRamp == false)
-
-    // El detector confirma PASO, no llegada al punto de recogida.
-    // En fisico dejamos un tiempo adicional para que llegue.
-    if physicalRun
-      delay(0.5)
-    endIf
-
-
-    // ==========================================================
-    // RECOGER SOLO SI QUEDAN HUECOS PARA ESTE MATERIAL
-    // ==========================================================
-    // La pieza ya ha pasado por su rampa. Si su fila esta completa,
-    // no movemos el robot, no calculamos otro indice y no contamos.
-    // Volvemos a clasificar la siguiente hasta completar ambas filas.
-    if placedCount[materialType] &lt; 4
-      // No metalicas: destinos 0..3. Metalicas: destinos 4..7.
-      placeIndex = 4*materialType + placedCount[materialType]
-      call pickAndPlace()
-      placedCount[materialType] = placedCount[materialType] + 1
-      cycleStep = 80
-      putln("80 - Piece placed; next classification part")
-    else
-      cycleStep = 80
-      putln("80 - Row full: part passed without pickup; next part")
-    endIf
-  endWhile
-
-  // ============================================================
-  // MISION COMPLETADA
-  // ============================================================
-  // Llegamos aqui cuando ambos contadores valen cuatro.
-  trolleyOn = false
-  barrierClosed = true
-  cycleStep = 100
-  putln("100 - Completed: four parts of each material")
+  cycleStep = 100                                                    // Mark mission as finished
+  putln("100 - Level 1 completed: 2 parts classified.")            // Display completion message on MCP
 end
 </code>
     </source>
