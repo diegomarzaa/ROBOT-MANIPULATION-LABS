@@ -5,12 +5,20 @@
 ## Tasks
 
 - [x] L3 version demonstrated on the real robot.
-- [ ] Review L1/L2 code, comments...
-- [ ] Check L1/L2 code working in SRS and record results/videos.
-- [ ] Add L1/L2 simulation videos??
-- [ ] Add real-execution video??
-- [ ] Finish all report sections, code, variable explanations...
-- [ ] Check final PDF layout and links.
+- [ ] L1/L2 code simplification
+- [ ] L1/L2 code additional review + check if works in simulation + record results + add to report?
+- [ ] Add real-execution video to report
+
+- [ ] Lab Report
+    1. Task Description – e.g., “Pick part from A, place in B.”
+    2. Program Breakdown – Motion sequence (MoveJ, MoveL, etc.), I/O 
+    operations, waits + Flow diagram or pseudocode
+    3. Parameters Used – Speeds, tool frames, payload.
+    4. Safety Considerations – Collisions avoided, safe home position.
+    5. Execution Results – Did the sequence complete? Cycle time?
+    6. Improvements – how would you improve or optimize the task.
+
+- [ ] Review Lab Report. Add full code?? Check links, layouts...
 
 ## Report Compilation
 
