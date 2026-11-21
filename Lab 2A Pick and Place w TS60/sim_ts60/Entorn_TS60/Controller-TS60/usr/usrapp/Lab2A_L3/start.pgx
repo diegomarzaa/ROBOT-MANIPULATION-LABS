@@ -113,6 +113,10 @@
       placedCount[materialType] = placedCount[materialType] + 1
       cycleStep = 80
       putln("80 - Piece placed; next classification part")
+      putln("Non-metal placed:")
+      putln(placedCount[0])
+      putln("Metal placed:")
+      putln(placedCount[1])
     else
       cycleStep = 80
       putln("80 - Row full: part passed without pickup; next part")
