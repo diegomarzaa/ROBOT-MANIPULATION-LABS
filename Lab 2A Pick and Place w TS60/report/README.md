@@ -10,13 +10,14 @@
 - [ ] Add real-execution video to report
 
 - [ ] Lab Report
-    1. Task Description – e.g., “Pick part from A, place in B.”
-    2. Program Breakdown – Motion sequence (MoveJ, MoveL, etc.), I/O 
+    - [X] Task Description – e.g., “Pick part from A, place in B.”
+    - [X] Program Breakdown – Motion sequence (MoveJ, MoveL, etc.), I/O 
     operations, waits + Flow diagram or pseudocode
-    3. Parameters Used – Speeds, tool frames, payload.
-    4. Safety Considerations – Collisions avoided, safe home position.
-    5. Execution Results – Did the sequence complete? Cycle time?
-    6. Improvements – how would you improve or optimize the task.
+    - [ ] Parameters Used – Speeds, tool frames, payload.
+      - [ ] toolDummy - revisar, creo que no debería estar esto??
+    - [ ] Safety Considerations – Collisions avoided, safe home position.
+    - [ ] Execution Results – Did the sequence complete? Cycle time?
+    - [ ] Improvements – how would you improve or optimize the task.
 
 - [ ] Review Lab Report. Add full code?? Check links, layouts...
 

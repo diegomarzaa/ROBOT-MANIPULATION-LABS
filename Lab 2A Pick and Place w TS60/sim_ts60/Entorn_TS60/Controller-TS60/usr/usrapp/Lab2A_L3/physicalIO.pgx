@@ -6,34 +6,30 @@
     <localSection/>
     <source>
       <code>begin
-      
-  // Background I/O bridge (runs only when simulation=false).
-  // Polls hardware inputs and updates physical outputs every 10 ms
 
   while true
-    // SENSORS
 
-    partOnTool  = (io:bIn0 == true)   // Vacuum pressure sensor on tool. Confirms vaccum.
-    partAtClass = (io:bIn1 == true)   // Presence sensor at classification gate
-    partIsMetal = (io:bIn2 == true)   // Inductive sensor (true = metallic)
-    partAtRamp  = (io:bIn4 == true)   // Presence sensor at ramp exit
-    
-    //ACTUATORS
+    // Read sensors.
+    partOnTool  = (io:bIn0 == true)
+    partAtClass = (io:bIn1 == true)
+    partIsMetal = (io:bIn2 == true)
+    partAtRamp  = (io:bIn4 == true)
 
-    io:bOut0 = vacuumOn               // Suction valve
-    io:bOut1 = blowOn                 // Blow-off release valve    
+    // Apply output commands; the barrier uses inverted logic.
+    io:bOut0 = vacuumOn
+    io:bOut1 = blowOn
 
-    io:bOut2 = trolleyOn              // Conveyor belt motor
-    io:bOut3 = nonMetalGate           // Diverter 1 (non-metallic ramp)
-    io:bOut4 = metalGate              // Diverter 2 (metallic ramp)
-    io:bOut5 = !barrierClosed         // Retaining barrier (INVERSE LOGIC)
+    io:bOut2 = trolleyOn
+    io:bOut3 = nonMetalGate
+    io:bOut4 = metalGate
+    io:bOut5 = !barrierClosed
 
-
-    ioReady = true                    // Signal start() that first I/O scan is done
+    ioReady = true
     delay(0.01)
 
   endWhile
-end</code>
+end
+</code>
     </source>
   </program>
 </programList>

@@ -6,7 +6,7 @@
 \usepackage{graphicx,fancyhdr,xcolor}
 \usepackage[hidelinks]{hyperref}
 \setlength{\parindent}{0pt}
-\setlength{\parskip}{4pt}
+\setlength{\parskip}{3pt}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\includegraphics[width=1.8cm]{img/udglogo.png}}
@@ -26,68 +26,141 @@ Ismael Bentaleb Ezuitni \quad Antonio Jose Sandoval Hurtado\\[4pt]
 \end{center}
 
 \section{Task and setup}
-The task is to pick metallic and non-metallic cylinders from two ramps and place them in separate groups on a matrix. We used the St\"aubli TS60 with a suction pad, SRS 2019 and VAL3. Figure~\ref{fig:cell} shows the station described in the lab handout~\cite{lesson}.
+We used the St\"aubli TS60 with a suction pad to move metallic and non-metallic cylinders from two ramps to separate groups on a matrix. We programmed the robot in SRS 2019 using VAL3, following the three levels in the lab handout~[1] and the cell shown in Figure~\ref{fig:cell}.
 
 \begin{compactitems}
-\item \textbf{Level 1:} one part placed by hand in each ramp, then picked and placed. Two parts in total.
-\item \textbf{Level 2:} four parts loaded in each ramp, then picked and placed in repeated cycles. Eight parts in total.
-\item \textbf{Level 3:} mixed parts loaded in the source tower. The program controls feeding, material detection and routing until four parts of each material are placed.
+\item \textbf{Level 1: Basic classification.} One part placed by hand in each ramp, then picked and placed. Two parts in total.
+\item \textbf{Level 2: Continuous feeding.} Four parts loaded in each ramp, then picked and placed in repeated cycles. Eight parts in total.
+\item \textbf{Level 3: Continuous feeding with automated classification.} Mixed parts loaded in the source tower. The program controls feeding, material detection and sorting until four parts of each material are placed.
 \end{compactitems}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.70\linewidth]{img/cell-elements.png}
-\caption{Classification station, suction tool and destination matrix. Image from the lab handout~\cite{lesson}.}
+\includegraphics[width=0.65\linewidth]{img/cell-elements.png}
+\caption{Classification station, suction tool and destination matrix. Image from the lab handout~[1].}
 \label{fig:cell}
 \end{figure}
 
-We worked on the automatic Level 3 cycle first, then separated the ramp-loaded versions for Levels 1 and 2. This report follows the order of the lab tasks. The cleaned L1/L2 versions still need execution checks in SRS.
+The levels build on the same pickup and placement sequence: Level 1 handles one part from each ramp, Level 2 repeats the operation to fill the matrix, and Level 3 connects this cycle to the feeding and classification station.
 
 \section{Program}
-Each application contains four programs. \texttt{start} selects the ramp and destination; \texttt{pickAndPlace} handles one part and returns home. A background \texttt{physicalIO} task reads the sensors and applies output commands while the main task waits. \texttt{stop} handles application shutdown.
+We divided each application into four programs so that the sequence for each level stays in \texttt{start}, while \texttt{pickAndPlace} can be reused for each ramp and destination. In physical mode, \texttt{physicalIO} runs at the same time as the main task to read the sensors and send the output commands, including while \texttt{start} is waiting for a response; \texttt{stop} defines the commands used to end the application.
 
-We select \texttt{simulation} before starting: \texttt{true} for sensor booleans edited in the emulator, \texttt{false} for physical I/O. \texttt{physicalRun} stores this choice for the run. Changing a sensor boolean represents a detector response; it does not animate a cylinder in the 3D scene.
+The cycle uses the same sensor and command variables in simulation and on the real robot, with the \texttt{simulation} flag deciding how they are connected. With \textbf{simulation enabled} (\texttt{true}), we change the sensor variables by hand as the program reaches each wait: \texttt{partOnTool=true} confirms pickup, and \texttt{false} confirms release. For L3 we also choose \texttt{partIsMetal} before confirming \texttt{partAtClass}, then change \texttt{partAtRamp} to represent passage through the ramp sensor; we can see the output variables change, but the program does not send them to the hardware.
+
+With \textbf{physical mode selected} (\texttt{simulation=false}), \texttt{start} creates the \texttt{physicalIO} task, which reads the real inputs into those same variables and applies the program's output commands to the station. This lets us use the same main sequence in both modes: L1/L2 connect the suction tool signals, while L3 also connects the feeding and classification devices. At startup, \texttt{physicalRun = !simulation} stores the choice for the whole run, so changing mode requires stopping and restarting the application.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.95\linewidth]{img/srs-workspace.jpg}
+\caption{SRS 2019 workspace with the TS60 scene and the separate L1, L2 and L3 applications in Cell Explorer.}
+\label{fig:srs}
+\end{figure}
 
 \subsection{Pick and place}
-The robot moves to the ramp approach with \texttt{movej}, then enters the pickup pose with \texttt{movel}. It switches on suction and waits for \texttt{partOnTool=true}. After a linear withdrawal, it moves above the destination, descends, switches off suction and applies a 0.3\,s blow pulse. It waits for \texttt{partOnTool=false}, withdraws and returns home.
+To pick up a part, the robot first moves to the approach position above the ramp with \texttt{movej}, then moves down to the pickup position with \texttt{movel} and turns on suction. It waits for \texttt{partOnTool=true} before moving back up, so it only starts moving towards the destination after the sensor confirms that it holds a part. At the destination, the robot moves down from the approach position, turns off suction and blows air for 0.3\,s to release the part; once \texttt{partOnTool=false} confirms that it is released, the robot moves back up and returns home.
 
-We use joint movements for transfers and linear movements near the parts. \texttt{waitEndMove()} completes each move before the next operation. The motion and grip sequence is shared by the three levels; L3 retains longer status messages.
+We use \texttt{movej} to move between approach positions and \texttt{movel} to move in a straight line near the parts. After each move, \texttt{waitEndMove()} makes the program wait until the robot finishes moving before it runs the next command, such as turning on suction or releasing the part.
 
-\subsection{Levels 1 and 2}
-Level 1 uses two taught destinations: index 0 for non-metallic and 1 for metallic. It calculates an approach 50\,mm above each and calls \texttt{pickAndPlace} once per ramp. Its second destination is the same physical reference used as slot 4 in the larger matrix.
+\noindent\begin{minipage}{\linewidth}
+\textbf{Shared pickAndPlace routine:}
+\begin{quote}\small\ttfamily\setlength{\parskip}{0pt}
+Move to the selected ramp approach; move down to the part\par
+Turn on suction and wait for the grip sensor\par
+Move back up; move above the selected destination\par
+Move down; turn off suction and blow air for 0.3 s\par
+Wait for the sensor to confirm release\par
+Move back up and return home
+\end{quote}
+\end{minipage}
 
-Level 2 adds the matrix calculation and repeats four times per material. It alternates ramps and fills slots in the order \texttt{0,4,1,5,2,6,3,7}. Fixed loops determine the destination, so separate placed-part counters are unnecessary. Both levels use only the suction sensor, vacuum and blow outputs. The station must be prepared for loading the ramps before running them.
+\subsection{Level 1: Basic classification}
+For basic classification, we place one cylinder in each ramp and use two taught destinations, with index 0 for non-metallic and 1 for metallic. After calculating an approach 50\,mm above each destination, \texttt{start} selects the ramp and matching destination and calls \texttt{pickAndPlace}, completing the same operation once for each material.
 
-\subsection{Level 3}
-The conveyor runs during sorting. The program waits for a part at classification, reads the inductive sensor and stores its material as 0 or 1. It commands the corresponding diverter and waits 0.5\,s. The barrier opens for 0.4\,s and closes before the program waits for the ramp sensor to become active and then clear. Physical mode adds 0.5\,s before pickup.
+\noindent\begin{minipage}{\linewidth}
+\textbf{Pseudocode:}
+\begin{quote}\small\ttfamily\setlength{\parskip}{0pt}
+Select simulation or physical mode; set speed and I/O\par
+For each of the two taught destinations:\par
+\hspace*{1em}Calculate an approach 50 mm above the destination\par
+\hspace*{1em}If the approach cannot be calculated, stop\par
+Move home\par
+For each material (non-metallic, then metallic):\par
+\hspace*{1em}Select its ramp and matching destination\par
+\hspace*{1em}Call pickAndPlace\end{quote}
+\end{minipage}
+
+\subsection{Level 2: Continuous feeding}
+Level 2 extends this sequence to four parts per ramp, keeping the two taught reference positions as slots 0 and 4 and calculating the other positions along each material group. A loop alternates the ramps and fills slots in the order \texttt{0,4,1,5,2,6,3,7}; because the number and order of pickups are fixed, the loop indices also give us the next destination. As in Level 1, we load the ramps before starting and the program uses only the suction sensor, vacuum and blow outputs.
+
+\noindent\begin{minipage}{\linewidth}
+\textbf{Pseudocode:}
+\begin{quote}\small\ttfamily\setlength{\parskip}{0pt}
+Select simulation or physical mode; set speed and I/O\par
+For each material and each of its four columns:\par
+\hspace*{1em}Calculate the destination from its taught reference\par
+\hspace*{1em}Calculate its approach 50 mm above\par
+\hspace*{1em}If either position cannot be calculated, stop\par
+Move home\par
+For each column (0 to 3):\par
+\hspace*{1em}Pick from the non-metallic ramp; place in slot 0 + column\par
+\hspace*{1em}Pick from the metallic ramp; place in slot 4 + column
+\end{quote}
+\end{minipage}
+
+\subsection{Level 3: Continuous feeding with automated classification}
+In Level 3, the feeding station sends the parts while the conveyor keeps running. Once the sensor detects a part at the classification station, the program reads the inductive sensor, stores the material as 0 or 1 and selects the matching sorting actuator. After waiting 0.5\,s for the actuator to move, it opens the barrier for 0.4\,s and closes it again, then waits for the ramp sensor to turn on and then off as the part passes. Physical mode includes another 0.5\,s delay to allow the part to reach the pickup location.
+
+
+At first, we assumed that setting \texttt{bOut5} to 1 would close the barrier, but during testing it stayed open. We found that the output worked the other way around, so we inverted it in the program: \texttt{bOut5=0} closes the barrier and \texttt{bOut5=1} opens it.
 
 Each material has its own counter. The next destination is
 \[
 \texttt{placeIndex}=4\,\texttt{materialType}+\texttt{placedCount[materialType]}.
 \]
-The counter increases after \texttt{pickAndPlace} returns. If a material already has four parts, the next one passes into its ramp without pickup. The program stops the conveyor once both counters reach four. Surplus parts remain in their ramps; there is no removal mechanism.
+The counter increases after \texttt{pickAndPlace} returns, which lets the next part of that material use the following free destination whatever order the parts arrive in. If its group already contains four parts, the program skips pickup and continues looking for the material still needed; these extra parts remain in their ramp. Once both counters reach four, the program stops the conveyor and leaves the barrier closed.
 
-\textbf{Level 3 sequence:}
-\begin{enumerate}
-\setlength{\itemsep}{1pt}
-\setlength{\parsep}{0pt}
-\item Prepare geometry and I/O, start the conveyor and move home.
-\item Wait for classification presence and store the material.
-\item Select the diverter, pulse the barrier and wait for ramp passage.
-\item Pick and place if that material still has a free slot, then increment its counter.
-\item Repeat from step 2 until both counters reach four. Stop the conveyor and keep the barrier closed.
-\end{enumerate}
+\noindent\begin{minipage}{\linewidth}
+\textbf{Pseudocode:}
+\begin{quote}\small\ttfamily\setlength{\parskip}{0pt}
+Select mode; reset both counters; prepare I/O and positions\par
+If a destination or approach cannot be calculated, stop\par
+Start conveyor and move home\par
+While either material has fewer than four placed parts:\par
+\hspace*{1em}Wait until a part reaches classification\par
+\hspace*{1em}Read the inductive sensor and store its material\par
+\hspace*{1em}Select the sorting actuator; wait 0.5 s\par
+\hspace*{1em}Open the barrier for 0.4 s, then close it\par
+\hspace*{1em}Wait for the ramp sensor to turn on, then off\par
+\hspace*{1em}In physical mode, wait another 0.5 s\par
+\hspace*{1em}If this material has fewer than four placed parts:\par
+\hspace*{2em}Select the next slot, call pickAndPlace and add one\par
+\hspace*{1em}Otherwise, skip pickup and continue with the next part\par
+Stop conveyor and keep the barrier closed
+\end{quote}
+\end{minipage}
+
+Figure~\ref{fig:level3-flow} shows the same cycle and how the program handles extra parts.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\linewidth,height=0.70\textheight,keepaspectratio,trim=0 110bp 0 0,clip]{img/level3-flowchart.pdf}
+\caption{Level 3 feeding, classification and placement sequence.}
+\label{fig:level3-flow}
+\end{figure}
 
 \section{Parameters and data}
-\texttt{world} has zero translation and rotation. The suction TCP is offset by \texttt{(0,20,0)}\,mm from \texttt{flange}, with zero relative rotation. Vacuum and blow use separate outputs. The local \texttt{toolDummy} supplies the tool's required I/O reference; the program does not call \texttt{open()} or \texttt{close()}.
+We define the application positions relative to \texttt{world}, with zero translation and rotation, and define the suction TCP at an offset of \texttt{(0,20,0)}\,mm from \texttt{flange}, also with zero relative rotation. The tool uses the local \texttt{toolDummy} as its I/O reference because the cycle controls vacuum and blow through separate output commands rather than \texttt{open()} and \texttt{close()}.
 
 \begin{compactitems}
-\item \textbf{Motion:} \texttt{moveSpeed} has velocity, acceleration and deceleration set to 10, with blending off. \texttt{tmax=rmax=99999} are retained descriptor defaults, not measured operating speeds.
+\item \textbf{Motion:} \texttt{moveSpeed} has velocity, acceleration and deceleration set to 10, with blending off. \texttt{tmax=rmax=99999} are the original motion descriptor values, not measured operating speeds.
 \item \textbf{Geometry:} placement approaches are world Z +50\,mm above the destination. L2/L3 columns are spaced by world Y +60\,mm from each material's taught reference.
-\item \textbf{Timing:} blow pulse 0.3\,s. L3 uses 0.5\,s for the diverters, a 0.4\,s barrier opening and 0.5\,s of ramp settling in physical mode.
+\item \textbf{Timing:} blow pulse 0.3\,s. L3 uses 0.5\,s for the sorting actuators, a 0.4\,s barrier opening and 0.5\,s of extra waiting time at the ramp in physical mode.
 \end{compactitems}
 
-For L2/L3 we taught the first destination of each material, slots 0 and 4. \texttt{jointToPoint} converts a reference to Cartesian coordinates. We add the column offset and use \texttt{pointToJoint} to calculate the other joint poses. The program exits if a destination or approach cannot be calculated. A valid solution still needs a trajectory check.
+At first, we tried to calculate the whole matrix from slot 0 by adding a row offset and a column offset. This did not give us a valid position for slot 4, and the position offsets also needed adjustment to match the matrix. We therefore taught slots 0 and 4 separately, giving each material group its own reference.
+
+In L2 and L3, the program converts the reference for each group to Cartesian coordinates with \texttt{jointToPoint} and adds only the column offset: 0, 60, 120 or 180\,mm along world Y. It then uses \texttt{pointToJoint} to calculate the other joint positions and their approaches. The program stops if a position cannot be calculated, although a successful calculation still requires us to check the path.
 
 The taught joint values below use degrees for J1, J2 and J4, and millimetres for J3:
 \begin{compactitems}
@@ -95,49 +168,47 @@ The taught joint values below use degrees for J1, J2 and J4, and millimetres for
 \item \textbf{Pickup:} non-metallic \texttt{(59.97, 53.21, 23.19, -318.70)}; metallic \texttt{(47.65, 78.71, 25.69, -318.70)}.
 \item \textbf{Destination references:} non-metallic \texttt{(-88.79, 115.82, 6.90, 1.55)}; metallic \texttt{(-77.39, 100.14, 8.89, -353.18)}.
 \end{compactitems}
-The pickup approaches retain their J1, J2 and J4 values with J3=100\,mm. The remaining matrix destinations and placement approaches are calculated at startup; their initial data-file values are placeholders. No payload measurement is included in the available records.
+The pickup approaches keep the same J1, J2 and J4 values and raise J3 to 100\,mm, while the placement approaches and remaining matrix destinations are calculated at startup. Their initial values in the data file are placeholders, rather than the final positions used during the cycle. No payload measurement is included in our notes.
 
 \subsection{Variables and I/O}
-Array sizes are shown in brackets; other data contain one element.
-
 \begin{compactitems}
-\item \textbf{Mode and I/O setup:} \texttt{simulation}, \texttt{physicalRun} and \texttt{ioReady} are booleans for the requested mode, the stored mode and completion of the first I/O update.
+\item \textbf{Mode and I/O setup:} \texttt{simulation}, \texttt{physicalRun} and \texttt{ioReady} are booleans for the chosen mode, the stored mode and completion of the first I/O update.
 \item \textbf{Suction tool:} \texttt{partOnTool} reads \texttt{bIn0}; \texttt{vacuumOn} and \texttt{blowOn} command \texttt{bOut0} and \texttt{bOut1}. All three are booleans.
 \item \textbf{Selection:} \texttt{materialType} is numeric, with 0 for non-metallic and 1 for metallic. Numeric \texttt{placeIndex} selects destination 0--1 in L1 or 0--7 in L2/L3.
 \item \textbf{Status:} numeric \texttt{cycleStep} records 60 for grip, 70 for release, 100 for completion and -1 for stop. L3 also uses steps 20--50 and 80.
-\item \textbf{Joint poses:} \texttt{homePose} is the return posture. \texttt{pickPose[2]} and \texttt{pickApproach[2]} hold the two ramp poses and approaches. \texttt{placePose} and \texttt{placeApproach} have size 2 in L1 and size 8 in L2/L3. All are \texttt{jointRs} data.
+\item \textbf{Joint poses:} \texttt{homePose} is the home position. \texttt{pickPose[2]} and \texttt{pickApproach[2]} hold the two ramp poses and approaches. \texttt{placePose} and \texttt{placeApproach} have size 2 in L1 and size 8 in L2/L3. All are \texttt{jointRs} data.
 \item \textbf{References and motion:} \texttt{world} is a frame; \texttt{flange} and \texttt{vacuumTool} are tools. \texttt{moveSpeed} is an \texttt{mdesc}; \texttt{toolDummy} is a local unlinked \texttt{dio}.
 \end{compactitems}
 
+\begin{samepage}
 \textbf{Level 3 adds:}
 \begin{compactitems}
-\item \textbf{Classification sensors:} booleans \texttt{partAtClass}, \texttt{partIsMetal} and \texttt{partAtRamp} read presence \texttt{bIn1}, the inductive sensor \texttt{bIn2} and ramp passage \texttt{bIn4}.
-\item \textbf{Station commands:} booleans \texttt{trolleyOn}, \texttt{nonMetalGate} and \texttt{metalGate} control conveyor \texttt{bOut2} and diverters \texttt{bOut3}/\texttt{bOut4}. Boolean \texttt{barrierClosed} uses inverted output: \texttt{bOut5 = !barrierClosed}.
+\item \textbf{Classification sensors:} booleans \texttt{partAtClass}, \texttt{partIsMetal} and \texttt{partAtRamp} read the part sensor \texttt{bIn1}, the inductive sensor \texttt{bIn2} and the ramp sensor \texttt{bIn4}.
+\item \textbf{Station commands:} booleans \texttt{trolleyOn}, \texttt{nonMetalGate} and \texttt{metalGate} control conveyor \texttt{bOut2} and sorting actuators \texttt{bOut3}/\texttt{bOut4}. Boolean \texttt{barrierClosed} uses the opposite output value: \texttt{bOut5 = !barrierClosed}.
 \item \textbf{Counters:} numeric \texttt{placedCount[2]} stores the completed placements per material and is reset at startup.
 \end{compactitems}
+\end{samepage}
 
-\texttt{targetPose} is a local \texttt{pointRs} for geometry calculations. L2/L3 also have local numeric \texttt{rowIndex}, \texttt{columnIndex} and \texttt{targetIndex}. All have size 1. The alias \texttt{io} loads the controller I/O library. L3 leaves \texttt{bIn3} and diverter end switches \texttt{bIn5--bIn8} unused.
+\texttt{targetPose} is a local \texttt{pointRs} for geometry calculations. L2/L3 also have local numeric \texttt{rowIndex}, \texttt{columnIndex} and \texttt{targetIndex}. All have size 1. The alias \texttt{io} loads the controller I/O library. L3 leaves \texttt{bIn3} and sorting actuator end switches \texttt{bIn5--bIn8} unused.
 
 \section{Safety and limitations}
-We use approaches above the parts and linear entry/withdrawal near pickup and placement. Home is a raised posture, but its transfer paths still need checking. The lab instructions limit programmed velocity to 30 and require an initial MCP override of 10\%~\cite{lesson}; the saved program velocity is 10.
+The approach positions keep the tool above the parts while it moves between the ramp and the matrix, with straight movements down and back up near each part. We also use a high home position, but we still need to check the complete paths through the cell because reaching the correct position does not mean that the path is safe. The saved program velocity is 10; the lab instructions set a maximum programmed velocity of 30 and ask us to start with the MCP speed override at 10\%~[1].
 
-\texttt{stop} clears the motion queue and switches off blow while preserving suction. L3 also stops the conveyor and commands barrier retention. Each restart assumes empty destinations; the program does not recover the occupancy of a partly filled matrix.
+When the application stops, \texttt{stop} cancels the remaining movements and turns off the air blow, while keeping suction on if it was already on so that the stop command does not release a part. L3 also stops the conveyor and closes the barrier to hold back the next parts. Before starting again, the matrix must be empty because the program resets its counters and does not remember which holes were already filled.
 
-Sensor waits have no timeout. The diverter delay assumes the actuator has arrived, and the barrier pulse assumes one part can pass. The ramp signal can be missed if its whole pulse occurs during the 0.4\,s opening. The I/O task updates classification presence before the material reading, so the main task can read the previous material value. Grip is confirmed at pickup, but a part lost during transfer could still be counted at the end.
+The current sequence uses sensor waits without timeouts and fixed delays for the station actuators, so a missing signal can leave it waiting and a delay alone does not confirm that a sorting actuator reached its position. There are also two timing limits in L3: a ramp pulse can be missed if it begins and ends during the 0.4\,s barrier opening, and the main task can read the previous material value because the I/O task updates presence before the inductive reading. Grip is checked at pickup, but a part lost during transfer could still be counted at the end.
 
 \section{Execution results}
-Level 3 was demonstrated on the real robot, as confirmed by the group. The supplied \href{https://ugirona-my.sharepoint.com/:v:/g/personal/u6120632_udg_edu/IQCCHUXZbpDZQJx1GxVThgnPAUpKyrIblhpKYQN-_18FjhU?e=oOMlbG}{Level 3 simulation video} is linked here. \todo{add the real-execution video and check evaluator access to both links.}
+Level 3 was demonstrated on the real robot, and its operation in simulation is available in the \href{https://ugirona-my.sharepoint.com/:v:/g/personal/u6120632_udg_edu/IQCCHUXZbpDZQJx1GxVThgnPAUpKyrIblhpKYQN-_18FjhU?e=oOMlbG}{Level 3 simulation video}. \todo{add the real-execution video and check that the teacher can open both links.}
 
-The L1/L2 reductions pass the installed VAL3 s6.8 XML schemas and their project references have been checked. The cleanup preserves the taught geometry and pickup/placement motion and grip instructions. This file check does not establish successful execution. \todo{run Check Syntax and record the L1/L2 simulation results and videos.}
-
-During development, the initial Cartesian offset failed to calculate the second matrix reference. We kept a taught reference for each material instead. We also reversed the column offset to world Y positive, inverted the barrier output and changed its opening to 0.4\,s. These changes remain in L3. The records do not include measured cycle times or repeated-run success rates.
+The syntax check shows zero errors for L1 and L2, so the compiler accepts both programs. We still need to test them in simulation to check the paths and make sure the robot picks up and places the parts as expected. \todo{record the L1/L2 simulation results and videos, and repeat Check Syntax after further code changes.}
 
 \section{Improvements}
-We would first store ramp passage and stabilise the material reading after presence detection. The next changes would be end-switch confirmation, bounded sensor waits and a grip check before release. The shared pickup/placement routine keeps the level-specific code short; L3 adds the feeding and station synchronisation.
+The first improvement would be to keep a record of the ramp sensor signal until the main task reads it, and to wait for a stable material reading after a part is detected. This would help avoid the timing problems described above. We would then use the sorting actuator end switches, add time limits to the sensor waits and check that the robot still holds the part before releasing it. These changes would be made in the station and I/O code, while keeping the same pickup and placement routine for all three levels.
 
 \begin{thebibliography}{1}
-\bibitem{lesson} Robot Manipulation, \emph{Pick and Place with the St\"aubli TS60}, lab handout, sections 2--4.
-\end{thebibliography}
+    \bibitem{lesson} Robot Manipulation, \emph{Pick and Place with the St\"aubli TS60}, lab handout, sections 2--4.
+    \end{thebibliography}
 
 \clearpage
 \appendix

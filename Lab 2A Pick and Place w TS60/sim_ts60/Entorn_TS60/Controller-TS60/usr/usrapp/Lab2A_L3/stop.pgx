@@ -7,28 +7,26 @@
     <source>
       <code>begin
 
-  // Halts robot motion, stops the background I/O task, and puts actuators
-  // in a safe state while preserving vacuum grip if a part is held.
+  // Stop motion and feeding; preserve suction.
+  resetMotion()
 
-  resetMotion()                     // Decelerate robot and clear motion queue
+  trolleyOn = false
+  barrierClosed = true
+  blowOn = false
 
-  trolleyOn = false                 // Set logical flag to stop conveyor
-  barrierClosed = true              // Set logical flag to close barrier
-  blowOn = false                    // Set logical flag to disable blow-off (we want to keep the piece in the robot)
-
-  if physicalRun                    // Only write hardware pins on real station
-    taskKill("physicalIO")          // Terminate background I/O polling task
-    io:bOut2 = false                // Stop conveyor motor directly
-    io:bOut1 = false                // Turn off blow-off valve directly
-    io:bOut5 = false                // Close barrier directly (INVERSE LOGIC)
+  if physicalRun
+    taskKill("physicalIO")
+    io:bOut2 = false
+    io:bOut1 = false
+    io:bOut5 = false
   endIf
 
-  cycleStep = -1                    // Mark application state as stopped
-  putln("Application stopped safely.") // Print status message to MCP
-  resetMotion()                     // Gives us the control of the robot again
+  cycleStep = -1
+  putln("Application stopped safely.")
+  resetMotion()
 
-
-end</code>
+end
+</code>
     </source>
   </program>
 </programList>
