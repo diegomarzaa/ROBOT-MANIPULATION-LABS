@@ -26,12 +26,12 @@ y el soplado se ordenan explícitamente por bOut0/bOut1.
 - Sin comprobaciones de estación vacía, sensor de rampa previo, pérdida de pieza
   en traslado, ni `cycleOK`. Los `waitEndMove()` se conservan para completar
   cada movimiento antes de ordenar aspiración/soplado o avanzar.
-- Se conservan únicamente el fallo de conversión cinemática y fila llena
-  (evitan usar destinos sin calcular o índices fuera del array).
+- Se conserva el fallo de conversión cinemática. Una fila llena ya no para
+  la alimentación: se deja pasar la pieza sin recogerla ni incrementar el contador.
 - `pickAndPlace` agrupa la rutina repetida ocho veces. `physicalIO` es un
   adaptador independiente y automático; no es otro ciclo de misión.
 - Alimentación bOut2 continua durante la misión: arranca después de calcular
-  la matriz y llegar a home, y se para al completar, en STOP o por fila llena.
+  la matriz y llegar a home, y se para al completar ambas filas o en STOP.
 - Sin espera de alimentación bIn3 ni finales de carrera bIn5..8. Se espera
   directamente clasificación y se conceden 0,5 s a los desviadores antes de
   liberar. Ese tiempo es provisional: no confirma que hayan llegado.
@@ -82,14 +82,14 @@ La matriz usa **dos referencias enseñadas**, una por fila:
   J3=8.89, J4=-353.18**, proporcionado por el usuario.
 
 Se calculan los destinos 1..3 y 5..7 desde la referencia de su propia fila,
-con desplazamiento world Y=-60 mm por columna. Se conservan la altura y la
+con desplazamiento world Y=+60 mm por columna. Se conservan la altura y la
 orientación de cada referencia. Las ocho aproximaciones son world Z+50 mm.
 Ya no se usa X=-70 mm para calcular la segunda fila. Este cambio sustituye el
 destino 4 que no resolvía; no demuestra que hubiera una singularidad.
 **TODO:** comprobar destinos 5..7, aproximaciones, dirección de columnas y
 recorridos en SRS y en la célula real.
 
-**TODO físico:** confirmar bOut5=1 retiene; bOut3/bOut4=1 empujan y las rutas
+**TODO físico:** validar bOut5=0 retiene; bOut3/bOut4=1 empujan y las rutas
 (1,0) no metal / (0,1) metal; dosificación de una sola pieza con alimentación continua; pausa de desviadores (0,5 s); llegada a recogida (0,5 s
 provisionales) y soplado (0,3 s). El selector no calibra estas diferencias.
 STOP conserva aspiración, para carro y soplado y manda retener con la polaridad
@@ -99,3 +99,23 @@ asumida. La tarea física permanece activa al terminar la misión hasta STOP.
 
 Los XML se han validado contra los XSD de VAL3 s6.8. Esto no sustituye
 **Check Syntax** ni la prueba de movimientos/sensores en SRS y la estación.
+
+Avance invertido a world Y positiva por petición del usuario. Comprobar que los destinos 1 y 5 coinciden con el siguiente hueco de cada columna; la foto no permite confirmar los ejes world.
+
+## Estado tras deshacer las últimas correcciones
+
+Retirados rampPassSeen, metalSample y la normalización de J4. La rampa se
+espera directamente con partAtRamp. Se conserva simulation=false, avance
+world Y+60 mm, dos referencias enseñadas y alimentación continua.
+La barrera mantiene la polaridad invertida: barrierClosed=true envía bOut5=0;
+false envía bOut5=1. STOP también envía bOut5=0. Pendiente validación física.
+
+## Piezas sobrantes de un material
+
+Mientras falte completar alguna fila, todas las piezas se clasifican y se
+liberan por su rampa. Si `placedCount[materialType] < 4`, el robot recoge y
+coloca; si ya vale 4, omite la recogida y pasa a la siguiente pieza.
+No se añaden variables. No se incrementa el contador ni se calcula un índice
+para una pieza sobrante. Al completar cuatro de cada material termina la misión.
+Las sobrantes quedan en la rampa correspondiente: este cambio no añade un
+mecanismo de evacuación ni utiliza una rampa de rechazo.

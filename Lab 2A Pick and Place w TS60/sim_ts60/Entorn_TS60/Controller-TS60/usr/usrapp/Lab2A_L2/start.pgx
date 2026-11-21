@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="start" public="false">
+    <description>Lab2A Level 2 - parts loaded in ramps</description>
+    <paramSection/>
+    <localSection>
+      <local name="rowIndex" type="num" size="1"/><local name="columnIndex" type="num" size="1"/><local name="targetIndex" type="num" size="1"/><local name="targetPose" type="pointRs" size="1"/></localSection>
+    <source>
+      <code>begin
+  // Four parts in each ramp. Start with an empty matrix.
+  userPage()
+  cls()
+  physicalRun = !simulation
+  cycleStep = 0
+  vacuumOn = false
+  blowOn = false
+  ioReady = false
+
+  if physicalRun
+    taskCreate "physicalIO", 10, physicalIO()
+    wait(ioReady == true)
+    putln("PHYSICAL - parts loaded in ramps")
+  else
+    putln("SIMULATION - edit partOnTool at steps 60 and 70")
+  endIf
+
+  moveSpeed.vel = 10
+  moveSpeed.accel = 10
+  moveSpeed.decel = 10
+  moveSpeed.blend = off
+
+  // Each row starts at its own taught pose (0 or 4).
+  for rowIndex = 0 to 1
+    for columnIndex = 0 to 3
+      targetIndex = 4*rowIndex + columnIndex
+      targetPose = jointToPoint(vacuumTool, world, placePose[4*rowIndex])
+      targetPose.trsf.y = targetPose.trsf.y + 60*columnIndex
+      if columnIndex != 0
+        if !pointToJoint(vacuumTool, placePose[4*rowIndex], targetPose, placePose[targetIndex])
+          putln("ERROR: unreachable matrix destination")
+          putln(targetIndex)
+          return
+        endIf
+      endIf
+
+      targetPose.trsf.z = targetPose.trsf.z + 50
+      if !pointToJoint(vacuumTool, placePose[targetIndex], targetPose, placeApproach[targetIndex])
+        putln("ERROR: unreachable matrix approach")
+        putln(targetIndex)
+        return
+      endIf
+    endFor
+  endFor
+
+  movej(homePose, vacuumTool, moveSpeed)
+  waitEndMove()
+
+  // Alternate ramps for each column: 0,4,1,5,2,6,3,7.
+  for columnIndex = 0 to 3
+    for materialType = 0 to 1
+      placeIndex = 4*materialType + columnIndex
+      putln("Place in slot:")
+      putln(placeIndex)
+      call pickAndPlace()
+    endFor
+  endFor
+
+  cycleStep = 100
+  putln("Level 2 completed: eight parts placed")
+end
+</code>
+    </source>
+  </program>
+</programList>

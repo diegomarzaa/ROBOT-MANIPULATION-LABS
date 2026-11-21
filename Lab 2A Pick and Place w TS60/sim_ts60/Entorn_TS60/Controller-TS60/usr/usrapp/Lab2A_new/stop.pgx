@@ -1,9 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <programList xmlns="ProgramNameSpace">
   <program name="stop" public="false">
     <description>Lab2A Level 3 - shared manual simulation / physical cycle</description>
-    <paramSection />
-    <localSection />
+    <paramSection/>
+    <localSection/>
     <source>
       <code>begin
   // ============================================================
@@ -30,9 +30,9 @@
     io:bOut2 = false
     io:bOut1 = false
 
-    // Ordenar retencion con la polaridad que hemos supuesto.
-    // TODO FISICO: confirmar que bOut5=true retiene.
-    io:bOut5 = true
+    // Retencion con la nueva polaridad: bOut5=0.
+    // Debe coincidir con !barrierClosed del adaptador.
+    io:bOut5 = false
 
     // No escribimos bOut0: conservamos la aspiracion.
     // Tampoco cambiamos aqui los actuadores de clasificacion.

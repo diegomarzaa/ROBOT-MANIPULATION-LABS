@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="stop" public="false">
+    <description>Stop motion and preserve suction</description>
+    <paramSection/>
+    <localSection/>
+    <source>
+      <code>begin
+  resetMotion()
+  blowOn = false
+  if physicalRun
+    taskKill("physicalIO")
+    io:bOut1 = false
+  endIf
+  // Preserve suction so a held part is not released by STOP.
+  cycleStep = -1
+  putln("Stopped - empty the destinations before restarting")
+end
+</code>
+    </source>
+  </program>
+</programList>

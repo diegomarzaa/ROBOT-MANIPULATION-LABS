@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="start" public="false">
+    <description>Lab2A Level 1 - parts loaded in ramps</description>
+    <paramSection/>
+    <localSection>
+      <local name="targetPose" type="pointRs" size="1"/></localSection>
+    <source>
+      <code>begin
+  // One part in each ramp. Start with both destination holes empty.
+  userPage()
+  cls()
+  physicalRun = !simulation
+  cycleStep = 0
+  vacuumOn = false
+  blowOn = false
+  ioReady = false
+
+  if physicalRun
+    taskCreate "physicalIO", 10, physicalIO()
+    wait(ioReady == true)
+    putln("PHYSICAL - parts loaded in ramps")
+  else
+    putln("SIMULATION - edit partOnTool at steps 60 and 70")
+  endIf
+
+  moveSpeed.vel = 10
+  moveSpeed.accel = 10
+  moveSpeed.decel = 10
+  moveSpeed.blend = off
+
+  // Two taught destinations, one per material; approaches are Z+50 mm.
+  for materialType = 0 to 1
+    targetPose = jointToPoint(vacuumTool, world, placePose[materialType])
+    targetPose.trsf.z = targetPose.trsf.z + 50
+    if !pointToJoint(vacuumTool, placePose[materialType], targetPose, placeApproach[materialType])
+      putln("ERROR: unreachable placement approach")
+      putln(materialType)
+      return
+    endIf
+  endFor
+
+  movej(homePose, vacuumTool, moveSpeed)
+  waitEndMove()
+
+  for materialType = 0 to 1
+    placeIndex = materialType
+    putln("Pick from ramp:")
+    putln(materialType)
+    call pickAndPlace()
+  endFor
+
+  cycleStep = 100
+  putln("Level 1 completed: two parts placed")
+end
+</code>
+    </source>
+  </program>
+</programList>

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="pickAndPlace" public="false">
+    <description>Pick one part, place it and return home</description>
+    <paramSection/>
+    <localSection/>
+    <source>
+      <code>begin
+  // materialType selects the ramp; placeIndex selects the destination.
+  vacuumOn = false
+  blowOn = false
+  movej(pickApproach[materialType], vacuumTool, moveSpeed)
+  waitEndMove()
+  movel(jointToPoint(vacuumTool, world, pickPose[materialType]), vacuumTool, moveSpeed)
+  waitEndMove()
+  vacuumOn = true
+  cycleStep = 60
+  putln("60 - Wait for partOnTool=true")
+  wait(partOnTool == true)
+  movel(jointToPoint(vacuumTool, world, pickApproach[materialType]), vacuumTool, moveSpeed)
+  waitEndMove()
+
+  movej(placeApproach[placeIndex], vacuumTool, moveSpeed)
+  waitEndMove()
+  movel(jointToPoint(vacuumTool, world, placePose[placeIndex]), vacuumTool, moveSpeed)
+  waitEndMove()
+  vacuumOn = false
+  blowOn = true
+  delay(0.3)
+  blowOn = false
+  cycleStep = 70
+  putln("70 - Wait for partOnTool=false")
+  wait(partOnTool == false)
+
+  movel(jointToPoint(vacuumTool, world, placeApproach[placeIndex]), vacuumTool, moveSpeed)
+  waitEndMove()
+  movej(homePose, vacuumTool, moveSpeed)
+  waitEndMove()
+end
+</code>
+    </source>
+  </program>
+</programList>

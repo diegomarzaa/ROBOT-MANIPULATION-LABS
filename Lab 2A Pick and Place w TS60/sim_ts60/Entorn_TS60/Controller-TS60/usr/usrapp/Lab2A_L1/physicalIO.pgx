@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="physicalIO" public="false">
+    <description>Suction tool inputs and outputs</description>
+    <paramSection/>
+    <localSection/>
+    <source>
+      <code>begin
+  // Only the suction tool is controlled in Levels 1 and 2.
+  while true
+    partOnTool = io:bIn0 == true
+    io:bOut0 = vacuumOn
+    io:bOut1 = blowOn
+    ioReady = true
+    delay(0.01)
+  endWhile
+end
+</code>
+    </source>
+  </program>
+</programList>

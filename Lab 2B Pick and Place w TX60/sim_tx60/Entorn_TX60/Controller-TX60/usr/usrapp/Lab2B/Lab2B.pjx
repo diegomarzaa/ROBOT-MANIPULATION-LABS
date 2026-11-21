@@ -4,6 +4,7 @@
   <programSection>
     <program file="start.pgx" />
     <program file="stop.pgx" />
+    <program file="physicalIO.pgx" />
   </programSection>
   <dataSection>
     <data file="Lab2B.dtx" />

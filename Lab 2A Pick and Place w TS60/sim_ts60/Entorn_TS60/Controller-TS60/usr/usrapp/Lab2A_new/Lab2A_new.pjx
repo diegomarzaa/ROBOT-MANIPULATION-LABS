@@ -1,15 +1,16 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<project xmlns="ProjectNameSpace">
-  <parameters version="s6.8" stackSize="5000" millimeterUnit="true"/>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="ProjectNameSpace" version="2019.7.2">
+  <parameters version="s6.8" stackSize="5000" millimeterUnit="true" />
   <programSection>
-    <program file="start.pgx"/>
-    <program file="pickAndPlace.pgx"/>
-    <program file="stop.pgx"/>
-  <program file="physicalIO.pgx"/></programSection>
+    <program file="start.pgx" />
+    <program file="pickAndPlace.pgx" />
+    <program file="stop.pgx" />
+    <program file="physicalIO.pgx" />
+  </programSection>
   <dataSection>
-    <data file="Lab2A_new.dtx"/>
+    <data file="Lab2A_new.dtx" />
   </dataSection>
   <aliasSection>
-    <alias name="io" interface="io" autoload="true"/>
+    <alias name="io" interface="io" autoload="true" />
   </aliasSection>
 </project>

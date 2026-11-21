@@ -1,81 +1,255 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <programList xmlns="ProgramNameSpace">
   <program name="start" public="false">
-    <description>Level 1 single-cycle sequence; simulation validation pending.</description>
-    <paramSection />
-    <localSection />
+    <description>Level 1: one assembly; shared manual simulation and physical cycle.</description>
+    <paramSection/>
+    <localSection/>
     <source>
       <code>begin
+  // ============================================================
+  // LAB 2B - LEVEL 1: UN CILINDRO, UN PISTON Y RAMPA FINAL
+  // ============================================================
+  // ANTES de arrancar: simulation=true manual; false robot fisico.
+  // Un solo ciclo. Cilindro cargado y piston en jPistonPick[1].
+  // La estacion de montaje debe estar vacia al empezar.
+  // No alimentamos automaticamente ni buscamos huecos de la bandeja.
+  // Joints de las fotos: [0]=aproximacion, [1]=trabajo, PROVISIONAL.
+  // Excepcion: jStart contiene dos posturas iniciales; solo se usa [0].
   userPage()
   cls()
-  putln("Lab2B - Level 1")
+  putln("DBG START - New execution of Lab2B")
 
-  // MOVE CYLINDER
-  putln("1/3 - Move Cylinder")
-  putln("Opening gripper")
-  open(tLateral)
-  putln("Moving to transit posture")
-  movej(jTransCylinder, tLateral, mNomSpeed)
-  waitEndMove()
-  putln("Approaching cylinder")
-  movej(pCylApproach, tLateral, mNomSpeed)
-  waitEndMove()
-  putln("Picking cylinder")
-  movel(pCylPick, tLateral, mNomSpeed)
-  waitEndMove()
-  close(tLateral)
-  putln("Withdrawing from dispenser")
-  movel(pCylApproach, tLateral, mNomSpeed)
-  waitEndMove()
-  putln("Approaching assembly station")
-  movej(pAsmApproach, tLateral, mNomSpeed)
-  waitEndMove()
-  putln("Placing cylinder")
-  movel(pAsmCylinder, tLateral, mNomSpeed)
-  waitEndMove()
-  open(tLateral)
-  putln("Withdrawing from assembly station")
-  movel(pAsmApproach, tLateral, mNomSpeed)
-  waitEndMove()
-  putln("Cylinder transfer completed")
-  
-  // INSERT PISTON
-  putln("2/3 - Pick and insert piston")
-  open(tTip)
-  movej(pPistonApproach, tTip, mNomSpeed)
-  waitEndMove()
-  movel(pPistonPick, tTip, mInsertSpeed)
-  waitEndMove()
-  close(tTip)
-  movel(pPistonApproach, tTip, mInsertSpeed)
-  waitEndMove()
-  movej(pInsertApproach, tTip, mNomSpeed)
-  waitEndMove()
-  movel(pInsert, tTip, mInsertSpeed)
-  waitEndMove()
-  open(tTip)
-  movel(pInsertApproach, tTip, mInsertSpeed)
-  waitEndMove()
+  // Fijamos el modo hasta el siguiente arranque, como en Lab2A_new.
+  // La tarea anterior se elimina si existe; no escribe ninguna salida.
+  taskKill("physicalIO")
+  physicalRun = !simulation
+  cycleStep = 0
+  ioReady = false
 
-  // UNLOAD ASSEMBLY ON RAMP
-  putln("3/3 - Place assembly on ramp")
-  open(tLateral)
-  movej(pAsmApproach, tLateral, mNomSpeed)
+  // ============================================================
+  // 0. CONECTAR E/S SOLO EN FISICO Y ABRIR LA PINZA
+  // ============================================================
+  // cylinderPresent: lectura de bIn2, presencia en el dispensador.
+  // open(tool) abre y close(tool) cierra mediante io:valve1[0].
+  // No es un sensor de agarre. bIn0 tampoco confirma el agarre:
+  // detecta pistones delante de la herramienta para Level 3.
+  // Ambos TCP referencian io:valve1[0]. physicalIO solo lee sensores.
+  // En simulacion manual no llamamos a open/close ni accedemos a pines.
+  // open/close incluyen waitEndMove y el tiempo otime/ctime de la herramienta.
+  if physicalRun
+    taskCreate "physicalIO", 10, physicalIO()
+    wait(ioReady == true)
+    putln("Lab2B - Level 1 - PHYSICAL")
+  else
+    putln("Lab2B - Level 1 - MANUAL SIMULATION")
+  endIf
+  if physicalRun
+    open(tLateral)
+  else
+    delay(tLateral.otime)
+  endIf
+
+  // ============================================================
+  // 10. ESPERAR EL CILINDRO PREPARADO
+  // ============================================================
+  // SIMULACION: TU pones cylinderPresent=true en memoria del emulador.
+  // FISICO: physicalIO lee bIn2; no editar el bool a mano.
+  // No borramos el sensor ni lo activamos automaticamente al arrancar.
+  // wait no tiene timeout y no exige un flanco si ya estaba a true.
+  cycleStep = 10
+  putln("10 - Wait: cylinderPresent=true (bIn2)")
+  wait(cylinderPresent == true)
+
+  // ============================================================
+  // 20. RECOGER EL CILINDRO CON EL TCP LATERAL
+  // ============================================================
+  // movej: traslado articular entre aproximaciones.
+  // movel: entradas/retiradas con mApproachSpeed; insercion con mInsertSpeed.
+  // jointToPoint convierte la joint para movel; no mueve el robot.
+  // Usar el mismo TCP en la conversion y en la orden de movimiento.
+  // waitEndMove termina cada movimiento antes de accionar la pinza.
+  cycleStep = 20
+  putln("20 - Pick cylinder - tLateral")
+  // startpoint es postura inicial, NO recogida de cilindro.
+  movej(jStart[0], tLateral, mNomSpeed)
   waitEndMove()
-  movel(pAsmCylinder, tLateral, mInsertSpeed)
+  movej(jCylinderPick[0], tLateral, mNomSpeed)
   waitEndMove()
-  close(tLateral)
-  movel(pAsmApproach, tLateral, mInsertSpeed)
-  waitEndMove()
-  movej(pRampApproach, tLateral, mNomSpeed)
-  waitEndMove()
-  movel(pRampPlace, tLateral, mInsertSpeed)
-  waitEndMove()
-  open(tLateral)
-  movel(pRampApproach, tLateral, mInsertSpeed)
+  movel(jointToPoint(tLateral, world, jCylinderPick[1]), tLateral, mApproachSpeed)
   waitEndMove()
 
-  putln("Level 1 sequence completed")
+  // Cerrar y dar el tiempo mecanico guardado en la herramienta (1 s).
+  // No hay confirmacion de agarre en el mapa de E/S de esta practica.
+  if physicalRun
+    close(tLateral)
+  else
+    delay(tLateral.ctime)
+  endIf
+  movel(jointToPoint(tLateral, world, jCylinderPick[0]), tLateral, mApproachSpeed)
+  waitEndMove()
+
+  // ============================================================
+  // 30. DEPOSITAR EL CILINDRO EN LA ESTACION DE MONTAJE
+  // ============================================================
+  cycleStep = 30
+  putln("30 - Place cylinder at assembly station")
+  movej(jCylinderPlace[0], tLateral, mNomSpeed)
+  waitEndMove()
+  movel(jointToPoint(tLateral, world, jCylinderPlace[1]), tLateral, mApproachSpeed)
+  waitEndMove()
+  if physicalRun
+    open(tLateral)
+  else
+    delay(tLateral.otime)
+  endIf
+  movel(jointToPoint(tLateral, world, jCylinderPlace[0]), tLateral, mApproachSpeed)
+  waitEndMove()
+
+  // ============================================================
+  // 40. RECOGER EL PISTON CON EL TCP DE PUNTA
+  // ============================================================
+  // tTip y tLateral son DOS TCP de LA MISMA PINZA y salida valve1.
+  // Cambiar de TCP no cambia fisicamente la herramienta.
+  // Level 1 supone un piston en el punto ensenado; no espera bIn0.
+  cycleStep = 40
+  putln("40 - Pick piston - tTip")
+  if physicalRun
+    open(tTip)
+  else
+    delay(tTip.otime)
+  endIf
+  putln("DBG 40A - BEFORE movej: piston approach [0]")
+  movej(jPistonPick[0], tTip, mNomSpeed)
+  waitEndMove()
+  putln("DBG 40B - Approach reached; BEFORE movel: piston pick [1]")
+  movel(jointToPoint(tTip, world, jPistonPick[1]), tTip, mApproachSpeed)
+  waitEndMove()
+  putln("DBG 40C - Pick reached; sending CLOSE command")
+  if physicalRun
+    close(tTip)
+  else
+    delay(tTip.ctime)
+  endIf
+  putln("DBG 40D - close(tTip) completed; closing time included")
+  // Diagnostico despues de close(tTip), que ya incluye ctime.
+  // El adaptador no escribe la pinza; solo lee el sensor de cilindro.
+  putln("DBG 40E - Closing delay finished; cycleStep:")
+  putln(cycleStep)
+  putln("DBG Last gripper command: close(tTip)")
+  if physicalRun
+    putln("DBG physicalRun=true; physicalIO task status:")
+    putln(taskStatus("physicalIO"))
+    putln("DBG task status: 1=running, 0=suspended, -1=absent, other=error")
+    if ioReady and taskStatus("physicalIO") == 1
+      if io:valve1 == true
+        putln("DBG valve1=1 (OPEN output)")
+      else
+        putln("DBG valve1=0 (CLOSE output)")
+      endIf
+    else
+      putln("DBG valve1 not read: IO task not ready/running")
+    endIf
+  else
+    putln("DBG physicalRun=false; manual simulation, no pin access")
+  endIf
+  putln("DBG 40F - BEFORE movel: withdraw to piston approach [0]")
+  movel(jointToPoint(tTip, world, jPistonPick[0]), tTip, mApproachSpeed)
+  waitEndMove()
+  putln("DBG 40G - Withdrawal completed; leaving piston pickup")
+
+  // ============================================================
+  // 50. INSERTAR EL PISTON Y SOLTARLO ANTES DE RETIRARSE
+  // ============================================================
+  // TODO SIMULACION: confirmar el orden [0]/[1] de gridpiston.
+  // TODO FISICO: ajustar alineacion y profundidad de jPistonInsert[1].
+  // Este movimiento es por posicion; no mide fuerza ni confirma montaje.
+  cycleStep = 50
+  putln("50 - Insert piston into cylinder")
+  putln("DBG 50A - BEFORE movej: insertion approach [0]")
+  movej(jPistonInsert[0], tTip, mNomSpeed)
+  waitEndMove()
+  putln("DBG 50B - Insertion approach reached")
+  movel(jointToPoint(tTip, world, jPistonInsert[1]), tTip, mInsertSpeed)
+  waitEndMove()
+  putln("DBG 50C - Insertion reached with tTip; opening gripper")
+  if physicalRun
+    open(tTip)
+  else
+    delay(tTip.otime)
+  endIf
+  putln("DBG 50D - BEFORE withdrawal with tTip to jPistonInsert[0]")
+  movel(jointToPoint(tTip, world, jPistonInsert[0]), tTip, mInsertSpeed)
+  waitEndMove()
+  putln("DBG 50E - Tip withdrawal completed")
+
+  // ============================================================
+  // 55. POSTURA INTERMEDIA ANTES DE RECOGER EL CONJUNTO
+  // ============================================================
+  // Joint indicada por el usuario. Se alcanza DESPUES de soltar
+  // el piston y retirarse con tTip, antes del agarre con tLateral.
+  cycleStep = 55
+  putln("DBG 55A - BEFORE movej: jAssemblyTransit with tTip")
+  movej(jAssemblyTransit, tTip, mNomSpeed)
+  waitEndMove()
+  putln("DBG 55B - Assembly transit posture reached")
+
+  // ============================================================
+  // 60. RECOGER EL CONJUNTO CON EL TCP LATERAL
+  // ============================================================
+  // Recoger en jCylinderPlace[1], donde se ha depositado el cilindro.
+  // TODO FISICO: comprobar el agarre con el piston ya dentro del cilindro.
+  cycleStep = 60
+  putln("60 - Pick assembled cylinder - tLateral")
+  if physicalRun
+    open(tLateral)
+  else
+    delay(tLateral.otime)
+  endIf
+  // El siguiente movimiento usa el TCP lateral. Las joints guardadas
+  // deben describir la postura de agarre lateral; el TCP no anade un giro.
+  putln("DBG 60A - BEFORE movej with tLateral to jCylinderPlace[0]")
+  movej(jCylinderPlace[0], tLateral, mNomSpeed)
+  waitEndMove()
+  putln("DBG 60B - Lateral approach reached; BEFORE descent to jCylinderPlace[1]")
+  movel(jointToPoint(tLateral, world, jCylinderPlace[1]), tLateral, mApproachSpeed)
+  waitEndMove()
+  putln("DBG 60C - Assembly pickup reached with tLateral; closing gripper")
+  if physicalRun
+    close(tLateral)
+  else
+    delay(tLateral.ctime)
+  endIf
+  putln("DBG 60D - BEFORE withdrawal of assembly with tLateral")
+  movel(jointToPoint(tLateral, world, jCylinderPlace[0]), tLateral, mApproachSpeed)
+  waitEndMove()
+  putln("DBG 60E - Assembly withdrawal completed")
+
+  // ============================================================
+  // 70. DEPOSITAR EL CONJUNTO EN LA RAMPA Y RETIRARSE
+  // ============================================================
+  cycleStep = 70
+  putln("70 - Place assembly on final ramp")
+  movej(jRampPlace[0], tLateral, mNomSpeed)
+  waitEndMove()
+  movel(jointToPoint(tLateral, world, jRampPlace[1]), tLateral, mApproachSpeed)
+  waitEndMove()
+  if physicalRun
+    open(tLateral)
+  else
+    delay(tLateral.otime)
+  endIf
+  movel(jointToPoint(tLateral, world, jRampPlace[0]), tLateral, mApproachSpeed)
+  waitEndMove()
+
+  // ============================================================
+  // 100. FIN DE UN SOLO CICLO
+  // ============================================================
+  // No hay retorno automatico a jStart ni repeticion/alimentacion.
+  // La ultima orden open/close queda aplicada al terminar el ciclo.
+  taskKill("physicalIO")
+  ioReady = false
+  cycleStep = 100
+  putln("100 - Level 1 sequence completed")
 end
 </code>
     </source>

@@ -105,8 +105,8 @@
 
       // Segunda fila: usar su joint ensenada, NO desplazar X=-70.
       // Columnas separadas 60 mm desde la referencia de cada fila.
-      // TODO: verificar que world Y negativa sigue los huecos en ambas filas.
-      targetPose.trsf.y = targetPose.trsf.y - 60*columnIndex
+      // Avance invertido a world Y positiva; verificar destino 1 y 5 en SRS.
+      targetPose.trsf.y = targetPose.trsf.y + 60*columnIndex
 
       // Argumento 1: herramienta cuyo TCP queremos posicionar.
       // Argumento 2: joints de referencia para buscar la solucion.
@@ -181,14 +181,8 @@
       materialType = 0
     endIf
 
-    // Cada material dispone de cuatro destinos.
-    // Una quinta pieza del mismo material no tiene hueco.
-    if placedCount[materialType] &gt;= 4
-      trolleyOn = false
-      barrierClosed = true
-      putln("Row full: stop and empty matrix before restarting")
-      return
-    endIf
+    // Aunque su fila ya este llena, dejamos pasar esta pieza.
+    // La decision de recoger se toma despues, usando el mismo contador.
 
     // ==========================================================
     // FASE 30: ORDENAR LA RUTA Y DAR TIEMPO AL ACTUADOR
@@ -222,13 +216,15 @@
     // La cinta sigue en marcha. No podemos dejar la barrera abierta
     // hasta que la pieza llegue a bIn4: pasarian tambien las demas.
     // Damos un pulso de apertura y ordenamos cerrar inmediatamente.
-    // TODO FISICO: confirmar true=retener y ajustar 0.2 s para UNA pieza.
+    // Retener=true envia bOut5=0; liberar=false envia bOut5=1.
+    // TODO FISICO: verificar polaridad y pulso de 0.4 s para UNA pieza.
     // El pulso es temporal: por si solo no confirma dosificacion unitaria.
     cycleStep = 40
     putln("40 - Barrier pulse; then wait partAtRamp=true")
-    barrierClosed = false    
+   
 
-    delay(0.2)
+    barrierClosed = false
+    delay(0.4)
     barrierClosed = true
 
     // delay para copiar la order al pin
@@ -266,25 +262,22 @@
 
 
     // ==========================================================
-    // ELEGIR EL HUECO Y LLAMAR A LA RUTINA DEL ROBOT
+    // RECOGER SOLO SI QUEDAN HUECOS PARA ESTE MATERIAL
     // ==========================================================
-    // No metalicas usan destinos 0..3.
-    // Metalicas usan destinos 4..7.
-    // El contador indica cuantos huecos de ese material
-    // estan ocupados y, por tanto, cual es el siguiente.
-    // Ejemplo: tercera metalica:
-    // materialType=1, placedCount[1]=2 -&gt; placeIndex=6.
-    placeIndex = 4*materialType + placedCount[materialType]
-
-    // Ejecutar recogida, traslado, deposito y vuelta a home.
-    // start espera aqui hasta que la rutina termine.
-    call pickAndPlace()
-
-    // Contamos la pieza despues de completar toda la rutina.
-    placedCount[materialType] = placedCount[materialType] + 1
-
-    cycleStep = 80
-    putln("80 - Piece placed; next classification part")
+    // La pieza ya ha pasado por su rampa. Si su fila esta completa,
+    // no movemos el robot, no calculamos otro indice y no contamos.
+    // Volvemos a clasificar la siguiente hasta completar ambas filas.
+    if placedCount[materialType] &lt; 4
+      // No metalicas: destinos 0..3. Metalicas: destinos 4..7.
+      placeIndex = 4*materialType + placedCount[materialType]
+      call pickAndPlace()
+      placedCount[materialType] = placedCount[materialType] + 1
+      cycleStep = 80
+      putln("80 - Piece placed; next classification part")
+    else
+      cycleStep = 80
+      putln("80 - Row full: part passed without pickup; next part")
+    endIf
   endWhile
 
   // ============================================================

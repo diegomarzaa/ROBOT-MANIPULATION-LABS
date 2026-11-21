@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="start" public="false">
+    <description>Lab2A Level 3 - shared manual simulation / physical cycle</description>
+    <paramSection/>
+    <localSection>
+      <local name="rowIndex" type="num" size="1"/>
+      <local name="columnIndex" type="num" size="1"/>
+      <local name="targetIndex" type="num" size="1"/>
+      <local name="targetPose" type="pointRs" size="1"/>
+    </localSection>
+    <source>
+      <code>begin
+  // Level 3 main routine:
+  // Automatically feeds parts via conveyor, classifies material via inductive sensor,
+  // routes parts to ramps via pneumatic gates, and palletizes 4 of each type.
+
+  userPage()                                                         // Switch MCP display to user text screen
+  cls()                                                              // Clear MCP screen
+  physicalRun = !simulation                                          // Lock execution mode at startup
+
+  cycleStep = 0                                                      // Reset step counter
+  placedCount[0] = 0                                                 // Reset NON-METALLIC counter
+  placedCount[1] = 0                                                 // Reset METALLIC counter
+  
+  vacuumOn = false                                                   // Ensure suction is off
+  blowOn = false                                                     // Ensure blow-off is off
+  trolleyOn = false                                                  // Keep conveyor stopped during setup
+  nonMetalGate = false                                               // Retract NON-METALLIC diverter (bOut3)
+  metalGate = false                                                  // Retract METALLIC diverter (bOut4)
+  barrierClosed = true                                               // Close barrier to retain incoming parts
+
+  ioReady = false                                                    // Reset I/O sync flag
+  if physicalRun                                                     // Check if running on real station
+    taskCreate "physicalIO", 10, physicalIO()                        // Spawn background I/O task (priority 10)
+    wait(ioReady == true)                                            // Block until first I/O scan completes
+    putln("Lab2A Level 3 - PHYSICAL MODE")                           // Display active mode on MCP
+  else
+    putln("Lab2A Level 3 - MANUAL SIMULATION")
+  endIf
+
+
+  moveSpeed.vel = 10                                                 // Set speed to 10% 
+  moveSpeed.accel = 10                                               // Set acceleration to 10%
+  moveSpeed.decel = 10                                               // Set deceleration to 10%
+  moveSpeed.blend = off                                              // Disable path blending for exact stops
+  
+  // ============================================================
+  // COMPUTE 2x4 MATRIX POSES AND APPROACHES
+  // ============================================================
+  // Index distribution
+  // First row:  0, 1, 2, 3
+  // Second row:  4, 5, 6, 7
+
+  for rowIndex = 0 to 1                                              // Loop rows: 0 = non-metallic, 1 = metallic
+    for columnIndex = 0 to 3                                         // Loop 4 columns per row
+      targetIndex = 4*rowIndex + columnIndex                         // Compute flat slot index (0 to 7)
+      targetPose = jointToPoint(vacuumTool, world, placePose[4*rowIndex]) // Get Cartesian pose of row reference
+      targetPose.trsf.y = targetPose.trsf.y + 60*columnIndex         // Offset Y by 60 mm per column
+
+
+      //POSE
+
+      if columnIndex != 0                                            // Keep taught joint for column 0; solve IK for 1..3
+        if !pointToJoint(vacuumTool, placePose[4*rowIndex], targetPose, placePose[targetIndex]) // Solve IK for matrix slot and save in placePose[targetIndex]
+          putln("ERROR: unreachable matrix destination")             
+          putln(targetIndex)                                         
+          return                                               
+        endIf
+      endIf
+
+
+      //APPROACH
+
+      targetPose.trsf.z = targetPose.trsf.z + 50                     // Shift Z +50 mm above slot (approach)
+      if !pointToJoint(vacuumTool, placePose[targetIndex], targetPose, placeApproach[targetIndex]) // Solve IK for approach and save it in placeApproach[targetIndex]
+        putln("ERROR: unreachable matrix approach")                
+        putln(targetIndex)                                          
+        return                                                      
+      endIf
+
+    endFor
+
+  endFor
+  
+
+  // ============================================================
+  // PICK AND PLACE WITH AUTOMATIC FEEDING AND CLASSIFICATION
+  // ============================================================
+
+  trolleyOn = true                                                   // Start conveyor belt (bOut2)
+  movej(homePose, vacuumTool, moveSpeed)                             // Move robot to safe home pose
+  waitEndMove()
+
+  while placedCount[0] &lt; 4 or placedCount[1] &lt; 4
+
+    // STEP 20: WAIT FOR PART AT CLASSIFICATION SENSOR
+    cycleStep = 20                                                   // Update step indicator
+    putln("20 - Set partIsMetal, then partAtClass=true")             
+    wait(partAtClass == true)                                        // Wait until presence sensor 2 detects part (bIn1)
+
+    if partIsMetal                                                   // Read inductive sensor (bIn2) while part is present
+      materialType = 1                                               // Select METALLIC type (index 1)
+    else
+      materialType = 0                                               // Select NON-METALLIC type (index 0)
+    endIf
+
+
+    // STEP 30: ACTIVATE DIVERTER GATE
+    cycleStep = 30                                                   
+    putln("30 - Select route; actuator settling delay")              
+    nonMetalGate = materialType == 0                                 // Extend gate 1 (bOut3) if NON-METALLIC
+    metalGate = materialType == 1                                    // Extend gate 2 (bOut4) if METALLIC
+    delay(0.5)         
+
+    // STEP 40: PULSE BARRIER TO RELEASE ONE PART
+    cycleStep = 40                                                   
+    putln("40 - Barrier pulse; then wait partAtRamp=true")           
+    barrierClosed = false                                            // Open barrier (bOut5=true) to release single part
+    delay(0.4)                                                       // Hold barrier open for 400 ms
+    barrierClosed = true                                             // Close barrier (bOut5=false) to block next parts
+    wait(partAtRamp == true)                                         // Wait until ramp sensor detects passing part (bIn4)
+
+    // STEP 50: WAIT FOR PART TO CLEAR RAMP SENSOR
+    cycleStep = 50                                                   
+    putln("50 - Wait: partAtRamp=false")                             
+    wait(partAtRamp == false)                                        // Wait until part clears sensor beam (bIn4)
+    if physicalRun                                                   // Extra settling time on physical station
+      delay(0.5)                                                     
+    endIf
+
+    // STEP 80: PICK AND PLACE IF ROW IS NOT FULL
+    if placedCount[materialType] &lt; 4                                 // Check if target row still has empty slots
+      placeIndex = 4*materialType + placedCount[materialType]        // Compute next available slot index (0 to 7) in the m terial row
+      call pickAndPlace()                                            // Execute unit pick-and-place routine
+      placedCount[materialType] = placedCount[materialType] + 1      // Increment placed counter for this material
+      cycleStep = 80                                                 
+      putln("80 - Piece placed; next classification part")           
+    else
+      cycleStep = 80                                                 
+      putln("80 - Row full: part passed without pickup; next part")  // Skip pickup if 4 parts already placed
+    endIf
+
+  endWhile
+
+
+
+  
+  trolleyOn = false                                                  // Stop conveyor belt
+  barrierClosed = true                                               // Keep barrier closed
+  cycleStep = 100                                                    // Mark mission as finished
+  putln("100 - Completed: four parts of each material")        
+end
+</code>
+    </source>
+  </program>
+</programList>
