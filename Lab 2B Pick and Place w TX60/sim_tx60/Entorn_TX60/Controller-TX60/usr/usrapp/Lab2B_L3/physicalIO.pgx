@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="physicalIO" public="false">
+    <description>Level 3: four taught piston slots with tool presence sensing and bounded assembly.</description>
+    <paramSection/>
+    <localSection/>
+    <source>
+      <code>begin
+  // ============================================================
+  // SENSORES Y ALIMENTADOR DEL LEVEL 3
+  // ============================================================
+  // Solo se crea en fisico. En simulacion los sensores se editan a mano.
+  // La pinza usa open/close con valve1; NO escribir valve1 aqui.
+  while true
+    pistonPresent = io:bIn0 == true
+    cylinderPresent = io:bIn2 == true
+    feederExtended = io:bIn14 == true
+    feederRetracted = io:bIn15 == true
+    io:bOut10 = feederExtend
+    ioReady = true
+    delay(0.01)
+  endWhile
+end
+</code>
+    </source>
+  </program>
+</programList>

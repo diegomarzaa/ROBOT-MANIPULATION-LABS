@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="feedCylinder" public="false">
+    <description>Level 3: four taught piston slots with tool presence sensing and bounded assembly.</description>
+    <paramSection/>
+    <localSection/>
+    <source>
+      <code>begin
+  // ============================================================
+  // PREPARAR UN CILINDRO, CON EL ROBOT FUERA DEL DISPENSADOR
+  // ============================================================
+  // bOut10: 1=extender, 0=retraer (mapa del enunciado).
+  // bIn14/bIn15: finales extendido/retraido; bIn2: cilindro listo.
+  // El PDF no especifica toda la secuencia mecanica: se propone
+  // extender y retraer antes de entrar con el robot. Verificar en la celda.
+  // Si ya hay un cilindro preparado, no empujar otro encima.
+  cycleStep = 10
+  feederExtend = false
+  putln("10 - Wait feederRetracted=true and feederExtended=false")
+  wait(feederRetracted == true and feederExtended == false)
+  if !cylinderPresent
+    cycleStep = 11
+    putln("11 - EXTEND feeder; wait extended=true / retracted=false")
+    feederExtend = true
+    wait(feederExtended == true and feederRetracted == false)
+
+    cycleStep = 12
+    putln("12 - RETRACT feeder; wait retracted=true / extended=false")
+    feederExtend = false
+    wait(feederRetracted == true and feederExtended == false)
+  endIf
+  cycleStep = 13
+  putln("13 - Wait cylinderPresent=true; cylinder ready for pickup")
+  wait(cylinderPresent == true)
+end
+</code>
+    </source>
+  </program>
+</programList>

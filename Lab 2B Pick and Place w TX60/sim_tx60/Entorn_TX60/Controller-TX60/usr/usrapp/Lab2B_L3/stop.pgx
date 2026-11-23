@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="stop" public="false">
+    <description>Level 3: four taught piston slots with tool presence sensing and bounded assembly.</description>
+    <paramSection/>
+    <localSection/>
+    <source>
+      <code>begin
+  // Detener el adaptador antes de mandar retraer el alimentador.
+  // taskKill no hace nada si la tarea no existe (p. ej. setup incompleto).
+  taskKill("physicalIO")
+  resetMotion()
+  feederExtend = false
+  // No tocar hardware si start termino por posiciones pendientes.
+  if physicalRun and ioReady
+    io:bOut10 = false
+  endIf
+  ioReady = false
+  cycleStep = -1
+  // No abrir/cerrar la pinza ni ordenar retorno automatico.
+  // Un nuevo start reinicia el contador: vaciar matriz antes de reiniciar.
+  putln("STOP - Feeder retract command; gripper unchanged. Prepare cell before restart.")
+end
+</code>
+    </source>
+  </program>
+</programList>

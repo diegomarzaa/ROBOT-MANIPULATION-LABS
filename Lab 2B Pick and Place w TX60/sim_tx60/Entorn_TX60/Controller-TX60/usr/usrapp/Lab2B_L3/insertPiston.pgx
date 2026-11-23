@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<programList xmlns="ProgramNameSpace">
+  <program name="insertPiston" public="false">
+    <description>Level 3: four taught piston slots with tool presence sensing and bounded assembly.</description>
+    <paramSection />
+    <localSection />
+    <source>
+      <code>begin
+  // ============================================================
+  // 40-43. BUSCAR UN PISTON REAL ENTRE LAS CUATRO JOINTS ENSENADAS
+  // ============================================================
+  // pistonIndex avanza por intentos; partIndex solo por montajes.
+  // bIn0 detecta presencia delante de la herramienta, no agarre.
+  pistonFound = false
+  if physicalRun
+    open(tTip)
+  else
+    delay(tTip.otime)
+  endIf
+  while !pistonFound
+    cycleStep = 40
+    putln("40 - Search piston slot (0..3):")
+    putln(pistonIndex)
+    movej(jPistonPick[2*pistonIndex], tTip, mNomSpeed)
+    waitEndMove()
+    movel(jointToPoint(tTip, world, jPistonCheck[pistonIndex]), tTip, mApproachSpeed)
+    waitEndMove()
+    cycleStep = 41
+    pistonChecked = false
+    if physicalRun
+      // Asentar la herramienta y dejar actualizar physicalIO antes de leer.
+      delay(0.15)
+    else
+      putln("MANUAL: set pistonPresent, then pistonChecked=true")
+      wait(pistonChecked == true)
+    endIf
+    putln("41 - Tool presence sensor:")
+    if pistonPresent
+      putln("pistonPresent = true")
+    else
+      putln("pistonPresent = false")
+    endIf
+    if pistonPresent
+      pistonFound = true
+      cycleStep = 42
+      putln("42 - Piston found; descend and close tTip")
+      movel(jointToPoint(tTip, world, jPistonPick[2*pistonIndex+1]), tTip, mApproachSpeed)
+      waitEndMove()
+      if physicalRun
+        close(tTip)
+      else
+        delay(tTip.ctime)
+      endIf
+    else
+      cycleStep = 43
+      putln("43 - Empty slot; withdraw without closing")
+    endIf
+    // Retirada tanto si se recoge como si el hueco esta vacio.
+    movel(jointToPoint(tTip, world, jPistonPick[2*pistonIndex]), tTip, mApproachSpeed)
+    waitEndMove()
+    pistonIndex = pistonIndex + 1
+    if pistonIndex &gt;= 4
+      pistonIndex = 0
+      if !pistonFound
+        putln("No piston found at end of tray; refill empty slots. Rescanning.")
+        delay(2)
+      endIf
+    endIf
+  endWhile
+
+  // ============================================================
+  // 50. INSERTAR EL PISTON Y SOLTARLO ANTES DE RETIRARSE
+  // ============================================================
+  // TODO SIMULACION: confirmar el orden [0]/[1] de gridpiston.
+  // TODO FISICO: ajustar alineacion y profundidad de jPistonInsert[1].
+  // Este movimiento es por posicion; no mide fuerza ni confirma montaje.
+  cycleStep = 50
+  putln("50 - Insert piston into cylinder")
+  putln("DBG 50A - BEFORE movej: insertion approach [0]")
+  movej(jPistonInsert[0], tTip, mNomSpeed)
+  waitEndMove()
+  putln("DBG 50B - Insertion approach reached")
+  movel(jointToPoint(tTip, world, jPistonInsert[1]), tTip, mInsertSpeed)
+  waitEndMove()
+  putln("DBG 50C - Insertion reached with tTip; opening gripper")
+  if physicalRun
+    open(tTip)
+  else
+    delay(tTip.otime)
+  endIf
+  putln("DBG 50D - BEFORE withdrawal with tTip to jPistonInsert[0]")
+  movel(jointToPoint(tTip, world, jPistonInsert[0]), tTip, mInsertSpeed)
+  waitEndMove()
+  putln("DBG 50E - Tip withdrawal completed")
+
+  // ============================================================
+  // 55. POSTURA INTERMEDIA ANTES DE RECOGER EL CONJUNTO
+  // ============================================================
+  // Joint indicada por el usuario. Se alcanza DESPUES de soltar
+  // el piston y retirarse con tTip, antes del agarre con tLateral.
+  cycleStep = 55
+  putln("DBG 55A - BEFORE movej: jAssemblyMove with tTip")
+  movej(jAssemblyMove, tTip, mNomSpeed)
+  waitEndMove()
+  putln("DBG 55B - Assembly transit posture reached")
+
+end
+</code>
+    </source>
+  </program>
+</programList>

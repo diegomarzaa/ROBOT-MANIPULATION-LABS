@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="placeCylinder" public="false">
+    <description>Level 3: four taught piston slots with tool presence sensing and bounded assembly.</description>
+    <paramSection/>
+    <localSection/>
+    <source>
+      <code>begin
+  // partIndex=0..3 selecciona la pareja del piston correspondiente.
+  // ============================================================
+  // 20. RECOGER EL CILINDRO CON EL TCP LATERAL
+  // ============================================================
+  // movej: traslado articular entre aproximaciones.
+  // movel: entradas/retiradas con mApproachSpeed; insercion con mInsertSpeed.
+  // jointToPoint convierte la joint para movel; no mueve el robot.
+  // Usar el mismo TCP en la conversion y en la orden de movimiento.
+  // waitEndMove termina cada movimiento antes de accionar la pinza.
+  cycleStep = 20
+  putln("20 - Pick cylinder - tLateral")
+  movej(jCylinderPick[0], tLateral, mNomSpeed)
+  waitEndMove()
+  movel(jointToPoint(tLateral, world, jCylinderPick[1]), tLateral, mApproachSpeed)
+  waitEndMove()
+
+  // Cerrar y dar el tiempo mecanico guardado en la herramienta (1 s).
+  // No hay confirmacion de agarre en el mapa de E/S de esta practica.
+  if physicalRun
+    close(tLateral)
+  else
+    delay(tLateral.ctime)
+  endIf
+  movel(jointToPoint(tLateral, world, jCylinderPick[0]), tLateral, mApproachSpeed)
+  waitEndMove()
+  // El cilindro ya se ha retirado: exigir sensor libre antes
+  // de admitir otra alimentacion en la siguiente vuelta.
+  cycleStep = 21
+  putln("21 - Wait cylinderPresent=false after cylinder withdrawal")
+  wait(cylinderPresent == false)
+
+  // ============================================================
+  // 30. DEPOSITAR EL CILINDRO EN LA ESTACION DE MONTAJE
+  // ============================================================
+  cycleStep = 30
+  putln("30 - Place cylinder at assembly station")
+  movej(jCylinderPlace[0], tLateral, mNomSpeed)
+  waitEndMove()
+  movel(jointToPoint(tLateral, world, jCylinderPlace[1]), tLateral, mApproachSpeed)
+  waitEndMove()
+  if physicalRun
+    open(tLateral)
+  else
+    delay(tLateral.otime)
+  endIf
+  movel(jointToPoint(tLateral, world, jCylinderPlace[0]), tLateral, mApproachSpeed)
+  waitEndMove()
+
+end
+</code>
+    </source>
+  </program>
+</programList>
