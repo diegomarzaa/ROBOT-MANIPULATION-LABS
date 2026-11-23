@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<programList xmlns="ProgramNameSpace">
+  <program name="feedCylinder" public="false">
+    <description>Controls the cylinder dispenser pneumatic actuator and verifies part presence.</description>
+    <paramSection />
+    <localSection />
+    <source>
+      <code>begin
+  putln("[1/4] Checking cylinder dispenser...")
+
+  while bIn2 == false
+    putln("  -> No cylinder ready. Actuating feeder...")
+
+    // Guarantee actuator starts fully contracted
+    if bIn15 == false
+      bOut10 = false
+      wait(bIn15 == true)
+    endIf
+
+    // Extend pneumatic piston to push cylinder out
+    bOut10 = true
+    wait(bIn14 == true)
+    delay(0.2)
+
+    // Contract pneumatic piston back to rest
+    bOut10 = false
+    wait(bIn15 == true)
+    delay(0.2)
+
+    // If still empty, magazine tube needs refilling
+    if bIn2 == false
+      putln("  [!] Magazine empty! Refill red cylinders...")
+      delay(2.0)
+    endIf
+  endWhile
+
+  putln("  -> Red cylinder ready at pick position.")
+end
+</code>
+    </source>
+  </program>
+</programList>

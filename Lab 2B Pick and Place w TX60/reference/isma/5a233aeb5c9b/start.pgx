@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<programList xmlns="ProgramNameSpace">
+  <program name="start" public="false">
+    <description>Lab2B - Level 3: Continuous assembly with piston presence sensing and matrix palletizing.</description>
+    <paramSection />
+    <localSection />
+    <source>
+      <code>begin
+  userPage()
+  cls()
+  putln("====================================")
+  putln("  Lab2B - LEVEL 3 (TX60 Assembly)   ")
+  putln("====================================")
+
+  // Initialize state and dispenser actuator
+  nPistonIdx = 0
+  bOut10 = false
+  open(tLateral)
+
+  for nCycle = 0 to (nTotalCycles - 1)
+    putln("")
+    putln("--- CYCLE " + toString("1.0", nCycle + 1) + " / " + toString("1.0", nTotalCycles) + " ---")
+
+    // 1. Ensure red cylinder is fed in dispenser
+    call feedCylinder()
+
+    // 2. Pick cylinder and place in assembling station
+    call pickPlaceCylinder()
+
+    // 3. Scan piston source with sensor bIn0, pick piston and insert
+    call pickInsertPiston()
+
+    // 4. Pick assembled unit and place in Assembled Matrix
+    call placeInMatrix(nCycle)
+  endFor
+
+  putln("")
+  putln("Returning to safe home posture...")
+  movej(jStart, flange, mNomSpeed)
+  waitEndMove()
+  putln("LEVEL 3 COMPLETED SUCCESSFULLY!")
+end
+</code>
+    </source>
+  </program>
+</programList>

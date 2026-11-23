@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<programList xmlns="ProgramNameSpace">
+  <program name="placeInMatrix" public="false">
+    <description>Picks assembled unit from station and places it into the corresponding fMatrix slot.</description>
+    <paramSection>
+      <param name="nSlotIdx" type="num" byVal="true" />
+    </paramSection>
+    <localSection>
+      <local name="nRow" type="num" size="1" />
+      <local name="nCol" type="num" size="1" />
+      <local name="pCurPlace" type="point" size="1" />
+      <local name="pCurApp" type="point" size="1" />
+    </localSection>
+    <source>
+      <code>begin
+  putln("[4/4] Placing assembly into matrix...")
+  open(tLateral)
+
+  // Pick assembled unit from assembling station
+  movej(pAsmApproach, tLateral, mNomSpeed)
+  waitEndMove()
+  movel(pAsmCylinder, tLateral, mInsertSpeed)
+  waitEndMove()
+  close(tLateral)
+
+  movel(pAsmApproach, tLateral, mNomSpeed)
+  waitEndMove()
+
+  // Compute (row, col) in 2x4 Assembled Matrix
+  nRow = roundDown(nSlotIdx / nMatrixCols)
+  nCol = nSlotIdx - (nRow * nMatrixCols)
+
+  pCurPlace = pMatrixBase
+  pCurPlace.trsf.x = pMatrixBase.trsf.x + (nCol * nMatrixStepX)
+  pCurPlace.trsf.y = pMatrixBase.trsf.y + (nRow * nMatrixStepY)
+  pCurApp = appro(pCurPlace, trMatrixAppro)
+
+  putln("  -> Target matrix slot [" + toString("1.0", nRow) + "," + toString("1.0", nCol) + "]")
+
+  movej(pCurApp, tLateral, mNomSpeed)
+  waitEndMove()
+  movel(pCurPlace, tLateral, mInsertSpeed)
+  waitEndMove()
+  open(tLateral)
+
+  movel(pCurApp, tLateral, mNomSpeed)
+  waitEndMove()
+end
+</code>
+    </source>
+  </program>
+</programList>

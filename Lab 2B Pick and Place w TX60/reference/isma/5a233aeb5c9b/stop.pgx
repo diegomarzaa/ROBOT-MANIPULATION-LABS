@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<programList xmlns="ProgramNameSpace">
+  <program name="stop" public="false">
+    <description>Safe stop routine: halts motion and resets feeder valve without dropping held parts.</description>
+    <paramSection />
+    <localSection />
+    <source>
+      <code>begin
+  resetMotion()
+  bOut10 = false
+  putln("Lab2B stopped safely - gripper state preserved")
+end
+</code>
+    </source>
+  </program>
+</programList>

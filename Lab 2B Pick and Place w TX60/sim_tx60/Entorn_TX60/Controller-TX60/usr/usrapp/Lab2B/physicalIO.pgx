@@ -1,9 +1,9 @@
-<?xml version='1.0' encoding='UTF-8'?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <programList xmlns="ProgramNameSpace">
   <program name="physicalIO" public="false">
-    <description>TX60 Level 1 sensor adapter: bIn2 cylinder presence; no output writes.</description>
-    <paramSection/>
-    <localSection/>
+    <description>TX60 Level 1 IO adapter: bIn2 cylinder presence; valve1 gripper.</description>
+    <paramSection />
+    <localSection />
     <source>
       <code>begin
   // ============================================================
@@ -22,10 +22,14 @@
     // bIn2=1: hay cilindro preparado; bIn2=0: no detecta cilindro.
     cylinderPresent = io:bIn2 == true
 
-    // La pinza la acciona start con open/close de tLateral/tTip.
-    // NO escribir valve1 aqui: sobrescribiria esas ordenes.
+    // El enunciado indicaba bOut0; en esta celda T1 usa valve1.
+    // El usuario confirma que la pinza responde al mando manual.
+    // valve1=1 ABRE; valve1=0 CIERRA. No copiar la logica de vacio de 2A.
+    // Una sola pinza para tLateral y tTip; el adaptador solo lee presencia.
+    // TODO FISICO: comprobar respuesta real antes del primer recorrido.
+    // La pinza se manda desde start con open/close; no sobrescribir valve1.
 
-    // Primera lectura realizada; start ya puede continuar.
+    // Primera lectura/escritura realizada; start ya puede continuar.
     ioReady = true
     delay(0.01)
   endWhile

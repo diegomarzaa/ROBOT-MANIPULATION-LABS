@@ -1,5 +1,20 @@
 # Recuperación de Lab2B — 19 octubre 2026
 
+> **Actualización del 9 de noviembre de 2026:** el código actual es un único
+> ciclo Level 1 en `start`, con `physicalIO` y `stop`, selector público
+> `simulation=true` por defecto, sensor `cylinderPresent` (bIn2) y orden
+> pinza por `open/close` de las herramientas sobre `io:valve1[0]`. Los TCP se conservan;
+> las posturas se han sustituido por las seis parejas articulares de las
+> fotos del usuario, con orden provisional 0=aproximación/1=trabajo.
+> `jStart` es la excepción: contiene dos posturas iniciales y solo se usa [0].
+> Actualización del 16 de noviembre: los tres `tool` referencian
+> `io:valve1[0]`; `start` usa `open/close` en físico.
+> `physicalIO` solo lee bIn2 y no escribe salidas.
+> Las instrucciones actuales están en el README de la aplicación, junto a
+> `Lab2B.pjx`. Los apartados siguientes son el historial de octubre, no una
+> descripción de la versión actual. La memoria LaTeX sigue pendiente de
+> sincronización con esta reorganización.
+
 ## Qué se había guardado antes del fallo
 
 Se han conservado sin cambiar sus valores: world, flange, tLateral, tTip, jStart, jTransCylinder, mNomSpeed y los cuatro puntos del cilindro. La velocidad nominal ya estaba a **30**, con aceleración/deceleración 10 y blend off; no se ha vuelto a poner a 10.

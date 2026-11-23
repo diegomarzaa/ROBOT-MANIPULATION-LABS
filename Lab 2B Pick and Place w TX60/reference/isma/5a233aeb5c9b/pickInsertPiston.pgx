@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<programList xmlns="ProgramNameSpace">
+  <program name="pickInsertPiston" public="false">
+    <description>Scans 2x4 Piston Source using tool sensor bIn0, picks available piston, and inserts it.</description>
+    <paramSection />
+    <localSection>
+      <local name="nRow" type="num" size="1" />
+      <local name="nCol" type="num" size="1" />
+      <local name="pCurPick" type="point" size="1" />
+      <local name="pCurCheck" type="point" size="1" />
+      <local name="pCurApp" type="point" size="1" />
+    </localSection>
+    <source>
+      <code>begin
+  putln("[3/4] Scanning piston source (bIn0)...")
+  open(tTip)
+  bPistonFound = false
+
+  while !bPistonFound
+    // Wrap around if all 8 slots were scanned without finding a piston
+    if nPistonIdx >= (nPistonRows * nPistonCols)
+      putln("  [!] Tray empty! Refill pistons in source...")
+      nPistonIdx = 0
+      delay(2.0)
+    endIf
+
+    // Compute (row, col) in 2x4 Piston Source grid
+    nRow = roundDown(nPistonIdx / nPistonCols)
+    nCol = nPistonIdx - (nRow * nPistonCols)
+
+    pCurPick = pPistonBase
+    pCurPick.trsf.x = pPistonBase.trsf.x + (nCol * nPistonStepX)
+    pCurPick.trsf.y = pPistonBase.trsf.y + (nRow * nPistonStepY)
+
+    pCurCheck = appro(pCurPick, trPistonSensor)
+    pCurApp = appro(pCurPick, trPistonAppro)
+
+    // Move above slot and check presence sensor bIn0
+    movej(pCurApp, tTip, mNomSpeed)
+    waitEndMove()
+    movel(pCurCheck, tTip, mNomSpeed)
+    waitEndMove()
+    delay(0.15)
+
+    if bIn0 == true
+      bPistonFound = true
+      putln("  -> Piston FOUND at [" + toString("1.0", nRow) + "," + toString("1.0", nCol) + "]")
+
+      movel(pCurPick, tTip, mInsertSpeed)
+      waitEndMove()
+      close(tTip)
+
+      movel(pCurApp, tTip, mNomSpeed)
+      waitEndMove()
+    else
+      putln("  -> Slot [" + toString("1.0", nRow) + "," + toString("1.0", nCol) + "] EMPTY, skipping...")
+      movel(pCurApp, tTip, mNomSpeed)
+      waitEndMove()
+    endIf
+
+    // Advance index for next check/cycle
+    nPistonIdx = nPistonIdx + 1
+  endWhile
+
+  // Insert piston into cylinder at assembling station
+  putln("  -> Inserting piston into cylinder...")
+  movej(pInsertApproach, tTip, mNomSpeed)
+  waitEndMove()
+  movel(pInsert, tTip, mInsertSpeed)
+  waitEndMove()
+  open(tTip)
+
+  movel(pInsertApproach, tTip, mNomSpeed)
+  waitEndMove()
+end
+</code>
+    </source>
+  </program>
+</programList>

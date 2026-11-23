@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="placeInMatrix" public="false">
+    <description>Isma structure adapted to Level 2; taught joints, bounded cycles and shared IO modes.</description>
+    <paramSection/><localSection/>
+    <source>
+      <code>begin
+  // ============================================================
+  // 60. RECOGER EL CONJUNTO CON EL TCP LATERAL
+  // ============================================================
+  // Recoger en jCylinderPlace[1], donde se ha depositado el cilindro.
+  // TODO FISICO: comprobar el agarre con el piston ya dentro del cilindro.
+  cycleStep = 60
+  putln("60 - Pick assembled cylinder - tLateral")
+  if physicalRun
+    open(tLateral)
+  else
+    delay(tLateral.otime)
+  endIf
+  // El siguiente movimiento usa el TCP lateral. Las joints guardadas
+  // deben describir la postura de agarre lateral; el TCP no anade un giro.
+  putln("DBG 60A - BEFORE movej with tLateral to jCylinderPlace[0]")
+  movej(jCylinderPlace[0], tLateral, mNomSpeed)
+  waitEndMove()
+  putln("DBG 60B - Lateral approach reached; BEFORE descent to jCylinderPlace[1]")
+  movel(jointToPoint(tLateral, world, jCylinderPlace[1]), tLateral, mApproachSpeed)
+  waitEndMove()
+  putln("DBG 60C - Assembly pickup reached with tLateral; closing gripper")
+  if physicalRun
+    close(tLateral)
+  else
+    delay(tLateral.ctime)
+  endIf
+  putln("DBG 60D - BEFORE withdrawal of assembly with tLateral")
+  movel(jointToPoint(tLateral, world, jCylinderPlace[0]), tLateral, mApproachSpeed)
+  waitEndMove()
+  putln("DBG 60E - Assembly withdrawal completed")
+
+  // ============================================================
+  // DEPOSITAR EN LA PAREJA DEL HUECO ACTUAL DE LA MATRIZ
+  // ============================================================
+  // partIndex es 0..3: approach=2*i, deposito=2*i+1.
+  // El llamador limita a cuatro y pasa el indice correspondiente.
+  cycleStep = 70
+  putln("70 - Place assembly in matrix slot (0..3):")
+  putln(partIndex)
+  movej(jMatrix[2*partIndex], tLateral, mNomSpeed)
+  waitEndMove()
+  movel(jointToPoint(tLateral, world, jMatrix[2*partIndex+1]), tLateral, mApproachSpeed)
+  waitEndMove()
+  if physicalRun
+    open(tLateral)
+  else
+    delay(tLateral.otime)
+  endIf
+  movel(jointToPoint(tLateral, world, jMatrix[2*partIndex]), tLateral, mApproachSpeed)
+  waitEndMove()
+  putln("75 - Assembly released; matrix withdrawal completed")
+end
+</code>
+    </source>
+  </program>
+</programList>

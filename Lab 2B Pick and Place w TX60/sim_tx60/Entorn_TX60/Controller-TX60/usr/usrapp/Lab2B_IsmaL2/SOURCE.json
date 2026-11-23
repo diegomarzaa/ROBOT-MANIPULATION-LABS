@@ -1,0 +1,17 @@
+{
+  "repository": "https://github.com/ismaelbentaleb/isma",
+  "commit": "5a233aeb5c9bc9946dc8e01b13d66c8949386d8d",
+  "tree": "d05f5232c64a6a3502fd53c2eae2d3d8ef5a7b70",
+  "blobs": {
+    "Data.dtx": "9e82ff2c45b8ad4bd2b3b4d7d38e2e8bbd592722",
+    "Project.pjx": "3609a4149cc5297c66a3223fa4760ede201a8554",
+    "feedCylinder.pgx": "c1bc8076d4857981409efe3cad0bafc9714e2391",
+    "insertPiston.pgx": "b47ab3b5be14ad07a57da762e656d5e0236c08c0",
+    "placeCylinder.pgx": "100faf9b9ecccedfd1804778668a7156275cbed6",
+    "placeInMatrix.pgx": "427486f82fc99a94b3d9792a7d72eb1ad592daa9",
+    "start.pgx": "51030c31cca332312b73910a9205a0b83544cdd8",
+    "stop.pgx": "d8471f20531ec78686b313e8bcea55d48ad01764"
+  },
+  "original_directory": "reference/isma/5a233aeb5c9b",
+  "adaptation": "Program structure adapted to Level 2; process logic and taught-joint data from preserved Lab2B_Level2; no Level 3 scanning or guessed geometry."
+}

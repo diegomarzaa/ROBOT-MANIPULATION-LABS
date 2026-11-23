@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<programList xmlns="ProgramNameSpace">
+  <program name="start" public="false">
+    <description>Level 2 - four assemblies; validate setup and trajectories in SRS.</description>
+    <paramSection/>
+    <localSection>
+      <local name="poseIndex" type="num" size="1"/>
+      <local name="approachPose" type="point" size="1"/>
+      <local name="placePose" type="point" size="1"/>
+    </localSection>
+    <source>
+      <code>begin
+  // ============================================================
+  // LEVEL 2: ALIMENTAR, MONTAR Y COLOCAR CUATRO CONJUNTOS
+  // ============================================================
+  // Aplicacion separada: Lab2B (Level 1) permanece sin modificar.
+  // Matriz VACIA y cuatro pistones cargados al comenzar.
+  // simulation=true: sensores manuales, sin acceso a pines.
+  // simulation=false: bIn2/14/15, bOut10 y pinza valve1.
+  userPage()
+  cls()
+  putln("Lab2B_Level2 - Four assemblies - empty matrix required")
+  physicalRun = !simulation
+  placedCount = 0
+  partIndex = 0
+  cycleStep = 0
+  feederExtend = false
+  ioReady = false
+
+  // ============================================================
+  // COMPROBAR ALTURAS DE MATRIZ SIN MOVER NI ACCIONAR SALIDAS
+  // ============================================================
+  // Parejas 0/1, 2/3, 4/5, 6/7: par=approach, impar=deposito.
+  // J3 es un ANGULO, no una altura. Calculamos Z del TCP lateral.
+  // Esto comprueba altura, no colisiones, alineacion o alcance del trayecto.
+  for poseIndex = 0 to 3
+    approachPose = jointToPoint(tLateral, world, jMatrix[2*poseIndex])
+    placePose = jointToPoint(tLateral, world, jMatrix[2*poseIndex+1])
+    putln("Matrix slot (0..3):")
+    putln(poseIndex)
+    putln("Approach Z (mm):")
+    putln(approachPose.trsf.z)
+    putln("Place Z (mm):")
+    putln(placePose.trsf.z)
+    if approachPose.trsf.z &lt;= placePose.trsf.z
+      putln("ERROR: approach is not above place; review this matrix pair")
+      return
+    endIf
+  endFor
+
+  // ============================================================
+  // LOS CUATRO PISTONES TODAVIA ESTAN POR ENSENAR
+  // ============================================================
+  // jPistonPick[0..7] esta a cero a proposito. No reutilizamos
+  // cuatro veces la unica recogida del Level 1 ni inventamos offsets.
+  // Completar las OCHO posturas: par=approach, impar=recogida.
+  // Este control termina ANTES de crear tareas o dar ordenes al robot.
+  for poseIndex = 0 to 7
+    if jPistonPick[poseIndex].j1 == 0 and jPistonPick[poseIndex].j2 == 0 and jPistonPick[poseIndex].j3 == 0 and jPistonPick[poseIndex].j4 == 0 and jPistonPick[poseIndex].j5 == 0 and jPistonPick[poseIndex].j6 == 0
+      putln("ERROR: teach piston approach/pick joint; missing index:")
+      putln(poseIndex)
+      return
+    endIf
+  endFor
+
+  // physicalIO solo escribe el ALIMENTADOR; nunca la pinza.
+  if physicalRun
+    taskCreate "physicalIO", 10, physicalIO()
+    wait(ioReady == true)
+    putln("PHYSICAL: real sensors and feeder enabled")
+    open(tLateral)
+  else
+    putln("MANUAL SIMULATION: change sensor bools at the indicated steps")
+    delay(tLateral.otime)
+  endIf
+  movej(jStart[0], tLateral, mNomSpeed)
+  waitEndMove()
+
+  // ============================================================
+  // SOLO CUATRO CONJUNTOS; NO HAY QUINTA ALIMENTACION
+  // ============================================================
+  while placedCount &lt; 4
+    partIndex = placedCount
+    putln("Assembly number (1..4):")
+    putln(partIndex+1)
+    call feedCylinder()
+    call assemble()
+    call placeAssembly()
+    // Contar tras soltar y terminar la retirada de la matriz.
+    placedCount = placedCount + 1
+    putln("Completed matrix slots:")
+    putln(placedCount)
+    // Volver a la postura inicial SOLO si falta otro conjunto.
+    if placedCount &lt; 4
+      movej(jStart[0], tLateral, mNomSpeed)
+      waitEndMove()
+    endIf
+  endWhile
+
+  // La matriz llena finaliza aunque bIn2 siga detectando cilindros.
+  feederExtend = false
+  taskKill("physicalIO")
+  if physicalRun
+    io:bOut10 = false
+  endIf
+  ioReady = false
+  cycleStep = 100
+  putln("100 - Matrix full: 4/4. No further feeding or pickup.")
+end
+</code>
+    </source>
+  </program>
+</programList>

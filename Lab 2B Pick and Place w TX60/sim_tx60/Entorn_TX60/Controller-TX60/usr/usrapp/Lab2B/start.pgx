@@ -188,8 +188,8 @@
   // Joint indicada por el usuario. Se alcanza DESPUES de soltar
   // el piston y retirarse con tTip, antes del agarre con tLateral.
   cycleStep = 55
-  putln("DBG 55A - BEFORE movej: jAssemblyTransit with tTip")
-  movej(jAssemblyTransit, tTip, mNomSpeed)
+  putln("DBG 55A - BEFORE movej: jAssemblyMove with tTip")
+  movej(jAssemblyMove, tTip, mNomSpeed)
   waitEndMove()
   putln("DBG 55B - Assembly transit posture reached")
 

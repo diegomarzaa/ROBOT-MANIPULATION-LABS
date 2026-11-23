@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<programList xmlns="ProgramNameSpace">
+  <program name="pickPlaceCylinder" public="false">
+    <description>Picks red cylinder from dispenser and places it in the assembling station.</description>
+    <paramSection />
+    <localSection />
+    <source>
+      <code>begin
+  putln("[2/4] Transferring red cylinder to station...")
+  open(tLateral)
+
+  // Safe joint transit to avoid wrist/elbow flip
+  movej(jTransCylinder, tLateral, mNomSpeed)
+  waitEndMove()
+
+  // Pick from dispenser
+  movej(pCylApproach, tLateral, mNomSpeed)
+  waitEndMove()
+  movel(pCylPick, tLateral, mInsertSpeed)
+  waitEndMove()
+  close(tLateral)
+
+  movel(pCylApproach, tLateral, mNomSpeed)
+  waitEndMove()
+
+  // Place in assembling station
+  movej(pAsmApproach, tLateral, mNomSpeed)
+  waitEndMove()
+  movel(pAsmCylinder, tLateral, mInsertSpeed)
+  waitEndMove()
+  open(tLateral)
+
+  movel(pAsmApproach, tLateral, mNomSpeed)
+  waitEndMove()
+end
+</code>
+    </source>
+  </program>
+</programList>

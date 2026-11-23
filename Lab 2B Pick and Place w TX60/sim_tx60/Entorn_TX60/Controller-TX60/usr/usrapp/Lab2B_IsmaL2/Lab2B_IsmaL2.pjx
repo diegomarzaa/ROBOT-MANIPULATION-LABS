@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project xmlns="ProjectNameSpace">
+  <parameters version="s6.8" stackSize="5000" millimeterUnit="true"/>
+  <programSection>
+    <program file="start.pgx"/>
+    <program file="feedCylinder.pgx"/>
+    <program file="placeCylinder.pgx"/>
+    <program file="insertPiston.pgx"/>
+    <program file="placeInMatrix.pgx"/>
+    <program file="physicalIO.pgx"/>
+    <program file="stop.pgx"/>
+  </programSection>
+  <dataSection>
+    <data file="Lab2B_IsmaL2.dtx"/>
+  </dataSection>
+  <aliasSection>
+    <alias name="io" interface="io" autoload="true"/>
+  </aliasSection>
+</project>
