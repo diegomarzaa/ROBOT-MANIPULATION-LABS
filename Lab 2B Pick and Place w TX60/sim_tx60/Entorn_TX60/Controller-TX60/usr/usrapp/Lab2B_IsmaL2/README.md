@@ -72,6 +72,12 @@ con matriz vacía, estación preparada y cuatro pistones disponibles.
 
 ## Comprobaciones pendientes en SRS
 
+Velocidades ajustadas después de las primeras pruebas: mNomSpeed.vel=30,
+mApproachSpeed.vel=27 (antes 20), tmax=300 mm/s (antes 100), rmax=90 grados/s
+(antes 60). Inserción ajustada después a petición del usuario: vel=20, tmax=100 mm/s, rmax=60 grados/s. Se mantienen
+aceleración/deceleración y paradas entre movimientos. La velocidad real
+depende también del override del mando, los límites y el tipo de movimiento.
+
 XML, referencias, ángulos y flujo en seco comprobados. El comprobador VAL3
 aislado no pudo cargar sus recursos de lenguaje; **falta Check Syntax en
 SRS**, ejecutar el cálculo real de approaches y revisar cada trayectoria.

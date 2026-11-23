@@ -85,6 +85,11 @@ comenzar con matriz vacía y estación preparada. No hay reanudación automátic
 
 ## Validación
 
+Ajuste posterior solicitado: mApproachSpeed.vel=27 frente a nominal 30,
+tmax=300 mm/s y rmax=90 grados/s. Inserción ajustada después a vel=20,
+tmax=100 mm/s y rmax=60 grados/s. Mismas aceleraciones y paradas; velocidad real dependiente
+del override, límites y trayectoria. Ajuste compartido con Lab2B_IsmaL2.
+
 Comprobados XML s6.8, nombres de hasta 15 caracteres, referencias,
 conservación de joints y de Level 2. Flujo PGX probado con E/S e IK ficticias:
 cuatro ocupados, huecos alternos, bandeja vacía y reposición, índices
