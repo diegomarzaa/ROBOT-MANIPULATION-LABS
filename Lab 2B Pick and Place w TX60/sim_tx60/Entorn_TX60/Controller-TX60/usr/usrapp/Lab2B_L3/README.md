@@ -12,23 +12,24 @@ ni offsets de matriz. Procedencia original en SOURCE.json y reference/isma.
 ## Secuencia
 
 1. Alimentar cilindro y colocarlo en la estación, igual que Level 2.
-2. Visitar pistonIndex, empezando por 0, aproximarse con tTip y bajar al
-   punto de detección jPistonCheck[pistonIndex].
-3. En físico, esperar 0.15 s para asentar y actualizar bIn0. Si detecta,
-   bajar a recogida, cerrar y retirarse. Si no, retirarse sin cerrar.
-4. Avanzar pistonIndex tras cada intento. Si sigue sin pistón, probar otro
-   hueco. Después del 3 volver al 0; al final de bandeja sin detección,
-   mostrar aviso de reposición y pausar 2 s antes de continuar buscando.
+2. En cada montaje revisar **siempre los 4 huecos desde el 0**. Por hueco:
+   movej a jCheckApproach (check + checkLift) y movel a la pose de
+   detección **enseñada** jPistonCheck. Esperar 0.15 s y leer bIn0.
+3. Si no hay pistón: pasar directo al siguiente hueco, sin retirarse.
+   Coger el **primer** hueco con pistón: subir a jCheckApproach, ir al
+   approach del pick, bajar vertical, cerrar tTip y subir.
+4. Si los 4 están vacíos: subir sobre el hueco 3, avisar de reposición,
+   esperar 2 s y repetir desde el 0.
 5. Con pistón recogido, insertar, retirar por jAssemblyMove, recoger el
    conjunto con tLateral y colocarlo en la matriz.
 6. Contar tras depósito y retirada. Terminar con cuatro, sin quinta
    alimentación aunque haya otro cilindro detectado.
 
 pistonIndex es independiente de partIndex: saltar un pistón no salta un
-destino de matriz. Los huecos pueden revisitarse después de reponerlos.
-Si toda la bandeja está vacía, el cilindro espera en la estación y la
-búsqueda se repite sin cerrar la pinza, contar ni alimentar otro cilindro.
-bIn0 detecta presencia delante de herramienta; no confirma agarre.
+destino de matriz. Cada búsqueda empieza en el hueco 0, así que un hueco
+repuesto se vuelve a usar. Con la bandeja vacía el cilindro espera en la
+estación y no se cierra la pinza, ni se cuenta, ni se alimenta otro cilindro.
+bIn0 detecta presencia delante del sensor; no confirma agarre.
 
 ## Posiciones y detección
 
@@ -36,25 +37,24 @@ bIn0 detecta presencia delante de herramienta; no confirma agarre.
   Ángulos idénticos a L2.
 - Approaches [0,2,4,6]: calculados a **pistonLift=60 mm** sobre la recogida
   en Z world, con tTip, orientación conservada y recogida como semilla IK.
-- jPistonCheck[0..3]: calculados a **pistonCheckLift=35 mm** sobre cada
-  recogida, en Z world y con tTip. Los ceros guardados son espacio para
-  el resultado del cálculo, no destinos ejecutados directamente.
+- jPistonCheck[0..3]: poses de detección **enseñadas en el mando**, con el
+  sensor en un lateral de la pinza. No se recalculan ni se sobrescriben.
+- jCheckApproach[0..3]: calculados al arrancar a **checkLift=60 mm** sobre
+  cada jPistonCheck en Z world, con tTip. Los ceros del DTX son espacio
+  para el resultado del cálculo.
 - Matriz: cuatro parejas jMatrix[0/1], [2/3], [4/5], [6/7], sin offsets;
   par=approach, impar=depósito. Todas sus joints se mantienen.
 
-**35 mm es una propuesta, no una calibración del sensor.** Se sigue la idea
-de Isma de detectar antes de llegar al pick, pero su offset estaba en otro
-frame. Comprobar que bIn0 distingue ocupado/vacío desde esta postura y
-ajustar pistonCheckLift según el montaje real del sensor.
-
-Antes de crear tareas o mover, se exige 0 < pistonCheckLift < pistonLift,
-se calculan approaches y puntos de detección, y se rechaza una IK fallida.
+Antes de crear tareas o mover se exige pistonLift > 0 y checkLift > 0,
+recogidas y poses de detección enseñadas (no todo ceros) y solución IK de
+cada approach. Por hueco se imprime Z de pick / pickAppr / check /
+checkAppr y el desplazamiento XY check-pick con tTip.
 Se comprueba e imprime que Z approach de cada pareja de matriz supere Z
 depósito. Esto no comprueba colisiones, trayectorias ni agarres.
 
 ## Modos y E/S
 
-Guardado **simulation=true**: hay movimientos pero no acceso a pines ni
+DTX actual con **simulation=false** (físico). Con true hay movimientos pero no acceso a pines ni
 open/close reales; se editan bools manualmente. Para físico poner
 simulation=false antes de start; physicalRun fija el modo hasta otro start.
 

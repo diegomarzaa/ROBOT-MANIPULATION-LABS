@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <programList xmlns="ProgramNameSpace">
   <program name="insertPiston" public="false">
     <description>Level 3: four taught piston slots with tool presence sensing and bounded assembly.</description>
@@ -7,10 +7,18 @@
     <source>
       <code>begin
   // ============================================================
-  // 40-43. BUSCAR UN PISTON REAL ENTRE LAS CUATRO JOINTS ENSENADAS
+  // 40-43. BUSCAR UN PISTON: REVISAR SIEMPRE LOS 4 HUECOS DESDE EL 0
   // ============================================================
-  // pistonIndex avanza por intentos; partIndex solo por montajes.
-  // bIn0 detecta presencia delante de la herramienta, no agarre.
+  // En cada montaje se recorre pistonIndex = 0,1,2,3 y se coge el
+  // PRIMER hueco donde bIn0 detecta piston. partIndex solo cuenta montajes.
+  // bIn0 esta en un LATERAL de la pinza y detecta presencia, no agarre.
+  // Por hueco (todo con tTip):
+  //   40 movej jCheckApproach (check + checkLift, calculado en start)
+  //      movel jPistonCheck (ENSENADA) -> 41 leer bIn0
+  //   Si NO hay piston: no se retira; se va directo al siguiente hueco.
+  //   Si hay piston: 42 subir a jCheckApproach, ir al approach del pick,
+  //      bajar vertical a jPistonPick, cerrar y subir al approach.
+  // Si los 4 estan vacios: subir, avisar, esperar 2 s y repetir desde 0.
   pistonFound = false
   if physicalRun
     open(tTip)
@@ -18,55 +26,69 @@
     delay(tTip.otime)
   endIf
   while !pistonFound
-    cycleStep = 40
-    putln("40 - Search piston slot (0..3):")
-    putln(pistonIndex)
-    movej(jPistonPick[2*pistonIndex], tTip, mNomSpeed)
-    waitEndMove()
-    movel(jointToPoint(tTip, world, jPistonCheck[pistonIndex]), tTip, mApproachSpeed)
-    waitEndMove()
-    cycleStep = 41
-    pistonChecked = false
-    if physicalRun
-      // Asentar la herramienta y dejar actualizar physicalIO antes de leer.
-      delay(0.15)
-    else
-      putln("MANUAL: set pistonPresent, then pistonChecked=true")
-      wait(pistonChecked == true)
-    endIf
-    putln("41 - Tool presence sensor:")
-    if pistonPresent
-      putln("pistonPresent = true")
-    else
-      putln("pistonPresent = false")
-    endIf
-    if pistonPresent
-      pistonFound = true
-      cycleStep = 42
-      putln("42 - Piston found; descend and close tTip")
-      movel(jointToPoint(tTip, world, jPistonPick[2*pistonIndex+1]), tTip, mApproachSpeed)
+    pistonIndex = 0
+    while !pistonFound and pistonIndex &lt; 4
+      cycleStep = 40
+      putln("40 - Check piston slot (0..3):")
+      putln(pistonIndex)
+      putln("DBG 40A - movej to check approach")
+      movej(jCheckApproach[pistonIndex], tTip, mNomSpeed)
       waitEndMove()
+      putln("DBG 40B - movel to taught sensing pose jPistonCheck")
+      movel(jointToPoint(tTip, world, jPistonCheck[pistonIndex]), tTip, mApproachSpeed)
+      waitEndMove()
+      cycleStep = 41
+      pistonChecked = false
       if physicalRun
-        close(tTip)
+        // Asentar la herramienta y dejar actualizar physicalIO antes de leer.
+        delay(0.15)
       else
-        delay(tTip.ctime)
+        putln("MANUAL: set pistonPresent, then pistonChecked=true")
+        wait(pistonChecked == true)
       endIf
-    else
-      cycleStep = 43
-      putln("43 - Empty slot; withdraw without closing")
-    endIf
-    // Retirada tanto si se recoge como si el hueco esta vacio.
-    movel(jointToPoint(tTip, world, jPistonPick[2*pistonIndex]), tTip, mApproachSpeed)
-    waitEndMove()
-    pistonIndex = pistonIndex + 1
-    if pistonIndex &gt;= 4
-      pistonIndex = 0
-      if !pistonFound
-        putln("No piston found at end of tray; refill empty slots. Rescanning.")
-        delay(2)
+      // Guardar la lectura ANTES de mover: physicalIO sigue refrescando
+      // pistonPresent y al alejarse el sensor dejaria de verlo.
+      pistonFound = pistonPresent
+      putln("41 - Tool presence sensor bIn0:")
+      if pistonFound
+        putln("pistonPresent = true")
+      else
+        putln("pistonPresent = false")
+        cycleStep = 43
+        putln("43 - Empty slot; go to next slot")
+        pistonIndex = pistonIndex + 1
       endIf
+    endWhile
+    if !pistonFound
+      // Ultimo check fue el hueco 3: subir antes de volver al hueco 0.
+      movel(jointToPoint(tTip, world, jCheckApproach[3]), tTip, mApproachSpeed)
+      waitEndMove()
+      putln("No piston in any slot; refill tray. Rescanning in 2 s.")
+      delay(2)
     endIf
   endWhile
+
+  // pistonIndex = primer hueco con piston detectado.
+  cycleStep = 42
+  putln("42 - Piston found; pick slot (0..3):")
+  putln(pistonIndex)
+  putln("DBG 42A - movel up to check approach")
+  movel(jointToPoint(tTip, world, jCheckApproach[pistonIndex]), tTip, mApproachSpeed)
+  waitEndMove()
+  putln("DBG 42B - movel to pick approach")
+  movel(jointToPoint(tTip, world, jPistonPick[2*pistonIndex]), tTip, mApproachSpeed)
+  waitEndMove()
+  putln("DBG 42C - movel down to pick; then close tTip")
+  movel(jointToPoint(tTip, world, jPistonPick[2*pistonIndex+1]), tTip, mApproachSpeed)
+  waitEndMove()
+  if physicalRun
+    close(tTip)
+  else
+    delay(tTip.ctime)
+  endIf
+  putln("DBG 42D - Piston gripped; withdraw to pick approach")
+  movel(jointToPoint(tTip, world, jPistonPick[2*pistonIndex]), tTip, mApproachSpeed)
+  waitEndMove()
 
   // ============================================================
   // 50. INSERTAR EL PISTON Y SOLTARLO ANTES DE RETIRARSE

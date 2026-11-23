@@ -7,7 +7,11 @@
       <local name="poseIndex" type="num" size="1"/>
       <local name="approachPose" type="point" size="1"/>
       <local name="placePose" type="point" size="1"/>
-    <local name="pistonApproach" type="point" size="1"/></localSection>
+      <local name="pistonApproach" type="point" size="1"/>
+      <local name="pickPose" type="point" size="1"/>
+      <local name="checkPose" type="point" size="1"/>
+      <local name="checkApproach" type="point" size="1"/>
+    </localSection>
     <source>
       <code>begin
   // ============================================================
@@ -55,11 +59,15 @@
   // ============================================================
   // CUATRO RECOGIDAS REALES: IMG_3805, 3806, 3807, 3808
   // ============================================================
-  // Impares = recogidas ensenadas; pares = aproximaciones calculadas.
-  // Subir en Z de world conservando orientacion y configuracion del TCP.
-  // El calculo termina antes de crear tareas o accionar el robot.
-  if pistonLift &lt;= 0 or pistonCheckLift &lt;= 0 or pistonCheckLift &gt;= pistonLift
-    putln("ERROR: require 0 &lt; pistonCheckLift &lt; pistonLift (mm)")
+  // jPistonPick: impares = recogidas ENSENADAS; pares = approaches
+  // CALCULADOS aqui (pick + pistonLift en Z world, misma orientacion).
+  // jPistonCheck[0..3]: poses de deteccion bIn0 ENSENADAS en el mando
+  // (sensor lateral de la pinza). NO se recalculan ni se sobrescriben.
+  // jCheckApproach[0..3]: CALCULADOS aqui (check + checkLift en Z world,
+  // misma orientacion). Los ceros del DTX son espacio para el resultado.
+  // Todo termina antes de crear tareas o mover el robot.
+  if pistonLift &lt;= 0 or checkLift &lt;= 0
+    putln("ERROR: pistonLift and checkLift must be positive (mm)")
     return
   endIf
   for poseIndex = 0 to 3
@@ -68,24 +76,37 @@
       putln(poseIndex)
       return
     endIf
-    pistonApproach = jointToPoint(tTip, world, jPistonPick[2*poseIndex+1])
-    pistonApproach.trsf.z = pistonApproach.trsf.z + pistonLift
+    if jPistonCheck[poseIndex].j1 == 0 and jPistonCheck[poseIndex].j2 == 0 and jPistonCheck[poseIndex].j3 == 0 and jPistonCheck[poseIndex].j4 == 0 and jPistonCheck[poseIndex].j5 == 0 and jPistonCheck[poseIndex].j6 == 0
+      putln("ERROR: teach jPistonCheck; missing sensing pose (0..3):")
+      putln(poseIndex)
+      return
+    endIf
+    pickPose = jointToPoint(tTip, world, jPistonPick[2*poseIndex+1])
+    pistonApproach = pickPose
+    pistonApproach.trsf.z = pickPose.trsf.z + pistonLift
     if !pointToJoint(tTip, jPistonPick[2*poseIndex+1], pistonApproach, jPistonPick[2*poseIndex])
       putln("ERROR: no piston approach solution; piston (0..3):")
       putln(poseIndex)
       return
     endIf
-    pistonApproach = jointToPoint(tTip, world, jPistonPick[2*poseIndex+1])
-    pistonApproach.trsf.z = pistonApproach.trsf.z + pistonCheckLift
-    if !pointToJoint(tTip, jPistonPick[2*poseIndex+1], pistonApproach, jPistonCheck[poseIndex])
-      putln("ERROR: no piston sensor pose solution; piston (0..3):")
+    checkPose = jointToPoint(tTip, world, jPistonCheck[poseIndex])
+    checkApproach = checkPose
+    checkApproach.trsf.z = checkPose.trsf.z + checkLift
+    if !pointToJoint(tTip, jPistonCheck[poseIndex], checkApproach, jCheckApproach[poseIndex])
+      putln("ERROR: no check approach solution; piston (0..3):")
       putln(poseIndex)
       return
     endIf
-    putln("Piston approach computed; piston (0..3):")
+    putln("Piston slot (0..3):")
     putln(poseIndex)
-    putln("World Z lift (mm):")
-    putln(pistonLift)
+    putln("  tTip Z pick / pickAppr / check / checkAppr (mm):")
+    putln(pickPose.trsf.z)
+    putln(pistonApproach.trsf.z)
+    putln(checkPose.trsf.z)
+    putln(checkApproach.trsf.z)
+    putln("  check - pick XY offset (mm):")
+    putln(checkPose.trsf.x - pickPose.trsf.x)
+    putln(checkPose.trsf.y - pickPose.trsf.y)
   endFor
 
   // physicalIO solo escribe el ALIMENTADOR; nunca la pinza.
