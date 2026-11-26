@@ -102,7 +102,7 @@
   movej(jPistonInsert[0], tTip, mNomSpeed)
   waitEndMove()
   putln("DBG 50B - Insertion approach reached")
-  movel(jointToPoint(tTip, world, jPistonInsert[1]), tTip, mInsertSpeed)
+  movej(jointToPoint(tTip, world, jPistonInsert[1]), tTip, mInsertSpeed)
   waitEndMove()
   putln("DBG 50C - Insertion reached with tTip; opening gripper")
   if physicalRun
@@ -111,7 +111,7 @@
     delay(tTip.otime)
   endIf
   putln("DBG 50D - BEFORE withdrawal with tTip to jPistonInsert[0]")
-  movel(jointToPoint(tTip, world, jPistonInsert[0]), tTip, mInsertSpeed)
+  movej(jointToPoint(tTip, world, jPistonInsert[0]), tTip, mInsertSpeed)
   waitEndMove()
   putln("DBG 50E - Tip withdrawal completed")
 
